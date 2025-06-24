@@ -1,17 +1,17 @@
 {
-  "name": "@nebular/bootstrap",
-  "version": "15.0.0",
-  "description": "@nebular/bootstrap",
-  "author": "akveo",
+  "name": "@kisimedia/nebular-bootstrap",
+  "version": "15.0.0-custom.1",
+  "description": "@kisimedia/nebular-bootstrap",
+  "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akveo/nebular.git"
+    "url": "git+https://github.com/kisimediaDE/nebular.git"
   },
   "bugs": {
-    "url": "https://github.com/akveo/nebular/issues"
+    "url": "https://github.com/kisimediaDE/nebular/issues"
   },
-  "homepage": "https://github.com/akveo/nebular#readme",
+  "homepage": "https://github.com/kisimediaDE/nebular#readme",
   "keywords": [
     "angular",
     "typescript",
@@ -22,7 +22,7 @@
   ],
   "peerDependencies": {
     "bootstrap": "^5.0.0",
-    "@nebular/theme": "15.0.0"
+    "@kisimedia/nebular-theme": "15.0.0-custom.1"
   },
   "exports": {
     "./styles/prebuilt/corporate.css": {

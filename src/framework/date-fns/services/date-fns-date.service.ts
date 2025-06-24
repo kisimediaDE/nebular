@@ -8,32 +8,27 @@ import { Inject, Injectable, LOCALE_ID, Optional } from '@angular/core';
 
 import { NB_DATE_SERVICE_OPTIONS, NbNativeDateService } from '@nebular/theme';
 
-import { default as parse } from 'date-fns/parse';
-import { default as formatDate } from 'date-fns/format';
-import { default as getWeek } from 'date-fns/getWeek';
+import { parse, format as formatDateFns, getWeek, ParseOptions, FormatOptions, GetWeekOptions } from 'date-fns';
 
 export interface NbDateFnsOptions {
   format: string;
-  parseOptions: {},
-  formatOptions: {},
-  getWeekOptions: {},
+  parseOptions: ParseOptions;
+  formatOptions: FormatOptions;
+  getWeekOptions: GetWeekOptions;
 }
 
 @Injectable()
 export class NbDateFnsDateService extends NbNativeDateService {
   protected options: Partial<NbDateFnsOptions>;
 
-  constructor(
-    @Inject(LOCALE_ID) locale: string,
-    @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) options,
-  ) {
+  constructor(@Inject(LOCALE_ID) locale: string, @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) options) {
     super(locale);
     this.options = options || {};
   }
 
   format(date: Date, format: string): string {
     if (date) {
-      return formatDate(date, format || this.options.format, this.options.formatOptions);
+      return formatDateFns(date, format || this.options.format, this.options.formatOptions);
     }
 
     return '';
@@ -52,6 +47,6 @@ export class NbDateFnsDateService extends NbNativeDateService {
   }
 
   getDateFormat(): string {
-    return 'YYYY-MM-dd';
+    return 'yyyy-MM-dd';
   }
 }

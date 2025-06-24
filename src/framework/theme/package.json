@@ -1,17 +1,17 @@
 {
-  "name": "@nebular/theme",
-  "version": "15.0.0",
-  "description": "@nebular/theme",
-  "author": "akveo",
+  "name": "@kisimedia/nebular-theme",
+  "version": "15.0.0-custom.1",
+  "description": "@kisimedia/nebular-theme",
+  "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akveo/nebular.git"
+    "url": "git+https://github.com/kisimediaDE/nebular.git"
   },
   "bugs": {
-    "url": "https://github.com/akveo/nebular/issues"
+    "url": "https://github.com/kisimediaDE/nebular/issues"
   },
-  "homepage": "https://github.com/akveo/nebular#readme",
+  "homepage": "https://github.com/kisimediaDE/nebular#readme",
   "keywords": [
     "angular",
     "typescript",
@@ -21,15 +21,15 @@
     "nebular"
   ],
   "peerDependencies": {
-    "@angular/animations": "^19.1.6",
-    "@angular/common": "^19.1.6",
-    "@angular/core": "^19.1.6",
-    "@angular/router": "^19.1.6",
-    "@angular/cdk": "^19.1.4",
-    "rxjs": "^6.5.3 || ^7.4.0"
+    "@angular/animations": "^20.0.0",
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
+    "@angular/router": "^20.0.0",
+    "@angular/cdk": "^20.0.0",
+    "rxjs": "^7.8.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.4.0"
   },
   "schematics": "./schematics/collection.json",
   "sideEffects": false,

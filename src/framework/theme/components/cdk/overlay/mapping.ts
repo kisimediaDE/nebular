@@ -1,13 +1,14 @@
-import { Directive, Injectable, ModuleWithProviders, NgModule, TemplateRef, ViewContainerRef } from '@angular/core';
 import {
-  CdkPortal,
-  CdkPortalOutlet,
-  ComponentPortal,
-  Portal,
-  PortalInjector,
-  PortalModule,
-  TemplatePortal,
-} from '@angular/cdk/portal';
+  Directive,
+  Injectable,
+  Injector,
+  ModuleWithProviders,
+  NgModule,
+  ProviderToken,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
+import { CdkPortal, CdkPortalOutlet, ComponentPortal, Portal, PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import {
   ComponentType,
   ConnectedOverlayPositionChange,
@@ -26,14 +27,14 @@ import {
 import { NbScrollStrategyOptions } from '../adapter/block-scroll-strategy-adapter';
 
 @Directive({
-    selector: '[nbPortal]',
-    standalone: false
+  selector: '[nbPortal]',
+  standalone: false,
 })
 export class NbPortalDirective extends CdkPortal {}
 
 @Directive({
-    selector: '[nbPortalOutlet]',
-    standalone: false
+  selector: '[nbPortalOutlet]',
+  standalone: false,
 })
 export class NbPortalOutletDirective extends CdkPortalOutlet {}
 
@@ -58,7 +59,20 @@ export class NbOverlayContainer extends OverlayContainer {}
 
 export class NbFlexibleConnectedPositionStrategy extends FlexibleConnectedPositionStrategy {}
 
-export class NbPortalInjector extends PortalInjector {}
+export class NbPortalInjector implements Injector {
+  constructor(
+    private injector: Injector,
+    private customTokens: WeakMap<any, any>,
+  ) {}
+
+  get<T>(token: ProviderToken<T>, notFoundValue?: T): T {
+    const value = this.customTokens.get(token);
+    if (value !== undefined) {
+      return value;
+    }
+    return this.injector.get(token, notFoundValue as T);
+  }
+}
 
 export type NbPortal<T = any> = Portal<T>;
 export type NbOverlayRef = OverlayRef;

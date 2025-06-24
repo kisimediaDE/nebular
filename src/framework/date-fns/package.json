@@ -1,17 +1,17 @@
 {
-  "name": "@nebular/date-fns",
-  "version": "15.0.0",
-  "description": "@nebular/date-fns",
-  "author": "akveo",
+  "name": "@kisimedia/nebular-date-fns",
+  "version": "15.0.0-custom.1",
+  "description": "@kisimedia/nebular-date-fns",
+  "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/akveo/nebular.git"
+    "url": "git+https://github.com/kisimediaDE/nebular.git"
   },
   "bugs": {
-    "url": "https://github.com/akveo/nebular/issues"
+    "url": "https://github.com/kisimediaDE/nebular/issues"
   },
-  "homepage": "https://github.com/akveo/nebular#readme",
+  "homepage": "https://github.com/kisimediaDE/nebular#readme",
   "keywords": [
     "angular",
     "typescript",
@@ -21,11 +21,11 @@
     "nebular"
   ],
   "peerDependencies": {
-    "@nebular/theme": "15.0.0",
-    "date-fns": "^2.0.0"
+    "@kisimedia/nebular-theme": "15.0.0-custom.1",
+    "date-fns": "^4.1.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.4.0"
   },
   "sideEffects": false
 }

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component, ComponentFactoryResolver, EventEmitter, Input, NgZone } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ScrollStrategy } from '@angular/cdk/overlay';
 import {
@@ -12,20 +12,19 @@ import {
 } from '@nebular/theme';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
   @Input() content: any;
   @Input() context: Object;
-  @Input() cfr: ComponentFactoryResolver;
 
   renderContent() {}
 }
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export class NbDynamicOverlayMock2Component extends NbDynamicOverlayMockComponent {}
 
@@ -53,7 +52,6 @@ const instance = {
   position: '',
   content: '',
   context: null,
-  cfr: null,
   renderContent() {},
 };
 
@@ -121,7 +119,6 @@ describe('dynamic-overlay', () => {
   let dynamicOverlay: NbDynamicOverlay;
   let overlayService: NbOverlayServiceMock;
   let zone: MockNgZone;
-  let componentFactoryResolver: ComponentFactoryResolver;
   const content = 'Overlay Content';
   const context = {};
 
@@ -138,7 +135,6 @@ describe('dynamic-overlay', () => {
     });
     overlayService = bed.inject(NbOverlayService) as unknown as NbOverlayServiceMock;
     dynamicOverlayService = bed.inject(NbDynamicOverlay);
-    componentFactoryResolver = bed.inject(ComponentFactoryResolver);
     zone = bed.inject(NgZone) as unknown as MockNgZone;
   });
 
@@ -175,7 +171,6 @@ describe('dynamic-overlay', () => {
     expect(ref.portal.component).toBe(NbDynamicOverlayMockComponent);
     expect(instance.content).toBe(content);
     expect(instance.context).toBe(context);
-    expect(instance.cfr).toBe(componentFactoryResolver);
   });
 
   it('should destroy overlay when hide called', () => {
@@ -432,7 +427,7 @@ describe('dynamic-overlay', () => {
     const overlayContainer = TestBed.inject(NbOverlayContainer);
     // return false once to force overlay ref recreation and then always return true
     overlayContainer.getContainerElement = () => {
-      overlayContainer.getContainerElement = () => ({ contains: () => true } as unknown as HTMLElement);
+      overlayContainer.getContainerElement = () => ({ contains: () => true }) as unknown as HTMLElement;
       return { contains: () => false } as unknown as HTMLElement;
     };
 
