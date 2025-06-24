@@ -1,6 +1,6 @@
 {
   "name": "@kisimedia/nebular-firebase-auth",
-  "version": "15.0.0-custom.3",
+  "version": "15.0.0-custom.4",
   "description": "@kisimedia/nebular-firebase-auth",
   "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
@@ -26,7 +26,7 @@
   ],
   "peerDependencies": {
     "@angular/core": "^20.0.0",
-    "@kisimedia/nebular-auth": "15.0.0-custom.3",
+    "@kisimedia/nebular-auth": "15.0.0-custom.4",
     "rxjs": "^7.8.2",
     "firebase": "^11.9.1",
     "@angular/fire": "^20.0.0"

@@ -1,6 +1,6 @@
 {
   "name": "@kisimedia/nebular-moment",
-  "version": "15.0.0-custom.3",
+  "version": "15.0.0-custom.4",
   "description": "@kisimedia/nebular-moment",
   "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "nebular"
   ],
   "peerDependencies": {
-    "@kisimedia/nebular-theme": "15.0.0-custom.3",
+    "@kisimedia/nebular-theme": "15.0.0-custom.4",
     "moment": "^2.30.0"
   },
   "dependencies": {

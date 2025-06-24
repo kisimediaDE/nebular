@@ -1,6 +1,6 @@
 {
   "name": "@kisimedia/nebular-date-fns",
-  "version": "15.0.0-custom.3",
+  "version": "15.0.0-custom.4",
   "description": "@kisimedia/nebular-date-fns",
   "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "nebular"
   ],
   "peerDependencies": {
-    "@kisimedia/nebular-theme": "15.0.0-custom.3",
+    "@kisimedia/nebular-theme": "15.0.0-custom.4",
     "date-fns": "^4.1.0"
   },
   "dependencies": {

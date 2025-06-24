@@ -17,8 +17,8 @@ const nbMenuComponents = [NbMenuComponent, NbMenuItemComponent];
 const NB_MENU_PROVIDERS = [NbMenuService, NbMenuInternalService];
 
 @NgModule({
-  imports: [NbSharedModule, NbIconModule, NbBadgeModule, ...nbMenuComponents],
-  exports: [...nbMenuComponents],
+  imports: [NbSharedModule, NbIconModule, NbBadgeModule, NbMenuComponent, NbMenuItemComponent],
+  exports: [NbMenuComponent, NbMenuItemComponent],
 })
 export class NbMenuModule {
   static forRoot(): ModuleWithProviders<NbMenuModule> {
