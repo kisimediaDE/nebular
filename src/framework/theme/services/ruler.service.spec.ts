@@ -9,7 +9,7 @@ import {
   NbThemeService,
   NbThemeModule,
   NB_DOCUMENT,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 let currentDocument;
 let fixture: ComponentFixture<RulerTestComponent>;
@@ -17,14 +17,14 @@ let componentInstance: RulerTestComponent;
 let rulerService: NbLayoutRulerService;
 
 @Component({
-    template: `
+  template: `
     <nb-layout [withScroll]="localScroll" #layout>
       <nb-layout-column>
         <div #resize></div>
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule],
 })
 class RulerTestComponent {
   @ViewChild('resize', { read: ElementRef }) private resizeElement: ElementRef;
@@ -53,9 +53,8 @@ class RulerTestComponent {
 describe('NbLayoutRulerService', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule],
+      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, RulerTestComponent],
       providers: [NbLayoutRulerService, NbThemeService, { provide: APP_BASE_HREF, useValue: '/' }],
-      declarations: [RulerTestComponent],
     }).createComponent(RulerTestComponent);
 
     componentInstance = fixture.componentInstance;

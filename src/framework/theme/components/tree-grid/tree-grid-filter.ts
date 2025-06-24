@@ -10,10 +10,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { NbFilterable } from './data-source/tree-grid-data-source';
 
-@Directive({
-    selector: '[nbFilter]',
-    standalone: false
-})
+@Directive({ selector: '[nbFilter]' })
 export class NbFilterDirective {
   @Input('nbFilter') filterable: NbFilterable;
 
@@ -26,9 +23,8 @@ export class NbFilterDirective {
  * Helper directive to trigger data source's filter method when user types in input
  */
 @Directive({
-    selector: '[nbFilterInput]',
-    providers: [{ provide: NbFilterDirective, useExisting: NbFilterInputDirective }],
-    standalone: false
+  selector: '[nbFilterInput]',
+  providers: [{ provide: NbFilterDirective, useExisting: NbFilterInputDirective }],
 })
 export class NbFilterInputDirective extends NbFilterDirective implements OnInit, OnDestroy {
   private search$: Subject<string> = new Subject<string>();
@@ -43,14 +39,9 @@ export class NbFilterInputDirective extends NbFilterDirective implements OnInit,
   @Input() debounceTime: number = 200;
 
   ngOnInit() {
-    this.search$
-      .pipe(
-        debounceTime(this.debounceTime),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((query: string) => {
-        super.filter(query)
-      });
+    this.search$.pipe(debounceTime(this.debounceTime), takeUntil(this.destroy$)).subscribe((query: string) => {
+      super.filter(query);
+    });
   }
 
   ngOnDestroy() {

@@ -4,9 +4,9 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable, LOCALE_ID, Optional } from '@angular/core';
+import { Injectable, LOCALE_ID, inject } from '@angular/core';
 
-import { NB_DATE_SERVICE_OPTIONS, NbNativeDateService } from '@nebular/theme';
+import { NB_DATE_SERVICE_OPTIONS, NbNativeDateService } from '@kisimedia/nebular-theme';
 
 import { parse, format as formatDateFns, getWeek, ParseOptions, FormatOptions, GetWeekOptions } from 'date-fns';
 
@@ -21,8 +21,11 @@ export interface NbDateFnsOptions {
 export class NbDateFnsDateService extends NbNativeDateService {
   protected options: Partial<NbDateFnsOptions>;
 
-  constructor(@Inject(LOCALE_ID) locale: string, @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) options) {
-    super(locale);
+  constructor() {
+    const locale = inject(LOCALE_ID);
+    const options = inject(NB_DATE_SERVICE_OPTIONS, { optional: true })!;
+
+    super();
     this.options = options || {};
   }
 

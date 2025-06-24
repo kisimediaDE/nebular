@@ -10,8 +10,7 @@ import {
   NbTimePickerComponent,
   NbThemeModule,
   NB_TIME_PICKER_CONFIG,
-} from '@nebular/theme';
-
+} from '@kisimedia/nebular-theme';
 
 describe('NbTimePickerComponent', () => {
   let timePicker: NbTimePickerComponent<Date>;
@@ -19,8 +18,8 @@ describe('NbTimePickerComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ NbTimepickerModule, NbThemeModule.forRoot() ],
-      providers: [NbTimePickerComponent, {provide: NB_TIME_PICKER_CONFIG, useValue: {}}],
+      imports: [NbTimepickerModule, NbThemeModule.forRoot()],
+      providers: [NbTimePickerComponent, { provide: NB_TIME_PICKER_CONFIG, useValue: {} }],
     });
 
     fixture = TestBed.createComponent<NbTimePickerComponent<Date>>(NbTimePickerComponent);

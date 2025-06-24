@@ -16,19 +16,11 @@ import { NbIconModule } from '../icon/icon.module';
   imports: [
     NbSharedModule,
     NbIconModule,
-  ],
-  declarations: [
     NbStepperComponent,
     NbStepComponent,
     NbStepperNextDirective,
     NbStepperPreviousDirective,
   ],
-  exports: [
-    NbStepperComponent,
-    NbStepComponent,
-    NbStepperNextDirective,
-    NbStepperPreviousDirective,
-  ],
+  exports: [NbStepperComponent, NbStepComponent, NbStepperNextDirective, NbStepperPreviousDirective],
 })
-export class NbStepperModule {
-}
+export class NbStepperModule {}

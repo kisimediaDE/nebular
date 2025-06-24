@@ -13,6 +13,7 @@ import {
   Renderer2,
   ViewContainerRef,
   HostBinding,
+  inject,
 } from '@angular/core';
 
 import { NbComponentSize } from '../component-size';
@@ -59,11 +60,12 @@ import { NbSpinnerComponent } from './spinner.component';
  * Or tabs:
  * @stacked-example(Spinner in tabs, spinner/spinner-tabs.component)
  */
-@Directive({
-  selector: '[nbSpinner]',
-  standalone: false,
-})
+@Directive({ selector: '[nbSpinner]' })
 export class NbSpinnerDirective implements OnInit {
+  private directiveView = inject(ViewContainerRef);
+  private renderer = inject(Renderer2);
+  private directiveElement = inject(ElementRef);
+
   private shouldShow = false;
   spinner: ComponentRef<NbSpinnerComponent>;
 
@@ -99,11 +101,7 @@ export class NbSpinnerDirective implements OnInit {
 
   @HostBinding('class.nb-spinner-container') isSpinnerExist = false;
 
-  constructor(
-    private directiveView: ViewContainerRef,
-    private renderer: Renderer2,
-    private directiveElement: ElementRef,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     if (this.shouldShow) {

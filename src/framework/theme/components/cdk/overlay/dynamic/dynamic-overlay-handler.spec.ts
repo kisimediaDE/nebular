@@ -17,12 +17,9 @@ import {
   NbTriggerStrategy,
   NbTriggerStrategyBuilderService,
   NbLayoutDirectionService,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
   @Input() content: any;
   @Input() context: Object;
@@ -30,10 +27,7 @@ export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
   renderContent() {}
 }
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 export class NbDynamicOverlayMock2Component extends NbDynamicOverlayMockComponent {}
 
 @Injectable()
@@ -219,7 +213,7 @@ describe('dynamic-overlay-handler', () => {
   beforeEach(() => {
     TestBed.resetTestingModule();
     const bed = TestBed.configureTestingModule({
-      declarations: [NbDynamicOverlayMockComponent, NbDynamicOverlayMock2Component],
+      imports: [NbDynamicOverlayMockComponent, NbDynamicOverlayMock2Component],
       providers: [
         NbLayoutDirectionService,
         NbDynamicOverlayHandler,

@@ -6,6 +6,7 @@ import {
   Input,
   OnInit,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { NbCalendarComponent } from '../calendar/calendar.component';
 import { NbSelectedTimePayload } from '../timepicker/model';
@@ -14,10 +15,13 @@ import { NbCalendarTimeModelService } from '../calendar-kit/services/calendar-ti
 import { NbCalendarSize } from '../calendar-kit/model';
 import { NbPortalOutletDirective } from '../cdk/overlay/mapping';
 import { NbTimePickerComponent } from '../timepicker/timepicker.component';
+import { NbCardComponent, NbCardBodyComponent, NbCardFooterComponent } from '../card/card.component';
+import { NbBaseCalendarComponent } from '../calendar/base-calendar.component';
+import { NbCalendarActionsComponent } from '../calendar-kit/components/calendar-actions/calendar-actions.component';
 
 @Component({
-    selector: 'nb-calendar-with-time',
-    template: `
+  selector: 'nb-calendar-with-time',
+  template: `
     <nb-card class="calendar-with-time">
       <nb-card-body class="picker-body">
         <nb-base-calendar
@@ -71,11 +75,23 @@ import { NbTimePickerComponent } from '../timepicker/timepicker.component';
       </nb-card-footer>
     </nb-card>
   `,
-    styleUrls: ['./calendar-with-time-container.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  styleUrls: ['./calendar-with-time-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NbCardComponent,
+    NbCardBodyComponent,
+    NbBaseCalendarComponent,
+    NbTimePickerComponent,
+    NbPortalOutletDirective,
+    NbCardFooterComponent,
+    NbCalendarActionsComponent,
+  ],
 })
 export class NbCalendarWithTimeComponent<D> extends NbCalendarComponent<D> implements OnInit, AfterViewInit {
+  protected dateService = inject<NbDateService<D>>(NbDateService);
+  cd = inject(ChangeDetectorRef);
+  protected calendarTimeModelService = inject<NbCalendarTimeModelService<D>>(NbCalendarTimeModelService);
+
   /**
    * Defines selected date.
    * */
@@ -127,11 +143,7 @@ export class NbCalendarWithTimeComponent<D> extends NbCalendarComponent<D> imple
   @ViewChild(NbPortalOutletDirective) portalOutlet: NbPortalOutletDirective;
   @ViewChild(NbTimePickerComponent) timepicker: NbTimePickerComponent<D>;
 
-  constructor(
-    protected dateService: NbDateService<D>,
-    public cd: ChangeDetectorRef,
-    protected calendarTimeModelService: NbCalendarTimeModelService<D>,
-  ) {
+  constructor() {
     super();
   }
 

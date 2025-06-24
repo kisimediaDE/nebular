@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  Inject,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -11,12 +10,17 @@ import {
   Type,
   Input,
   AfterViewChecked,
+  inject,
 } from '@angular/core';
 import { NbFocusTrap, NbFocusTrapFactoryService } from '../cdk/a11y/focus-trap';
 import { NbComponentPortal, NbComponentType, NbTemplatePortal } from '../cdk/overlay/mapping';
 import { NbOverlayContainerComponent } from '../cdk/overlay/overlay-container';
 import { NB_WINDOW_CONTENT, NbWindowConfig, NbWindowState, NB_WINDOW_CONTEXT } from './window.options';
 import { NbWindowRef } from './window-ref';
+import { NbCardComponent, NbCardHeaderComponent, NbCardBodyComponent } from '../card/card.component';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NbButtonComponent } from '../button/button.component';
+import { NbIconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'nb-window',
@@ -65,9 +69,26 @@ import { NbWindowRef } from './window-ref';
     </nb-card>
   `,
   styleUrls: ['./window.component.scss'],
-  standalone: false,
+  imports: [
+    NbCardComponent,
+    NbCardHeaderComponent,
+    NgIf,
+    NgTemplateOutlet,
+    NbButtonComponent,
+    NbIconComponent,
+    NbCardBodyComponent,
+    NbOverlayContainerComponent,
+  ],
 })
 export class NbWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
+  content = inject<TemplateRef<any> | NbComponentType>(NB_WINDOW_CONTENT);
+  context = inject<Object>(NB_WINDOW_CONTEXT);
+  windowRef = inject(NbWindowRef);
+  config = inject(NbWindowConfig);
+  protected focusTrapFactory = inject(NbFocusTrapFactoryService);
+  protected elementRef = inject(ElementRef);
+  protected renderer = inject(Renderer2);
+
   @HostBinding('class.full-screen')
   get isFullScreen() {
     return this.windowRef.state === NbWindowState.FULL_SCREEN;
@@ -103,15 +124,7 @@ export class NbWindowComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   protected focusTrap: NbFocusTrap;
 
-  constructor(
-    @Inject(NB_WINDOW_CONTENT) public content: TemplateRef<any> | NbComponentType,
-    @Inject(NB_WINDOW_CONTEXT) public context: Object,
-    public windowRef: NbWindowRef,
-    public config: NbWindowConfig,
-    protected focusTrapFactory: NbFocusTrapFactoryService,
-    protected elementRef: ElementRef,
-    protected renderer: Renderer2,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.focusTrap = this.focusTrapFactory.create(this.elementRef.nativeElement);

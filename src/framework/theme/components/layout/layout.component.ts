@@ -15,8 +15,8 @@ import {
   Renderer2,
   ViewChild,
   ViewContainerRef,
-  Inject,
   PLATFORM_ID,
+  inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -124,9 +124,9 @@ import { NbOverlayContainerAdapter } from '../cdk/adapter/overlay-container-adap
  * layout-scrollbar-width:
  */
 @Component({
-    selector: 'nb-layout',
-    styleUrls: ['./layout.component.scss'],
-    template: `
+  selector: 'nb-layout',
+  styleUrls: ['./layout.component.scss'],
+  template: `
     <div class="scrollable-container" #scrollableContainer (scroll)="onScroll($event)">
       <div class="layout" #layoutContainer>
         <ng-content select="nb-layout-header:not([subheader])"></ng-content>
@@ -143,9 +143,21 @@ import { NbOverlayContainerAdapter } from '../cdk/adapter/overlay-container-adap
       </div>
     </div>
   `,
-    standalone: false
 })
 export class NbLayoutComponent implements AfterViewInit, OnDestroy {
+  protected themeService = inject(NbThemeService);
+  protected spinnerService = inject(NbSpinnerService);
+  protected elementRef = inject(ElementRef);
+  protected renderer = inject(Renderer2);
+  protected window = inject(NB_WINDOW);
+  protected document = inject(NB_DOCUMENT);
+  protected platformId = inject<Object>(PLATFORM_ID);
+  protected layoutDirectionService = inject(NbLayoutDirectionService);
+  protected scrollService = inject(NbLayoutScrollService);
+  protected rulerService = inject(NbLayoutRulerService);
+  protected scrollTop = inject(NbRestoreScrollTopHelper);
+  protected overlayContainer = inject(NbOverlayContainerAdapter);
+
   protected scrollBlockClass = 'nb-global-scrollblock';
   protected isScrollBlocked = false;
   protected scrollableContainerOverflowOldValue: string;
@@ -225,20 +237,7 @@ export class NbLayoutComponent implements AfterViewInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    protected themeService: NbThemeService,
-    protected spinnerService: NbSpinnerService,
-    protected elementRef: ElementRef,
-    protected renderer: Renderer2,
-    @Inject(NB_WINDOW) protected window,
-    @Inject(NB_DOCUMENT) protected document,
-    @Inject(PLATFORM_ID) protected platformId: Object,
-    protected layoutDirectionService: NbLayoutDirectionService,
-    protected scrollService: NbLayoutScrollService,
-    protected rulerService: NbLayoutRulerService,
-    protected scrollTop: NbRestoreScrollTopHelper,
-    protected overlayContainer: NbOverlayContainerAdapter,
-  ) {
+  constructor() {
     this.registerAsOverlayContainer();
 
     this.themeService
@@ -301,7 +300,10 @@ export class NbLayoutComponent implements AfterViewInit, OnDestroy {
 
     this.scrollService
       .onScrollableChange()
-      .pipe(filter(() => this.withScrollValue), takeUntil(this.destroy$))
+      .pipe(
+        filter(() => this.withScrollValue),
+        takeUntil(this.destroy$),
+      )
       .subscribe((scrollable: boolean) => {
         /**
          * In case when Nebular Layout custom scroll `withScroll` mode is enabled
@@ -518,9 +520,8 @@ export class NbLayoutComponent implements AfterViewInit, OnDestroy {
  * @stacked-example(Column Left, layout/layout-column-left.component)
  */
 @Component({
-    selector: 'nb-layout-column',
-    template: `<ng-content></ng-content>`,
-    standalone: false
+  selector: 'nb-layout-column',
+  template: `<ng-content></ng-content>`,
 })
 export class NbLayoutColumnComponent {
   @HostBinding('class.left') leftValue: boolean;
@@ -582,19 +583,20 @@ export class NbLayoutColumnComponent {
  * header-shadow:
  */
 @Component({
-    selector: 'nb-layout-header',
-    template: `
+  selector: 'nb-layout-header',
+  template: `
     <nav [class.fixed]="fixedValue">
       <ng-content></ng-content>
     </nav>
   `,
-    standalone: false
 })
 export class NbLayoutHeaderComponent {
+  private layout = inject(NbLayoutComponent);
+
   @HostBinding('class.fixed') fixedValue: boolean;
   @HostBinding('class.subheader') subheaderValue: boolean;
 
-  constructor(private layout: NbLayoutComponent) {}
+  constructor() {}
 
   /**
    * Makes the header sticky to the top of the nb-layout.
@@ -642,13 +644,12 @@ export class NbLayoutHeaderComponent {
  * footer-shadow:
  */
 @Component({
-    selector: 'nb-layout-footer',
-    template: `
+  selector: 'nb-layout-footer',
+  template: `
     <nav [class.fixed]="fixedValue">
       <ng-content></ng-content>
     </nav>
   `,
-    standalone: false
 })
 export class NbLayoutFooterComponent {
   @HostBinding('class.fixed') fixedValue: boolean;

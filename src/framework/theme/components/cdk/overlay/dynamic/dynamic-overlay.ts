@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, NgZone, Type } from '@angular/core';
+import { ComponentRef, Injectable, NgZone, Type, inject } from '@angular/core';
 import { filter, takeUntil, distinctUntilChanged, take } from 'rxjs/operators';
 import { Subject, BehaviorSubject, Observable, merge } from 'rxjs';
 
@@ -17,6 +17,10 @@ export interface NbDynamicOverlayController {
 
 @Injectable()
 export class NbDynamicOverlay {
+  protected overlay = inject(NbOverlayService);
+  protected zone = inject(NgZone);
+  protected overlayContainer = inject(NbOverlayContainer);
+
   protected ref: NbOverlayRef;
   protected container: ComponentRef<NbRenderableContainer>;
   protected componentType: Type<NbRenderableContainer>;
@@ -40,11 +44,7 @@ export class NbDynamicOverlay {
     return this.isShown$.pipe(distinctUntilChanged());
   }
 
-  constructor(
-    protected overlay: NbOverlayService,
-    protected zone: NgZone,
-    protected overlayContainer: NbOverlayContainer,
-  ) {}
+  constructor() {}
 
   create(
     componentType: Type<NbRenderableContainer>,

@@ -17,6 +17,8 @@ import {
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NB_STEPPER } from './stepper-tokens';
 import { NbStepComponent } from './step.component';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NbIconComponent } from '../icon/icon.component';
 
 export type NbStepperOrientation = 'vertical' | 'horizontal';
 
@@ -118,11 +120,11 @@ export interface NbStepChangeEvent {
  * stepper-step-content-padding:
  */
 @Component({
-    selector: 'nb-stepper',
-    styleUrls: ['./stepper.component.scss'],
-    templateUrl: './stepper.component.html',
-    providers: [{ provide: NB_STEPPER, useExisting: NbStepperComponent }],
-    standalone: false
+  selector: 'nb-stepper',
+  styleUrls: ['./stepper.component.scss'],
+  templateUrl: './stepper.component.html',
+  providers: [{ provide: NB_STEPPER, useExisting: NbStepperComponent }],
+  imports: [NgFor, NgIf, NbIconComponent, NgTemplateOutlet],
 })
 export class NbStepperComponent {
   /**

@@ -8,13 +8,10 @@ import { NgModule } from '@angular/core';
 import { NbSharedModule } from '../shared/shared.module';
 import { NbInputDirective } from './input.directive';
 
-const NB_INPUT_COMPONENTS = [
-  NbInputDirective,
-];
+const NB_INPUT_COMPONENTS = [NbInputDirective];
 
 @NgModule({
-  imports: [ NbSharedModule ],
-  declarations: NB_INPUT_COMPONENTS,
+  imports: [NbSharedModule, ...NB_INPUT_COMPONENTS],
   exports: NB_INPUT_COMPONENTS,
 })
 export class NbInputModule {}

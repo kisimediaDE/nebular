@@ -21,9 +21,8 @@ const NB_ACCORDION_COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [CommonModule, NbIconModule],
+  imports: [CommonModule, NbIconModule, ...NB_ACCORDION_COMPONENTS],
   exports: [...NB_ACCORDION_COMPONENTS],
-  declarations: [...NB_ACCORDION_COMPONENTS],
   providers: [],
 })
 export class NbAccordionModule {}

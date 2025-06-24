@@ -8,7 +8,7 @@ import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NbPasswordAuthStrategy, NbAuthResult, nbAuthCreateToken, NbAuthSimpleToken } from '@nebular/auth';
+import { NbPasswordAuthStrategy, NbAuthResult, nbAuthCreateToken, NbAuthSimpleToken } from '@kisimedia/nebular-auth';
 
 const ownerStrategyName = 'strategy';
 
@@ -45,16 +45,14 @@ describe('password-auth-strategy', () => {
     });
   });
 
-  beforeEach(
-    waitForAsync(
-      inject([NbPasswordAuthStrategy, HttpTestingController], (_strategy, _httpMock) => {
-        strategy = _strategy;
-        httpMock = _httpMock;
+  beforeEach(waitForAsync(
+    inject([NbPasswordAuthStrategy, HttpTestingController], (_strategy, _httpMock) => {
+      strategy = _strategy;
+      httpMock = _httpMock;
 
-        strategy.setOptions({ name: ownerStrategyName });
-      }),
-    ),
-  );
+      strategy.setOptions({ name: ownerStrategyName });
+    }),
+  ));
 
   afterEach(() => {
     httpMock.verify();

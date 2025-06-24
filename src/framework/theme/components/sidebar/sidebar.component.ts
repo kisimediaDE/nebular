@@ -15,6 +15,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  inject,
 } from '@angular/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil, filter, map, startWith } from 'rxjs/operators';
@@ -34,9 +35,8 @@ export type NbSidebarResponsiveState = 'mobile' | 'tablet' | 'pc';
  * placed at the very top of the sidebar outside of the scroll area.
  */
 @Component({
-    selector: 'nb-sidebar-header',
-    template: ` <ng-content></ng-content> `,
-    standalone: false
+  selector: 'nb-sidebar-header',
+  template: ` <ng-content></ng-content> `,
 })
 export class NbSidebarHeaderComponent {}
 
@@ -47,9 +47,8 @@ export class NbSidebarHeaderComponent {}
  * placed at the very bottom of the sidebar outside of the scroll area.
  */
 @Component({
-    selector: 'nb-sidebar-footer',
-    template: ` <ng-content></ng-content> `,
-    standalone: false
+  selector: 'nb-sidebar-footer',
+  template: ` <ng-content></ng-content> `,
 })
 export class NbSidebarFooterComponent {}
 
@@ -126,9 +125,9 @@ export class NbSidebarFooterComponent {}
  * sidebar-scrollbar-width:
  */
 @Component({
-    selector: 'nb-sidebar',
-    styleUrls: ['./sidebar.component.scss'],
-    template: `
+  selector: 'nb-sidebar',
+  styleUrls: ['./sidebar.component.scss'],
+  template: `
     <div class="main-container" [class.main-container-fixed]="containerFixedValue">
       <ng-content select="nb-sidebar-header"></ng-content>
       <div class="scrollable" (click)="onClick($event)">
@@ -137,10 +136,14 @@ export class NbSidebarFooterComponent {}
       <ng-content select="nb-sidebar-footer"></ng-content>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NbSidebarComponent implements OnInit, OnDestroy {
+  private sidebarService = inject(NbSidebarService);
+  private themeService = inject(NbThemeService);
+  private element = inject(ElementRef);
+  private cd = inject(ChangeDetectorRef);
+
   protected readonly responsiveValueChange$: Subject<boolean> = new Subject<boolean>();
   protected responsiveState: NbSidebarResponsiveState = 'pc';
 
@@ -306,12 +309,7 @@ export class NbSidebarComponent implements OnInit, OnDestroy {
    */
   @Output() readonly responsiveStateChange = new EventEmitter<NbSidebarResponsiveState>();
 
-  constructor(
-    private sidebarService: NbSidebarService,
-    private themeService: NbThemeService,
-    private element: ElementRef,
-    private cd: ChangeDetectorRef,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.sidebarService

@@ -24,23 +24,25 @@ import { NB_TIME_PICKER_CONFIG, NbTimePickerConfig } from './model';
     NbListModule,
     NbCardModule,
     NbCalendarKitModule,
+    NbTimePickerComponent,
+    NbTimePickerCellComponent,
+    NbTimePickerDirective,
   ],
   providers: [NbCalendarTimeModelService],
   exports: [NbTimePickerComponent, NbTimePickerCellComponent, NbTimePickerDirective],
-  declarations: [NbTimePickerComponent, NbTimePickerCellComponent, NbTimePickerDirective],
 })
 export class NbTimepickerModule {
   static forRoot(config: NbTimePickerConfig = {}): ModuleWithProviders<NbTimepickerModule> {
     return {
       ngModule: NbTimepickerModule,
-      providers: [{provide: NB_TIME_PICKER_CONFIG, useValue: config}],
+      providers: [{ provide: NB_TIME_PICKER_CONFIG, useValue: config }],
     };
   }
 
   static forChild(config: NbTimePickerConfig = {}): ModuleWithProviders<NbTimepickerModule> {
     return {
       ngModule: NbTimepickerModule,
-      providers: [{provide: NB_TIME_PICKER_CONFIG, useValue: config}],
+      providers: [{ provide: NB_TIME_PICKER_CONFIG, useValue: config }],
     };
   }
 }

@@ -4,8 +4,11 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NbChatMessageTextComponent } from './chat-message-text.component';
+import { NgIf, NgFor } from '@angular/common';
+import { NbIconComponent } from '../icon/icon.component';
 
 export interface NbChatMessageFileIconPreview {
   url: string;
@@ -21,8 +24,8 @@ export type NbChatMessageFile = NbChatMessageFileIconPreview | NbChatMessageFile
  * Chat message component.
  */
 @Component({
-    selector: 'nb-chat-message-file',
-    template: `
+  selector: 'nb-chat-message-file',
+  template: `
     <nb-chat-message-text [sender]="sender" [date]="date" [dateFormat]="dateFormat" [message]="message">
       {{ message }}
     </nb-chat-message-text>
@@ -43,10 +46,12 @@ export type NbChatMessageFile = NbChatMessageFileIconPreview | NbChatMessageFile
       </a>
     </ng-container>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NbChatMessageTextComponent, NgIf, NgFor, NbIconComponent],
 })
 export class NbChatMessageFileComponent {
+  protected cd = inject(ChangeDetectorRef);
+  protected domSanitizer = inject(DomSanitizer);
 
   readyFiles: any[];
 
@@ -91,14 +96,12 @@ export class NbChatMessageFileComponent {
     this.cd.detectChanges();
   }
 
-  constructor(protected cd: ChangeDetectorRef, protected domSanitizer: DomSanitizer) {
-  }
-
+  constructor() {}
 
   isImage(file: NbChatMessageFile): boolean {
     const type = (file as NbChatMessageFileImagePreview).type;
     if (type) {
-      return [ 'image/png', 'image/jpeg', 'image/gif' ].includes(type);
+      return ['image/png', 'image/jpeg', 'image/gif'].includes(type);
     }
     return false;
   }

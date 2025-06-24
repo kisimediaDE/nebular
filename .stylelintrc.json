@@ -1,10 +1,10 @@
 {
+  "customSyntax": "postcss-scss",
   "rules": {
     "color-no-invalid-hex": true,
     "function-calc-no-unspaced-operator": true,
     "function-name-case": "lower",
     "function-url-quotes": "always",
-    "function-whitespace-after": "always",
     "length-zero-no-unit": true,
     "string-no-newline": true,
     "unit-no-unknown": true,

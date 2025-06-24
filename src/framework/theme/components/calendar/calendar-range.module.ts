@@ -12,16 +12,14 @@ import { NbCalendarRangeYearCellComponent } from './calendar-range-year-cell.com
 import { NbCalendarRangeMonthCellComponent } from './calendar-range-month-cell.component';
 import { NbBaseCalendarModule } from './base-calendar.module';
 
-
 @NgModule({
-  imports: [NbBaseCalendarModule],
-  exports: [NbCalendarRangeComponent],
-  declarations: [
+  imports: [
+    NbBaseCalendarModule,
     NbCalendarRangeComponent,
     NbCalendarRangeDayCellComponent,
     NbCalendarRangeYearCellComponent,
     NbCalendarRangeMonthCellComponent,
   ],
+  exports: [NbCalendarRangeComponent],
 })
-export class NbCalendarRangeModule {
-}
+export class NbCalendarRangeModule {}

@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
-import { NbThemeModule, NbChatModule, NbChatComponent } from '@nebular/theme';
+import { NbThemeModule, NbChatModule, NbChatComponent } from '@kisimedia/nebular-theme';
 
 @Component({
-    template: `
+  template: `
     <nb-chat [title]="title">
       <ng-template nbChatTitle [context]="{ text: contextTemplateText }" let-data>
         {{ staticTemplateText }} {{ data.text }}
@@ -29,7 +29,7 @@ import { NbThemeModule, NbChatModule, NbChatComponent } from '@nebular/theme';
       <nb-chat-form [dropFiles]="false"> </nb-chat-form>
     </nb-chat>
   `,
-    standalone: false
+  imports: [NbChatModule],
 })
 export class NbChatTitleTemplateTestComponent {
   messages = [
@@ -69,8 +69,7 @@ describe('NbChatTitleDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, NbThemeModule.forRoot(), NbChatModule],
-      declarations: [NbChatTitleTemplateTestComponent],
+      imports: [NoopAnimationsModule, NbThemeModule.forRoot(), NbChatModule, NbChatTitleTemplateTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatTitleTemplateTestComponent);

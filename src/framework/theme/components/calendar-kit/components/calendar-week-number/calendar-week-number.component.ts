@@ -4,24 +4,34 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, HostBinding, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostBinding,
+  ChangeDetectionStrategy,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 
 import { NbDateService } from '../../services/date.service';
 import { NbCalendarSize, NbCalendarSizeValues } from '../../model';
+import { NgFor } from '@angular/common';
 
 @Component({
-    selector: 'nb-calendar-week-numbers',
-    template: `
+  selector: 'nb-calendar-week-numbers',
+  template: `
     <div class="sign-container">
       <div class="sign">{{ weekNumberSymbol }}</div>
     </div>
     <div class="week-number" *ngFor="let weekNumber of weekNumbers">{{ weekNumber }}</div>
   `,
-    styleUrls: ['./calendar-week-number.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  styleUrls: ['./calendar-week-number.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgFor],
 })
 export class NbCalendarWeekNumberComponent<D> implements OnChanges {
+  private dateService = inject<NbDateService<D>>(NbDateService);
 
   weekNumbers: number[];
 
@@ -42,7 +52,7 @@ export class NbCalendarWeekNumberComponent<D> implements OnChanges {
     return this.size === NbCalendarSize.LARGE;
   }
 
-  constructor(private dateService: NbDateService<D>) {}
+  constructor() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.weeks) {
@@ -54,7 +64,7 @@ export class NbCalendarWeekNumberComponent<D> implements OnChanges {
     return this.weeks.map((week: D[]) => {
       // Find last defined day as week could contain null days in case
       // boundingMonth set to false
-      const lastDay = [ ...week ].reverse().find((day: D) => !!day);
+      const lastDay = [...week].reverse().find((day: D) => !!day);
       // Use last day of the week to determine week number.
       // This way weeks which span between sibling years is marked first
       return this.dateService.getWeekNumber(lastDay);

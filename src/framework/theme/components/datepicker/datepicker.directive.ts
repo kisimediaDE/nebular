@@ -9,11 +9,11 @@ import {
   Directive,
   ElementRef,
   forwardRef,
-  Inject,
   InjectionToken,
   Input,
   OnDestroy,
   Type,
+  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -208,13 +208,13 @@ export const NB_DATE_SERVICE_OPTIONS = new InjectionToken('Date service options'
  * And native `Date.parse(...)` for dates parsing. But native `Date.parse` function doesn't support formats.
  * To provide custom formatting you have to use one of the following packages:
  *
- * - `@nebular/moment` - provides moment date adapter that uses moment for date objects. This means datepicker than
- * will operate only moment date objects. If you want to use it you have to install it: `npm i @nebular/moment`, and
+ * - `@kisimedia/nebular-moment` - provides moment date adapter that uses moment for date objects. This means datepicker than
+ * will operate only moment date objects. If you want to use it you have to install it: `npm i @kisimedia/nebular-moment`, and
  * import `NbMomentDateModule` from this package.
  *
- * - `@nebular/date-fns` - adapter for popular date-fns library. This way is preferred if you need only date formatting.
+ * - `@kisimedia/nebular-date-fns` - adapter for popular date-fns library. This way is preferred if you need only date formatting.
  * Because date-fns is treeshakable, tiny and operates native date objects. If you want to use it you have to
- * install it: `npm i @nebular/date-fns`, and import `NbDateFnsDateModule` from this package.
+ * install it: `npm i @kisimedia/nebular-date-fns`, and import `NbDateFnsDateModule` from this package.
  *
  * ### NbDateFnsDateModule
  *
@@ -262,22 +262,27 @@ export const NB_DATE_SERVICE_OPTIONS = new InjectionToken('Date service options'
  * datepicker-shadow:
  * */
 @Directive({
-    selector: 'input[nbDatepicker]',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NbDatepickerDirective),
-            multi: true,
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => NbDatepickerDirective),
-            multi: true,
-        },
-    ],
-    standalone: false
+  selector: 'input[nbDatepicker]',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NbDatepickerDirective),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => NbDatepickerDirective),
+      multi: true,
+    },
+  ],
 })
 export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor, Validator {
+  protected document = inject(NB_DOCUMENT);
+  protected datepickerAdapters = inject(NB_DATE_ADAPTER);
+  protected hostRef = inject(ElementRef);
+  protected dateService = inject<NbDateService<D>>(NbDateService);
+  protected changeDetector = inject(ChangeDetectorRef);
+
   /**
    * Provides datepicker component.
    * */
@@ -312,13 +317,7 @@ export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor
     [this.parseValidator, this.minValidator, this.maxValidator, this.filterValidator].map((fn) => fn.bind(this)),
   );
 
-  constructor(
-    @Inject(NB_DOCUMENT) protected document,
-    @Inject(NB_DATE_ADAPTER) protected datepickerAdapters: NbDatepickerAdapter<D>[],
-    protected hostRef: ElementRef,
-    protected dateService: NbDateService<D>,
-    protected changeDetector: ChangeDetectorRef,
-  ) {
+  constructor() {
     this.subscribeOnInputChange();
   }
 
@@ -431,11 +430,13 @@ export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor
    * Chooses datepicker adapter based on passed picker component.
    * */
   protected chooseDatepickerAdapter() {
-    this.datepickerAdapter = this.datepickerAdapters.find(({ picker }) => this.picker instanceof picker);
+    const adapter = this.datepickerAdapters;
 
-    if (this.noDatepickerAdapterProvided()) {
-      throw new Error('No datepickerAdapter provided for picker');
+    if (!(this.picker instanceof adapter.picker)) {
+      throw new Error('Picker is not compatible with provided datepicker adapter');
     }
+
+    this.datepickerAdapter = adapter;
   }
 
   /**

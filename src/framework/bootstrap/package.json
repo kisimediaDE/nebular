@@ -1,6 +1,6 @@
 {
   "name": "@kisimedia/nebular-bootstrap",
-  "version": "15.0.0-custom.1",
+  "version": "15.0.0-custom.3",
   "description": "@kisimedia/nebular-bootstrap",
   "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
@@ -22,7 +22,7 @@
   ],
   "peerDependencies": {
     "bootstrap": "^5.0.0",
-    "@kisimedia/nebular-theme": "15.0.0-custom.1"
+    "@kisimedia/nebular-theme": "15.0.0-custom.3"
   },
   "exports": {
     "./styles/prebuilt/corporate.css": {

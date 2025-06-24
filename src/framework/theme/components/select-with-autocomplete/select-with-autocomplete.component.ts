@@ -17,7 +17,6 @@ import {
   EventEmitter,
   forwardRef,
   HostBinding,
-  Inject,
   Input,
   OnDestroy,
   Output,
@@ -27,8 +26,9 @@ import {
   OnChanges,
   Renderer2,
   NgZone,
+  inject,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ListKeyManager } from '@angular/cdk/a11y';
 import { merge, Subject, BehaviorSubject, from, combineLatest, animationFrameScheduler, EMPTY } from 'rxjs';
@@ -66,6 +66,11 @@ import {
   nbSelectFormFieldControlConfigFactory,
   NbSelectLabelComponent,
 } from '../select/select.component';
+import { NbIconComponent } from '../icon/icon.component';
+import { NbFormFieldComponent } from '../form-field/form-field.component';
+import { NbInputDirective } from '../input/input.directive';
+import { NbSuffixDirective } from '../form-field/suffix.directive';
+import { NbOptionListComponent } from '../option/option-list.component';
 
 /**
  * Experimental component with autocomplete possibility.
@@ -76,25 +81,51 @@ import {
  * Component's public API (`@Input()` and `@Output()`) works in a same way as NbSelectComponent.
  */
 @Component({
-    selector: 'nb-select-with-autocomplete',
-    templateUrl: './select-with-autocomplete.component.html',
-    styleUrls: ['./select-with-autocomplete.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NbSelectWithAutocompleteComponent),
-            multi: true,
-        },
-        { provide: NB_SELECT_INJECTION_TOKEN, useExisting: NbSelectWithAutocompleteComponent },
-        { provide: NbFormFieldControl, useExisting: NbSelectWithAutocompleteComponent },
-        { provide: NbFormFieldControlConfig, useFactory: nbSelectFormFieldControlConfigFactory },
-    ],
-    standalone: false
+  selector: 'nb-select-with-autocomplete',
+  templateUrl: './select-with-autocomplete.component.html',
+  styleUrls: ['./select-with-autocomplete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NbSelectWithAutocompleteComponent),
+      multi: true,
+    },
+    { provide: NB_SELECT_INJECTION_TOKEN, useExisting: NbSelectWithAutocompleteComponent },
+    { provide: NbFormFieldControl, useExisting: NbSelectWithAutocompleteComponent },
+    { provide: NbFormFieldControlConfig, useFactory: nbSelectFormFieldControlConfigFactory },
+  ],
+  imports: [
+    NgClass,
+    NgIf,
+    NbIconComponent,
+    NbFormFieldComponent,
+    NbInputDirective,
+    NbSuffixDirective,
+    NbPortalDirective,
+    NbOptionListComponent,
+  ],
 })
 export class NbSelectWithAutocompleteComponent
   implements OnChanges, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, NbFormFieldControl
 {
+  protected document = inject(NB_DOCUMENT);
+  protected overlay = inject(NbOverlayService);
+  protected hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected positionBuilder = inject(NbPositionBuilderService);
+  protected triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
+  protected cd = inject(ChangeDetectorRef);
+  protected focusKeyManagerFactoryService = inject<NbFocusKeyManagerFactoryService<NbOptionComponent>>(
+    NbFocusKeyManagerFactoryService,
+  );
+  protected focusMonitor = inject(NbFocusMonitor);
+  protected renderer = inject(Renderer2);
+  protected zone = inject(NgZone);
+  protected statusService = inject(NbStatusService);
+  protected activeDescendantKeyManagerFactoryService = inject<
+    NbActiveDescendantKeyManagerFactoryService<NbOptionComponent>
+  >(NbActiveDescendantKeyManagerFactoryService);
+
   /**
    * Select size, available sizes:
    * `tiny`, `small`, `medium` (default), `large`, `giant`
@@ -417,20 +448,7 @@ export class NbSelectWithAutocompleteComponent
    **/
   fullWidth$ = new BehaviorSubject<boolean>(this.fullWidth);
 
-  constructor(
-    @Inject(NB_DOCUMENT) protected document,
-    protected overlay: NbOverlayService,
-    protected hostRef: ElementRef<HTMLElement>,
-    protected positionBuilder: NbPositionBuilderService,
-    protected triggerStrategyBuilder: NbTriggerStrategyBuilderService,
-    protected cd: ChangeDetectorRef,
-    protected focusKeyManagerFactoryService: NbFocusKeyManagerFactoryService<NbOptionComponent>,
-    protected focusMonitor: NbFocusMonitor,
-    protected renderer: Renderer2,
-    protected zone: NgZone,
-    protected statusService: NbStatusService,
-    protected activeDescendantKeyManagerFactoryService: NbActiveDescendantKeyManagerFactoryService<NbOptionComponent>,
-  ) {}
+  constructor() {}
 
   /**
    * Determines is select hidden.

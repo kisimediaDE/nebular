@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { NbBadgeComponent } from './badge.component';
 
 @NgModule({
-  exports: [ NbBadgeComponent ],
-  declarations: [ NbBadgeComponent ],
+  imports: [NbBadgeComponent],
+  exports: [NbBadgeComponent],
 })
-export class NbBadgeModule { }
+export class NbBadgeModule {}

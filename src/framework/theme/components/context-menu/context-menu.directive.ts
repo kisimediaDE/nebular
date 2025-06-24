@@ -14,6 +14,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -119,11 +120,13 @@ export interface NbContextMenuContext {
  * @stacked-example(Manual Control, context-menu/context-menu-right-click.component)
  * */
 @Directive({
-    selector: '[nbContextMenu]',
-    providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
-    standalone: false
+  selector: '[nbContextMenu]',
+  providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
 })
 export class NbContextMenuDirective implements NbDynamicOverlayController, OnChanges, AfterViewInit, OnDestroy, OnInit {
+  private hostRef = inject(ElementRef);
+  private menuService = inject(NbMenuService);
+  private dynamicOverlayHandler = inject(NbDynamicOverlayHandler);
 
   @HostBinding('class.context-menu-host')
   contextMenuHost = true;
@@ -178,7 +181,7 @@ export class NbContextMenuDirective implements NbDynamicOverlayController, OnCha
     this.validateItems(items);
     this._items = items;
     this.updateOverlayContext();
-  };
+  }
 
   /**
    * Describes when the container will be shown.
@@ -203,22 +206,17 @@ export class NbContextMenuDirective implements NbDynamicOverlayController, OnCha
   protected ref: NbOverlayRef;
   protected container: ComponentRef<any>;
   protected positionStrategy: NbAdjustableConnectedPositionStrategy;
-  protected overlayConfig: NbOverlayConfig = { panelClass: this.contextMenuClass } ;
+  protected overlayConfig: NbOverlayConfig = { panelClass: this.contextMenuClass };
   protected overlayContext: NbContextMenuContext = { items: this.items, tag: this.tag, position: this.position };
   protected destroy$ = new Subject<void>();
   private _items: NbMenuItem[] = [];
 
   private dynamicOverlay: NbDynamicOverlay;
 
-  constructor(private hostRef: ElementRef,
-              private menuService: NbMenuService,
-              private dynamicOverlayHandler: NbDynamicOverlayHandler) {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.dynamicOverlayHandler
-      .host(this.hostRef)
-      .componentType(NbContextMenuComponent);
+    this.dynamicOverlayHandler.host(this.hostRef).componentType(NbContextMenuComponent);
   }
 
   ngOnChanges() {
@@ -226,14 +224,12 @@ export class NbContextMenuDirective implements NbDynamicOverlayController, OnCha
   }
 
   ngAfterViewInit() {
-    this.dynamicOverlay = this.configureDynamicOverlay()
-      .build();
+    this.dynamicOverlay = this.configureDynamicOverlay().build();
     this.subscribeOnItemClick();
   }
 
   rebuild() {
-    this.dynamicOverlay = this.configureDynamicOverlay()
-      .rebuild();
+    this.dynamicOverlay = this.configureDynamicOverlay().rebuild();
   }
 
   show() {
@@ -269,12 +265,13 @@ export class NbContextMenuDirective implements NbDynamicOverlayController, OnCha
    * */
   private validateItems(items: NbMenuItem[]) {
     if (!items || !items.length) {
-      throw Error(`List of menu items expected, but given: ${items}`)
+      throw Error(`List of menu items expected, but given: ${items}`);
     }
   }
 
   private subscribeOnItemClick() {
-    this.menuService.onItemClick()
+    this.menuService
+      .onItemClick()
       .pipe(
         filter(({ tag }) => tag === this.tag && this.trigger !== NbTrigger.NOOP),
         takeUntil(this.destroy$),

@@ -9,7 +9,7 @@ import {
   NbLayoutDirection,
   NbToggleModule,
   NbToggleComponent,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 describe('Component: NbToggle', () => {
   let toggle: NbToggleComponent;
@@ -115,8 +115,8 @@ describe('Component: NbToggle', () => {
 
 // Test component with reactive forms
 @Component({
-    template: `<nb-toggle [formControl]="formControl"></nb-toggle>`,
-    standalone: false
+  template: `<nb-toggle [formControl]="formControl"></nb-toggle>`,
+  imports: [ReactiveFormsModule, NbToggleModule],
 })
 class ToggleWithFormControlComponent {
   formControl = new FormControl();
@@ -131,9 +131,14 @@ describe('Component: NbToggle with form control', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, BrowserAnimationsModule, NbThemeModule.forRoot(), NbToggleModule],
+      imports: [
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        NbThemeModule.forRoot(),
+        NbToggleModule,
+        ToggleWithFormControlComponent,
+      ],
       providers: [NbLayoutDirectionService],
-      declarations: [ToggleWithFormControlComponent],
     });
 
     fixture = TestBed.createComponent(ToggleWithFormControlComponent);

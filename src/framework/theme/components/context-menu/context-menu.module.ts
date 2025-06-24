@@ -12,11 +12,8 @@ import { NbContextMenuDirective } from './context-menu.directive';
 import { NbContextMenuComponent } from './context-menu.component';
 import { NbMenuModule } from '../menu/menu.module';
 
-
 @NgModule({
-  imports: [CommonModule, NbOverlayModule, NbMenuModule],
+  imports: [CommonModule, NbOverlayModule, NbMenuModule, NbContextMenuDirective, NbContextMenuComponent],
   exports: [NbContextMenuDirective],
-  declarations: [NbContextMenuDirective, NbContextMenuComponent],
 })
-export class NbContextMenuModule {
-}
+export class NbContextMenuModule {}

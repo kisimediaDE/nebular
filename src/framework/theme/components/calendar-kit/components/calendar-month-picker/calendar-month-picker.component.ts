@@ -14,18 +14,20 @@ import {
   Output,
   Type,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { batch } from '../../helpers';
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { NbCalendarMonthCellComponent } from './calendar-month-cell.component';
 import { NbDateService } from '../../services/date.service';
+import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.component';
 
 export const MONTHS_IN_VIEW = 12;
 export const MONTHS_IN_COLUMN = 4;
 
 @Component({
-    selector: 'nb-calendar-month-picker',
-    template: `
+  selector: 'nb-calendar-month-picker',
+  template: `
     <nb-calendar-picker
       [data]="months"
       [min]="min"
@@ -35,13 +37,15 @@ export const MONTHS_IN_COLUMN = 4;
       [visibleDate]="month"
       [cellComponent]="cellComponent"
       [size]="size"
-      (select)="onSelect($event)">
+      (select)="onSelect($event)"
+    >
     </nb-calendar-picker>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NbCalendarPickerComponent],
 })
 export class NbCalendarMonthPickerComponent<D, T> implements OnChanges {
+  protected dateService = inject<NbDateService<D>>(NbDateService);
 
   @Input() min: D;
 
@@ -64,8 +68,7 @@ export class NbCalendarMonthPickerComponent<D, T> implements OnChanges {
   @Output() monthChange: EventEmitter<D> = new EventEmitter();
   months: D[][];
 
-  constructor(protected dateService: NbDateService<D>) {
-  }
+  constructor() {}
 
   @Input('cellComponent')
   set _cellComponent(cellComponent: Type<NbCalendarCell<D, T>>) {
@@ -90,7 +93,7 @@ export class NbCalendarMonthPickerComponent<D, T> implements OnChanges {
     const date = this.dateService.getDate(this.month);
     const year = this.dateService.getYear(this.month);
     const firstMonth = this.dateService.createDate(year, 0, date);
-    const months = [ firstMonth ];
+    const months = [firstMonth];
 
     for (let monthIndex = 1; monthIndex < MONTHS_IN_VIEW; monthIndex++) {
       months.push(this.dateService.addMonth(firstMonth, monthIndex));

@@ -5,7 +5,7 @@
  */
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
-import { NbRoleProvider, NbAclService, NbAccessChecker } from '@nebular/security';
+import { NbRoleProvider, NbAclService, NbAccessChecker } from '@kisimedia/nebular-security';
 
 let accessChecker: NbAccessChecker;
 
@@ -36,13 +36,11 @@ function setupAcl(can, roles: string | string[]) {
   });
 
   // Single async inject to save references; which are used in all tests below
-  beforeEach(
-    waitForAsync(
-      inject([NbAccessChecker], (_accessChecker) => {
-        accessChecker = _accessChecker;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbAccessChecker], (_accessChecker) => {
+      accessChecker = _accessChecker;
+    }),
+  ));
 }
 
 describe('authorization checker', () => {

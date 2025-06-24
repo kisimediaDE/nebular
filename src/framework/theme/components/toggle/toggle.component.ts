@@ -19,6 +19,7 @@ import {
   ElementRef,
   AfterViewInit,
   NgZone,
+  inject,
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -29,6 +30,8 @@ import { NbStatusService } from '../../services/status.service';
 import { NbLayoutDirectionService } from '../../services/direction.service';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
+import { NgIf } from '@angular/common';
+import { NbIconComponent } from '../icon/icon.component';
 
 /**
  * Toggle is a control representing `on` and `off` states.
@@ -257,26 +260,28 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
  * toggle-control-disabled-text-color:
  */
 @Component({
-    selector: 'nb-toggle',
-    animations: [
-        trigger('position', [
-            state('right', style({ right: 0, left: '*' })),
-            state('left', style({ left: 0, right: '*' })),
-            transition(':enter', [animate(0)]),
-            transition('right <=> left', [animate('0.15s')]),
-        ]),
-    ],
-    template: `
+  selector: 'nb-toggle',
+  animations: [
+    trigger('position', [
+      state('right', style({ right: 0, left: '*' })),
+      state('left', style({ left: 0, right: '*' })),
+      transition(':enter', [animate(0)]),
+      transition('right <=> left', [animate('0.15s')]),
+    ]),
+  ],
+  template: `
     <label class="toggle-label">
-      <input type="checkbox"
-             class="native-input visually-hidden"
-             role="switch"
-             [attr.aria-checked]="checked"
-             [disabled]="disabled"
-             [checked]="checked"
-             (change)="updateValue($event)"
-             (blur)="onTouched()"
-             (click)="onInputClick($event)">
+      <input
+        type="checkbox"
+        class="native-input visually-hidden"
+        role="switch"
+        [attr.aria-checked]="checked"
+        [disabled]="disabled"
+        [checked]="checked"
+        (change)="updateValue($event)"
+        (blur)="onTouched()"
+        (click)="onInputClick($event)"
+      />
       <div class="toggle" [class.checked]="checked">
         <span [@position]="checkState()" class="toggle-switcher">
           <nb-icon *ngIf="checked" icon="checkmark-bold-outline" pack="nebular-essentials"></nb-icon>
@@ -287,19 +292,27 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
       </span>
     </label>
   `,
-    styleUrls: [`./toggle.component.scss`],
-    providers: [{
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => NbToggleComponent),
-            multi: true,
-        }],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  styleUrls: [`./toggle.component.scss`],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => NbToggleComponent),
+      multi: true,
+    },
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NbIconComponent],
 })
 export class NbToggleComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
+  private changeDetector = inject(ChangeDetectorRef);
+  private layoutDirection = inject(NbLayoutDirectionService);
+  private renderer = inject(Renderer2);
+  private hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
+  private zone = inject(NgZone);
+  protected statusService = inject(NbStatusService);
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   private destroy$ = new Subject<void>();
 
@@ -411,26 +424,22 @@ export class NbToggleComponent implements OnInit, AfterViewInit, OnDestroy, Cont
     return this.labelPosition === 'end';
   }
 
-  constructor(
-    private changeDetector: ChangeDetectorRef,
-    private layoutDirection: NbLayoutDirectionService,
-    private renderer: Renderer2,
-    private hostElement: ElementRef<HTMLElement>,
-    private zone: NgZone,
-    protected statusService: NbStatusService,
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.layoutDirection.onDirectionChange()
+    this.layoutDirection
+      .onDirectionChange()
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.changeDetector.detectChanges());
   }
 
   ngAfterViewInit() {
     // TODO: #2254
-    this.zone.runOutsideAngular(() => setTimeout(() => {
-      this.renderer.addClass(this.hostElement.nativeElement, 'nb-transition');
-    }));
+    this.zone.runOutsideAngular(() =>
+      setTimeout(() => {
+        this.renderer.addClass(this.hostElement.nativeElement, 'nb-transition');
+      }),
+    );
   }
 
   ngOnDestroy() {
@@ -465,7 +474,7 @@ export class NbToggleComponent implements OnInit, AfterViewInit, OnDestroy, Cont
   }
 
   updateValue(event: Event): void {
-    const input = (event.target as HTMLInputElement);
+    const input = event.target as HTMLInputElement;
     this.checked = input.checked;
     this.checkedChange.emit(this.checked);
     this.onChange(this.checked);

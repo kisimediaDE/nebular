@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,7 +12,7 @@ import {
   NbToastrModule,
   NbThemeModule,
   NbLayoutModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 @Component({
   selector: 'nb-toastr-test',
@@ -23,10 +23,12 @@ import {
       </nb-layout-column>
     </nb-layout>
   `,
-  standalone: false,
+  imports: [NbLayoutModule],
 })
 export class NbToastrTestComponent {
-  constructor(private toastrService: NbToastrService) {}
+  private toastrService = inject(NbToastrService);
+
+  constructor() {}
 
   showToast(className: string) {
     this.toastrService.show('testing toastr', '', { toastClass: className });
@@ -38,8 +40,13 @@ describe('toastr-component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, NbThemeModule.forRoot(), NbLayoutModule, NbToastrModule.forRoot()],
-      declarations: [NbToastrTestComponent],
+      imports: [
+        NoopAnimationsModule,
+        NbThemeModule.forRoot(),
+        NbLayoutModule,
+        NbToastrModule.forRoot(),
+        NbToastrTestComponent,
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NbToastrTestComponent);

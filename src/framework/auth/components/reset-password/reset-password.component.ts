@@ -3,22 +3,29 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { NB_AUTH_OPTIONS } from '../../auth.options';
 import { getDeepFromObject } from '../../helpers';
 
 import { NbAuthService } from '../../services/auth.service';
 import { NbAuthResult } from '../../services/auth-result';
+import { NgIf, NgFor } from '@angular/common';
+import { NbAlertModule, NbInputModule, NbButtonModule } from '@kisimedia/nebular-theme';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'nb-reset-password-page',
-    styleUrls: ['./reset-password.component.scss'],
-    templateUrl: './reset-password.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nb-reset-password-page',
+  styleUrls: ['./reset-password.component.scss'],
+  templateUrl: './reset-password.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NbAlertModule, NgFor, FormsModule, NbInputModule, NbButtonModule, RouterLink],
 })
 export class NbResetPasswordComponent {
+  protected service = inject(NbAuthService);
+  protected options = inject(NB_AUTH_OPTIONS) ?? {};
+  protected cd = inject(ChangeDetectorRef);
+  protected router = inject(Router);
 
   redirectDelay: number = 0;
   showMessages: any = {};
@@ -29,11 +36,7 @@ export class NbResetPasswordComponent {
   messages: string[] = [];
   user: any = {};
 
-  constructor(protected service: NbAuthService,
-              @Inject(NB_AUTH_OPTIONS) protected options = {},
-              protected cd: ChangeDetectorRef,
-              protected router: Router) {
-
+  constructor() {
     this.redirectDelay = this.getConfigValue('forms.resetPassword.redirectDelay');
     this.showMessages = this.getConfigValue('forms.resetPassword.showMessages');
     this.strategy = this.getConfigValue('forms.resetPassword.strategy');

@@ -4,22 +4,21 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectorRef, Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NbLayoutDirection, NbLayoutDirectionService } from '../../services/direction.service';
 
 @Directive()
 abstract class NbBaseLayoutDirectionDirective implements OnInit, OnDestroy {
-  protected destroy$ = new Subject<void>();
+  protected abstract directionToShow: NbLayoutDirection;
 
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef,
-    protected cd: ChangeDetectorRef,
-    protected directionService: NbLayoutDirectionService,
-    protected directionToShow: NbLayoutDirection,
-  ) {}
+  protected templateRef = inject<TemplateRef<any>>(TemplateRef);
+  protected viewContainer = inject(ViewContainerRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected directionService = inject(NbLayoutDirectionService);
+
+  protected destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.directionService
@@ -54,19 +53,9 @@ abstract class NbBaseLayoutDirectionDirective implements OnInit, OnDestroy {
  * <div *nbLtr>This text is visible only when layout direction is LTR</div>
  * ```
  */
-@Directive({
-    selector: '[nbLtr]',
-    standalone: false
-})
+@Directive({ selector: '[nbLtr]' })
 export class NbLtrDirective extends NbBaseLayoutDirectionDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef,
-    protected cd: ChangeDetectorRef,
-    protected directionService: NbLayoutDirectionService,
-  ) {
-    super(templateRef, viewContainer, cd, directionService, NbLayoutDirection.LTR);
-  }
+  protected override directionToShow = NbLayoutDirection.LTR;
 }
 
 /**
@@ -76,17 +65,7 @@ export class NbLtrDirective extends NbBaseLayoutDirectionDirective {
  * <div *nbRtl>This text is visible only when layout direction is RTL</div>
  * ```
  */
-@Directive({
-    selector: '[nbRtl]',
-    standalone: false
-})
+@Directive({ selector: '[nbRtl]' })
 export class NbRtlDirective extends NbBaseLayoutDirectionDirective {
-  constructor(
-    protected templateRef: TemplateRef<any>,
-    protected viewContainer: ViewContainerRef,
-    protected cd: ChangeDetectorRef,
-    protected directionService: NbLayoutDirectionService,
-  ) {
-    super(templateRef, viewContainer, cd, directionService, NbLayoutDirection.RTL);
-  }
+  protected override directionToShow = NbLayoutDirection.RTL;
 }

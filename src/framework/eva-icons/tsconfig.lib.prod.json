@@ -4,9 +4,7 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@nebular/theme": [
-        "dist/theme"
-      ]
+      "@kisimedia/nebular-theme": ["dist/theme"]
     }
   },
   "angularCompilerOptions": {

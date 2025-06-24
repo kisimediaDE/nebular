@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NB_DOCUMENT } from '../theme.options';
 
 /**
@@ -11,11 +11,12 @@ import { NB_DOCUMENT } from '../theme.options';
  */
 @Injectable()
 export class NbSpinnerService {
+  private document = inject(NB_DOCUMENT);
 
   private loaders: Promise<any>[] = [];
   private selector: string = 'nb-global-spinner';
 
-  constructor(@Inject(NB_DOCUMENT) private document) {}
+  constructor() {}
 
   /**
    * Appends new loader to the list of loader to be completed before
@@ -42,10 +43,11 @@ export class NbSpinnerService {
   }
 
   private executeAll(done = (values) => {}): void {
-    Promise.all(this.loaders).then((values) => {
-      this.hideSpinner();
-      done.call(null, values);
-    })
+    Promise.all(this.loaders)
+      .then((values) => {
+        this.hideSpinner();
+        done.call(null, values);
+      })
       .catch((error) => {
         // TODO: Promise.reject
         console.error(error);

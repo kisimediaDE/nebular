@@ -4,10 +4,10 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { Injectable, LOCALE_ID, inject } from '@angular/core';
 import { TranslationWidth } from '@angular/common';
 
-import { NbDateService } from '@nebular/theme';
+import { NbDateService } from '@kisimedia/nebular-theme';
 
 import * as _moment from 'moment';
 // @ts-ignore
@@ -15,18 +15,20 @@ import { default as _rollupMoment, LongDateFormatKey, Moment } from 'moment';
 
 const moment = _rollupMoment || _moment;
 
-
 @Injectable()
 export class NbMomentDateService extends NbDateService<Moment> {
   protected localeData: {
-    firstDayOfWeek: number,
-    defaultFormat: string,
-    months: { [key: string]: string[] },
-    days: { [key: string]: string[] },
+    firstDayOfWeek: number;
+    defaultFormat: string;
+    months: { [key: string]: string[] };
+    days: { [key: string]: string[] };
   };
 
   protected readonly TIME_ONLY_FORMAT_KEY: LongDateFormatKey = 'LT';
-  constructor(@Inject(LOCALE_ID) locale: string) {
+
+  constructor() {
+    const locale = inject(LOCALE_ID);
+
     super();
     this.setLocale(locale);
   }
@@ -65,11 +67,11 @@ export class NbMomentDateService extends NbDateService<Moment> {
   }
 
   addMinutes(date: Moment, minute: number): Moment {
-    return this.clone(date).add( { minute });
+    return this.clone(date).add({ minute });
   }
 
   addHours(date: Moment, hour: number): Moment {
-    return this.clone(date).add( { hour });
+    return this.clone(date).add({ hour });
   }
 
   clone(date: Moment): Moment {
@@ -81,9 +83,11 @@ export class NbMomentDateService extends NbDateService<Moment> {
   }
 
   compareDates(date1: Moment, date2: Moment): number {
-    return this.getYear(date1) - this.getYear(date2) ||
+    return (
+      this.getYear(date1) - this.getYear(date2) ||
       this.getMonth(date1) - this.getMonth(date2) ||
-      this.getDate(date1) - this.getDate(date2);
+      this.getDate(date1) - this.getDate(date2)
+    );
   }
 
   createDate(year: number, month: number, date: number): Moment {

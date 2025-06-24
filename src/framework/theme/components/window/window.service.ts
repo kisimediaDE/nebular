@@ -1,4 +1,4 @@
-import { ComponentRef, Inject, Injectable, Injector, TemplateRef, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { filter } from 'rxjs/operators';
 import { NbComponentPortal, NbComponentType, NbOverlayPositionBuilder, NbOverlayRef } from '../cdk/overlay/mapping';
 import { NbOverlayService } from '../cdk/overlay/overlay-service';
@@ -97,18 +97,19 @@ import { NB_DOCUMENT } from '../../theme.options';
  */
 @Injectable()
 export class NbWindowService {
+  protected overlayService = inject(NbOverlayService);
+  protected overlayPositionBuilder = inject(NbOverlayPositionBuilder);
+  protected blockScrollStrategy = inject(NbBlockScrollStrategyAdapter);
+  protected readonly defaultWindowsConfig = inject<NbWindowConfig>(NB_WINDOW_CONFIG);
+
   protected document: Document;
   protected overlayRef: NbOverlayRef;
   protected windowsContainerViewRef: ViewContainerRef;
   protected openWindows: NbWindowRef[] = [];
 
-  constructor(
-    protected overlayService: NbOverlayService,
-    protected overlayPositionBuilder: NbOverlayPositionBuilder,
-    protected blockScrollStrategy: NbBlockScrollStrategyAdapter,
-    @Inject(NB_WINDOW_CONFIG) protected readonly defaultWindowsConfig: NbWindowConfig,
-    @Inject(NB_DOCUMENT) document,
-  ) {
+  constructor() {
+    const document = inject(NB_DOCUMENT);
+
     this.document = document;
   }
 

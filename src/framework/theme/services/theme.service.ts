@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, filter, pairwise, distinctUntilChanged, startWith, share } from 'rxjs/operators';
@@ -19,6 +19,9 @@ import { NbMediaBreakpointsService, NbMediaBreakpoint } from './breakpoints.serv
  */
 @Injectable()
 export class NbThemeService {
+  protected options = inject(NB_THEME_OPTIONS);
+  private breakpointService = inject(NbMediaBreakpointsService);
+  private jsThemesRegistry = inject(NbJSThemesRegistry);
 
   // TODO: behavioral subject here?
   currentTheme: string;
@@ -27,9 +30,9 @@ export class NbThemeService {
   private removeLayoutClass$ = new Subject();
   private changeWindowWidth$ = new ReplaySubject<number>(2);
 
-  constructor(@Inject(NB_THEME_OPTIONS) protected options: any,
-              private breakpointService: NbMediaBreakpointsService,
-              private jsThemesRegistry: NbJSThemesRegistry) {
+  constructor() {
+    const options = this.options;
+
     if (options && options.name) {
       this.changeTheme(options.name);
     }
@@ -71,22 +74,21 @@ export class NbThemeService {
    * @returns {Observable<[NbMediaBreakpoint, NbMediaBreakpoint]>}
    */
   onMediaQueryChange(): Observable<NbMediaBreakpoint[]> {
-    return this.changeWindowWidth$
-      .pipe(
-        startWith(undefined),
-        pairwise(),
-        map(([prevWidth, width]: [number, number]) => {
-          return [
-            this.breakpointService.getByWidth(prevWidth),
-            this.breakpointService.getByWidth(width),
-          ] as [NbMediaBreakpoint, NbMediaBreakpoint];
-        }),
-        filter(([prevPoint, point]: [NbMediaBreakpoint, NbMediaBreakpoint]) => {
-          return prevPoint.name !== point.name;
-        }),
-        distinctUntilChanged(null, params => params[0].name + params[1].name),
-        share(),
-      );
+    return this.changeWindowWidth$.pipe(
+      startWith(undefined),
+      pairwise(),
+      map(([prevWidth, width]: [number, number]) => {
+        return [this.breakpointService.getByWidth(prevWidth), this.breakpointService.getByWidth(width)] as [
+          NbMediaBreakpoint,
+          NbMediaBreakpoint,
+        ];
+      }),
+      filter(([prevPoint, point]: [NbMediaBreakpoint, NbMediaBreakpoint]) => {
+        return prevPoint.name !== point.name;
+      }),
+      distinctUntilChanged(null, (params) => params[0].name + params[1].name),
+      share(),
+    );
   }
 
   /**

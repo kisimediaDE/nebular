@@ -3,12 +3,12 @@ import { BrowserModule, REMOVE_STYLES_ON_COMPONENT_DESTROY } from '@angular/plat
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule } from '@nebular/theme';
-import { NbAuthModule } from '@nebular/auth';
-import { NbSecurityModule } from '@nebular/security';
-import { NbMomentDateModule } from '@nebular/moment';
-import { NbDateFnsDateModule } from '@nebular/date-fns';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbThemeModule } from '@kisimedia/nebular-theme';
+import { NbAuthModule } from '@kisimedia/nebular-auth';
+import { NbSecurityModule } from '@kisimedia/nebular-security';
+import { NbMomentDateModule } from '@kisimedia/nebular-moment';
+import { NbDateFnsDateModule } from '@kisimedia/nebular-date-fns';
+import { NbEvaIconsModule } from '@kisimedia/nebular-eva-icons';
 
 @NgModule({
   declarations: [AppComponent],

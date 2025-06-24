@@ -4,8 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable } from '@angular/core';
-
+import { Injectable, inject } from '@angular/core';
 
 import { NbJSThemeOptions } from './js-themes/theme.options';
 import { DEFAULT_THEME } from './js-themes/default.theme';
@@ -14,12 +13,7 @@ import { CORPORATE_THEME } from './js-themes/corporate.theme';
 import { DARK_THEME } from './js-themes/dark.theme';
 import { NB_BUILT_IN_JS_THEMES, NB_JS_THEMES } from '../theme.options';
 
-export const BUILT_IN_THEMES: NbJSThemeOptions[] = [
-  DEFAULT_THEME,
-  COSMIC_THEME,
-  CORPORATE_THEME,
-  DARK_THEME,
-];
+export const BUILT_IN_THEMES: NbJSThemeOptions[] = [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME];
 
 /**
  * Js Themes registry - provides access to the JS themes' variables.
@@ -27,11 +21,11 @@ export const BUILT_IN_THEMES: NbJSThemeOptions[] = [
  */
 @Injectable()
 export class NbJSThemesRegistry {
-
   private themes: any = {};
 
-  constructor(@Inject(NB_BUILT_IN_JS_THEMES) builtInThemes: NbJSThemeOptions[],
-              @Inject(NB_JS_THEMES) newThemes: NbJSThemeOptions[] = []) {
+  constructor() {
+    const builtInThemes = inject(NB_BUILT_IN_JS_THEMES);
+    const newThemes = inject(NB_JS_THEMES) ?? [];
 
     const themes = this.combineByNames(newThemes, builtInThemes);
 
@@ -76,8 +70,8 @@ export class NbJSThemesRegistry {
     if (newThemes) {
       const mergedThemes: NbJSThemeOptions[] = [];
       newThemes.forEach((theme: NbJSThemeOptions) => {
-        const sameOld: NbJSThemeOptions = oldThemes.find((tm: NbJSThemeOptions) => tm.name === theme.name)
-          || <NbJSThemeOptions>{};
+        const sameOld: NbJSThemeOptions =
+          oldThemes.find((tm: NbJSThemeOptions) => tm.name === theme.name) || <NbJSThemeOptions>{};
 
         const mergedTheme = this.mergeDeep({}, sameOld, theme);
         mergedThemes.push(mergedTheme);
@@ -92,7 +86,6 @@ export class NbJSThemesRegistry {
     }
     return oldThemes;
   }
-
 
   private isObject(item) {
     return item && typeof item === 'object' && !Array.isArray(item);

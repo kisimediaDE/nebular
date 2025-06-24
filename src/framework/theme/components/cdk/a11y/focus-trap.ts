@@ -1,8 +1,7 @@
-import { Inject, Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { FocusTrap, FocusTrapFactory, InteractivityChecker } from '@angular/cdk/a11y';
 
 import { NB_DOCUMENT } from '../../../theme.options';
-
 
 /**
  * Overrides angular cdk focus trap to keep restore functionality inside trap.
@@ -15,7 +14,8 @@ export class NbFocusTrap extends FocusTrap {
     protected checker: InteractivityChecker,
     protected ngZone: NgZone,
     protected document: Document,
-    deferAnchors) {
+    deferAnchors,
+  ) {
     super(element, checker, ngZone, document, deferAnchors);
     this.savePreviouslyFocusedElement();
   }
@@ -36,11 +36,20 @@ export class NbFocusTrap extends FocusTrap {
 
 @Injectable()
 export class NbFocusTrapFactoryService extends FocusTrapFactory {
-  constructor(
-    protected checker: InteractivityChecker,
-    protected ngZone: NgZone,
-    @Inject(NB_DOCUMENT) private document) {
+  protected checker: InteractivityChecker;
+  protected ngZone: NgZone;
+  private document;
+
+  constructor() {
+    const checker = inject(InteractivityChecker);
+    const ngZone = inject(NgZone);
+    const document = inject(NB_DOCUMENT);
+
     super(checker, ngZone, document);
+
+    this.checker = checker;
+    this.ngZone = ngZone;
+    this.document = document;
   }
 
   create(element: HTMLElement, deferCaptureElements?: boolean): NbFocusTrap {

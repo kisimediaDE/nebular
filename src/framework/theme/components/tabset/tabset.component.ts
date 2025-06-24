@@ -17,16 +17,18 @@ import {
   ChangeDetectorRef,
   ContentChild,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NbBadgePosition } from '../badge/badge.component';
-import { NbIconConfig } from '../icon/icon.component';
+import { NbBadgePosition, NbBadgeComponent } from '../badge/badge.component';
+import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
 import { NbTabContentDirective } from './tab-content.directive';
 import { NbTabTitleDirective } from './tab-title.directive';
+import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 
 /**
  * Specific tab container.
@@ -40,8 +42,8 @@ import { NbTabTitleDirective } from './tab-title.directive';
  * ```
  */
 @Component({
-    selector: 'nb-tab',
-    template: `
+  selector: 'nb-tab',
+  template: `
     <ng-container
       *ngIf="tabContentDirective; else projectedContent"
       [ngTemplateOutlet]="tabContentDirective.templateRef"
@@ -51,7 +53,7 @@ import { NbTabTitleDirective } from './tab-title.directive';
       <ng-content></ng-content>
     </ng-template>
   `,
-    standalone: false
+  imports: [NgIf, NgTemplateOutlet],
 })
 export class NbTabComponent {
   @ContentChild(NbTabContentDirective) tabContentDirective: NbTabContentDirective;
@@ -298,9 +300,9 @@ export class NbTabComponent {
  * tabset-scrollbar-width:
  */
 @Component({
-    selector: 'nb-tabset',
-    styleUrls: ['./tabset.component.scss'],
-    template: `
+  selector: 'nb-tabset',
+  styleUrls: ['./tabset.component.scss'],
+  template: `
     <ul class="tabset">
       <li
         *ngFor="let tab of tabs"
@@ -336,9 +338,12 @@ export class NbTabComponent {
     </ul>
     <ng-content select="nb-tab"></ng-content>
   `,
-    standalone: false
+  imports: [NgFor, NgIf, NbIconComponent, NgTemplateOutlet, NbBadgeComponent],
 })
 export class NbTabsetComponent implements AfterContentInit, OnDestroy {
+  private route = inject(ActivatedRoute);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   @ContentChildren(NbTabComponent) tabs: QueryList<NbTabComponent>;
 
   @HostBinding('class.full-width')
@@ -368,7 +373,7 @@ export class NbTabsetComponent implements AfterContentInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private route: ActivatedRoute, private changeDetectorRef: ChangeDetectorRef) {}
+  constructor() {}
 
   // TODO: refactoring this component, avoid change detection loop
   ngAfterContentInit() {

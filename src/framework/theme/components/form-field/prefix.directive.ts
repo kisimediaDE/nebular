@@ -1,8 +1,4 @@
 import { Directive } from '@angular/core';
 
-@Directive({
-    selector: '[nbPrefix]',
-    standalone: false
-})
-export class NbPrefixDirective {
-}
+@Directive({ selector: '[nbPrefix]' })
+export class NbPrefixDirective {}

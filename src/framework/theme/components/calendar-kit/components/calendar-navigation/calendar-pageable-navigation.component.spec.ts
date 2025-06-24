@@ -13,7 +13,7 @@ import {
   NbDateService,
   NbNativeDateService,
   NbThemeModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 describe('Component: NbCalendarPageableNavigation', () => {
   let fixture: ComponentFixture<NbCalendarPageableNavigationComponent<Date>>;
@@ -22,8 +22,12 @@ describe('Component: NbCalendarPageableNavigation', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbIconModule],
-      declarations: [NbCalendarViewModeComponent, NbCalendarPageableNavigationComponent],
+      imports: [
+        NbThemeModule.forRoot(),
+        NbIconModule,
+        NbCalendarViewModeComponent,
+        NbCalendarPageableNavigationComponent,
+      ],
       providers: [{ provide: NbDateService, useClass: NbNativeDateService }, DatePipe],
     });
     fixture = TestBed.createComponent<NbCalendarPageableNavigationComponent<Date>>(

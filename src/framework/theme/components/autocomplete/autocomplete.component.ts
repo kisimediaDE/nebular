@@ -18,6 +18,7 @@ import {
   ViewChild,
   AfterContentInit,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -27,6 +28,7 @@ import { NbComponentSize } from '../component-size';
 import { NbPosition } from '../cdk/overlay/overlay-position';
 import { NbOptionComponent } from '../option/option.component';
 import { NbPortalDirective } from '../cdk/overlay/mapping';
+import { NbOptionListComponent } from '../option/option-list.component';
 
 // Component class scoped counter for aria attributes.
 let lastAutocompleteId: number = 0;
@@ -36,13 +38,15 @@ let lastAutocompleteId: number = 0;
  * Provides an `NbOptionList` overlay component.
  * */
 @Component({
-    selector: 'nb-autocomplete',
-    templateUrl: './autocomplete.component.html',
-    styleUrls: ['./autocomplete.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nb-autocomplete',
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NbPortalDirective, NbOptionListComponent, NgClass],
 })
 export class NbAutocompleteComponent<T> implements AfterContentInit, OnDestroy {
+  protected cd = inject(ChangeDetectorRef);
+
   protected destroy$: Subject<void> = new Subject<void>();
 
   /**
@@ -132,7 +136,7 @@ export class NbAutocompleteComponent<T> implements AfterContentInit, OnDestroy {
    * */
   @ViewChild(NbPortalDirective) portal: NbPortalDirective;
 
-  constructor(protected cd: ChangeDetectorRef) {}
+  constructor() {}
 
   ngAfterContentInit() {
     this.options.changes.pipe(takeUntil(this.destroy$)).subscribe(() => this.cd.detectChanges());

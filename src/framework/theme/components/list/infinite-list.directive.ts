@@ -9,6 +9,7 @@ import {
   AfterViewInit,
   ContentChildren,
   QueryList,
+  inject,
 } from '@angular/core';
 import { Observable, forkJoin, of as observableOf, interval, timer, Subject, merge, BehaviorSubject } from 'rxjs';
 import { filter, switchMap, map, takeUntil, take, throttle } from 'rxjs/operators';
@@ -51,11 +52,12 @@ export class NbScrollableContainerDimensions {
  * @stacked-example(Infinite list with placeholders at the top, infinite-list/infinite-list-placeholders.component)
  *
  */
-@Directive({
-    selector: '[nbInfiniteList]',
-    standalone: false
-})
+@Directive({ selector: '[nbInfiniteList]' })
 export class NbInfiniteListDirective implements AfterViewInit, OnDestroy {
+  private elementRef = inject(ElementRef);
+  private scrollService = inject(NbLayoutScrollService);
+  private dimensionsService = inject(NbLayoutRulerService);
+
   private destroy$ = new Subject<void>();
   private lastScrollPosition;
   windowScroll = false;
@@ -118,11 +120,7 @@ export class NbInfiniteListDirective implements AfterViewInit, OnDestroy {
 
   @ContentChildren(NbListItemComponent) listItems: QueryList<NbListItemComponent>;
 
-  constructor(
-    private elementRef: ElementRef,
-    private scrollService: NbLayoutScrollService,
-    private dimensionsService: NbLayoutRulerService,
-  ) {}
+  constructor() {}
 
   ngAfterViewInit() {
     merge(this.windowScroll$, this.elementScroll$)

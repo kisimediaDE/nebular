@@ -1,11 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ComponentRef } from '@angular/core';
-import { NbTrigger, NbTriggerStrategyBuilderService, NB_DOCUMENT } from '@nebular/theme';
+import { NbTrigger, NbTriggerStrategyBuilderService, NB_DOCUMENT } from '@kisimedia/nebular-theme';
 import createSpy = jasmine.createSpy;
 
 // TODO: move into a separate file
-const withContainer = (el) => () => ({ location: { nativeElement: el } } as ComponentRef<any>);
+const withContainer = (el) => () => ({ location: { nativeElement: el } }) as ComponentRef<any>;
 const createElement = (name = 'div') => {
   const el = document.createElement(name);
   document.body.appendChild(el);

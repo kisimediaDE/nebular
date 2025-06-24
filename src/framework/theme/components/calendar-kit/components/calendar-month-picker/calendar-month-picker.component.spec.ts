@@ -13,7 +13,7 @@ import {
   NbDateService,
   NbNativeDateService,
   NbCalendarMonthCellComponent,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 describe('Component: NbCalendarMonthPicker', () => {
   let fixture: ComponentFixture<NbCalendarMonthPickerComponent<Date, Date>>;
@@ -22,7 +22,7 @@ describe('Component: NbCalendarMonthPicker', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NbCalendarMonthPickerComponent],
+      imports: [NbCalendarMonthPickerComponent],
       providers: [{ provide: NbDateService, useClass: NbNativeDateService }, DatePipe],
       schemas: [NO_ERRORS_SCHEMA],
     });

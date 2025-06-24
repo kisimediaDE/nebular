@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -13,6 +13,7 @@ import { NbToastComponent } from './toast.component';
 import { NbToast } from './model';
 import { NbLayoutDirectionService } from '../../services/direction.service';
 import { NbGlobalPosition, NbPositionHelper } from '../cdk/overlay/position-helper';
+import { NgFor } from '@angular/common';
 
 const voidState = style({
   transform: 'translateX({{ direction }}110%)',
@@ -26,18 +27,19 @@ const voidState = style({
 const defaultOptions = { params: { direction: '' } };
 
 @Component({
-    selector: 'nb-toastr-container',
-    template: `
-    <nb-toast [@fadeIn]="fadeIn" *ngFor="let toast of content" [toast]="toast"></nb-toast>`,
-    animations: [
-        trigger('fadeIn', [
-            transition(':enter', [voidState, animate(100)], defaultOptions),
-            transition(':leave', [animate(100, voidState)], defaultOptions),
-        ]),
-    ],
-    standalone: false
+  selector: 'nb-toastr-container',
+  template: ` <nb-toast [@fadeIn]="fadeIn" *ngFor="let toast of content" [toast]="toast"></nb-toast>`,
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [voidState, animate(100)], defaultOptions),
+      transition(':leave', [animate(100, voidState)], defaultOptions),
+    ]),
+  ],
+  imports: [NgFor, NbToastComponent],
 })
 export class NbToastrContainerComponent implements OnInit, OnDestroy {
+  protected layoutDirection = inject(NbLayoutDirectionService);
+  protected positionHelper = inject(NbPositionHelper);
 
   protected destroy$ = new Subject<void>();
 
@@ -55,12 +57,11 @@ export class NbToastrContainerComponent implements OnInit, OnDestroy {
 
   fadeIn;
 
-  constructor(protected layoutDirection: NbLayoutDirectionService,
-              protected positionHelper: NbPositionHelper) {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.layoutDirection.onDirectionChange()
+    this.layoutDirection
+      .onDirectionChange()
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.onDirectionChange());
   }

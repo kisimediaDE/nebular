@@ -3,17 +3,20 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { NbAuthService } from '../services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { NbLayoutModule, NbCardModule, NbIconModule } from '@kisimedia/nebular-theme';
+import { NbAuthBlockComponent } from './auth-block/auth-block.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'nb-auth',
-    styleUrls: ['./auth.component.scss'],
-    template: `
+  selector: 'nb-auth',
+  styleUrls: ['./auth.component.scss'],
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-card>
@@ -33,9 +36,11 @@ import { Subject } from 'rxjs';
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule, NbCardModule, NbIconModule, NbAuthBlockComponent, RouterOutlet],
 })
 export class NbAuthComponent implements OnDestroy {
+  protected auth = inject(NbAuthService);
+  protected location = inject(Location);
 
   private destroy$ = new Subject<void>();
 
@@ -45,9 +50,11 @@ export class NbAuthComponent implements OnDestroy {
   token: string = '';
 
   // showcase of how to use the onAuthenticationChange method
-  constructor(protected auth: NbAuthService, protected location: Location) {
+  constructor() {
+    const auth = this.auth;
 
-    this.subscription = auth.onAuthenticationChange()
+    this.subscription = auth
+      .onAuthenticationChange()
       .pipe(takeUntil(this.destroy$))
       .subscribe((authenticated: boolean) => {
         this.authenticated = authenticated;

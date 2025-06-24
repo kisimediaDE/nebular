@@ -13,10 +13,10 @@ import {
   EventEmitter,
   SimpleChanges,
   HostBinding,
-  Host,
   OnInit,
   OnChanges,
   OnDestroy,
+  inject,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,16 +28,17 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
  * Component intended to be used within `<nb-accordion>` component
  */
 @Component({
-    selector: 'nb-accordion-item',
-    styleUrls: ['./accordion-item.component.scss'],
-    template: `
+  selector: 'nb-accordion-item',
+  styleUrls: ['./accordion-item.component.scss'],
+  template: `
     <ng-content select="nb-accordion-item-header"></ng-content>
     <ng-content select="nb-accordion-item-body"></ng-content>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NbAccordionItemComponent implements OnInit, OnChanges, OnDestroy {
+  private accordion = inject(NbAccordionComponent, { host: true });
+  private cd = inject(ChangeDetectorRef);
 
   /**
    * Item is collapse (`true` by default)
@@ -96,8 +97,7 @@ export class NbAccordionItemComponent implements OnInit, OnChanges, OnDestroy {
   private disabledValue = false;
   private destroy$ = new Subject<void>();
 
-  constructor(@Host() private accordion: NbAccordionComponent, private cd: ChangeDetectorRef) {
-  }
+  constructor() {}
 
   /**
    * Open/close the item
@@ -129,10 +129,8 @@ export class NbAccordionItemComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
-    this.accordion.openCloseItems
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(collapsed => {
-        !this.disabled && (this.collapsed = collapsed);
+    this.accordion.openCloseItems.pipe(takeUntil(this.destroy$)).subscribe((collapsed) => {
+      !this.disabled && (this.collapsed = collapsed);
     });
   }
 

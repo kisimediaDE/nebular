@@ -19,10 +19,7 @@ import { NbListItemComponent } from './list.component';
  * Directive allows you to determine page of currently viewing items.
  *
  */
-@Directive({
-    selector: '[nbListPageTracker]',
-    standalone: false
-})
+@Directive({ selector: '[nbListPageTracker]' })
 export class NbListPageTrackerDirective implements AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>();
 

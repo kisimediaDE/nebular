@@ -1,4 +1,4 @@
-import { ComponentRef, Inject, Injectable } from '@angular/core';
+import { ComponentRef, Injectable, inject } from '@angular/core';
 import { EMPTY, fromEvent as observableFromEvent, merge as observableMerge, Observable, Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, repeat, share, switchMap, takeUntil, takeWhile } from 'rxjs/operators';
 import { NB_DOCUMENT } from '../../../theme.options';
@@ -203,11 +203,13 @@ export class NbNoopTriggerStrategy extends NbTriggerStrategyBase {
 
 @Injectable()
 export class NbTriggerStrategyBuilderService {
+  protected _document = inject(NB_DOCUMENT);
+
   protected _host: HTMLElement;
   protected _container: () => ComponentRef<any>;
   protected _trigger: NbTrigger;
 
-  constructor(@Inject(NB_DOCUMENT) protected _document) {}
+  constructor() {}
 
   trigger(trigger: NbTrigger): this {
     this._trigger = trigger;

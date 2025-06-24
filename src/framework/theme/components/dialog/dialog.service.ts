@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable, Injector, TemplateRef, Type } from '@angular/core';
+import { Injectable, Injector, TemplateRef, Type, inject } from '@angular/core';
 import { fromEvent as observableFromEvent } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -137,13 +137,13 @@ import { NbDialogContainerComponent } from './dialog-container';
  * */
 @Injectable()
 export class NbDialogService {
-  constructor(
-    @Inject(NB_DOCUMENT) protected document,
-    @Inject(NB_DIALOG_CONFIG) protected globalConfig,
-    protected positionBuilder: NbPositionBuilderService,
-    protected overlay: NbOverlayService,
-    protected injector: Injector,
-  ) {}
+  protected document = inject(NB_DOCUMENT);
+  protected globalConfig = inject(NB_DIALOG_CONFIG);
+  protected positionBuilder = inject(NbPositionBuilderService);
+  protected overlay = inject(NbOverlayService);
+  protected injector = inject(Injector);
+
+  constructor() {}
 
   /**
    * Opens new instance of the dialog, may receive optional config.

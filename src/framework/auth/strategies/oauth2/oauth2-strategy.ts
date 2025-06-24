@@ -3,12 +3,12 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of as observableOf } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
-import { NB_WINDOW } from '@nebular/theme';
+import { NB_WINDOW } from '@kisimedia/nebular-theme';
 
 import { NbAuthStrategy } from '../auth-strategy';
 import { NbAuthIllegalTokenError, NbAuthRefreshableToken, NbAuthToken } from '../../services/token/token';
@@ -90,6 +90,10 @@ import { NbAuthStrategyClass } from '../../auth.options';
  */
 @Injectable()
 export class NbOAuth2AuthStrategy extends NbAuthStrategy {
+  protected http = inject(HttpClient);
+  protected route = inject(ActivatedRoute);
+  protected window = inject(NB_WINDOW);
+
   static setup(options: NbOAuth2AuthStrategyOptions): [NbAuthStrategyClass, NbOAuth2AuthStrategyOptions] {
     return [NbOAuth2AuthStrategy, options];
   }
@@ -169,7 +173,7 @@ export class NbOAuth2AuthStrategy extends NbAuthStrategy {
 
   protected defaultOptions: NbOAuth2AuthStrategyOptions = auth2StrategyOptions;
 
-  constructor(protected http: HttpClient, protected route: ActivatedRoute, @Inject(NB_WINDOW) protected window: any) {
+  constructor() {
     super();
   }
 

@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ComponentRef, Inject, Injectable } from '@angular/core';
+import { ComponentRef, Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -160,14 +160,14 @@ interface NbToastrOverlayWithContainer {
 
 @Injectable()
 export class NbToastrContainerRegistry {
+  protected overlay = inject(NbOverlayService);
+  protected positionBuilder = inject(NbPositionBuilderService);
+  protected positionHelper = inject(NbPositionHelper);
+  protected document = inject(NB_DOCUMENT);
+
   protected overlays: Map<NbGlobalPosition, NbToastrOverlayWithContainer> = new Map();
 
-  constructor(
-    protected overlay: NbOverlayService,
-    protected positionBuilder: NbPositionBuilderService,
-    protected positionHelper: NbPositionHelper,
-    @Inject(NB_DOCUMENT) protected document: any,
-  ) {}
+  constructor() {}
 
   get(position: NbGlobalPosition): NbToastContainer {
     const logicalPosition: NbGlobalLogicalPosition = this.positionHelper.toLogicalPosition(position);
@@ -283,10 +283,10 @@ export class NbToastrContainerRegistry {
  * */
 @Injectable()
 export class NbToastrService {
-  constructor(
-    @Inject(NB_TOASTR_CONFIG) protected globalConfig: NbToastrConfig,
-    protected containerRegistry: NbToastrContainerRegistry,
-  ) {}
+  protected globalConfig = inject<NbToastrConfig>(NB_TOASTR_CONFIG);
+  protected containerRegistry = inject(NbToastrContainerRegistry);
+
+  constructor() {}
 
   /**
    * Shows toast with message, title and user config.

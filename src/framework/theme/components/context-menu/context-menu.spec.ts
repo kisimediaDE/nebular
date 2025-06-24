@@ -16,18 +16,20 @@ import {
   NbContextMenuComponent,
   NbContextMenuModule,
   NbOverlayConfig,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
+import { NbLayoutComponent, NbLayoutColumnComponent } from '../layout/layout.component';
+import { NbContextMenuDirective as NbContextMenuDirective_1 } from './context-menu.directive';
 
 @Component({
-    selector: 'nb-context-menu-default-test',
-    template: `
+  selector: 'nb-context-menu-default-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button #button [nbContextMenu]="items" [nbContextMenuClass]="contextMenuClass">show context menu</button>
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
 })
 export class NbContextMenuDefaultTestComponent {
   @ViewChild('button') button: ElementRef;
@@ -38,8 +40,8 @@ export class NbContextMenuDefaultTestComponent {
 }
 
 @Component({
-    selector: 'nb-context-menu-bindings-test',
-    template: `
+  selector: 'nb-context-menu-bindings-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button
@@ -53,7 +55,7 @@ export class NbContextMenuDefaultTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
 })
 export class NbContextMenuBindingsTestComponent {
   @ViewChild(NbContextMenuDirective) contextMenu: NbContextMenuDirective;
@@ -66,8 +68,8 @@ export class NbContextMenuBindingsTestComponent {
 }
 
 @Component({
-    selector: 'nb-context-menu-instance-test',
-    template: `
+  selector: 'nb-context-menu-instance-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button #button [nbContextMenu]="items">show context menu</button>
@@ -76,7 +78,7 @@ export class NbContextMenuBindingsTestComponent {
 
     <ng-template>Some Template</ng-template>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
 })
 export class NbContextMenuInstanceTestComponent {
   @ViewChild(NbContextMenuDirective) contextMenu: NbContextMenuDirective;
@@ -172,29 +174,26 @@ const TEST_COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [NbLayoutModule, NbContextMenuModule],
+  imports: [NbLayoutModule, NbContextMenuModule, ...TEST_COMPONENTS],
   exports: [...TEST_COMPONENTS],
-  declarations: [...TEST_COMPONENTS],
 })
 class ContextMenuTestModule {}
 
 describe('Directive: NbContextMenuDirective', () => {
   const overlayHandler = new NbDynamicOverlayHandlerMock();
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [
-          NoopAnimationsModule,
-          RouterTestingModule.withRoutes([]),
-          NbThemeModule.forRoot(),
-          NbMenuModule.forRoot(),
-          ContextMenuTestModule,
-        ],
-      });
-    }),
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [
+        NoopAnimationsModule,
+        RouterTestingModule.withRoutes([]),
+        NbThemeModule.forRoot(),
+        NbMenuModule.forRoot(),
+        ContextMenuTestModule,
+      ],
+    });
+  }));
 
   describe('smoke ', () => {
     let fixture: ComponentFixture<any>;
@@ -244,23 +243,21 @@ describe('Directive: NbContextMenuDirective', () => {
   });
 
   describe('mocked services', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.resetTestingModule();
-        TestBed.configureTestingModule({
-          imports: [
-            RouterTestingModule.withRoutes([]),
-            NbThemeModule.forRoot(),
-            NbMenuModule.forRoot(),
-            ContextMenuTestModule,
-          ],
-        }).overrideDirective(NbContextMenuDirective, {
-          set: {
-            providers: [{ provide: NbDynamicOverlayHandler, useValue: overlayHandler }],
-          },
-        });
-      }),
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule.withRoutes([]),
+          NbThemeModule.forRoot(),
+          NbMenuModule.forRoot(),
+          ContextMenuTestModule,
+        ],
+      }).overrideDirective(NbContextMenuDirective, {
+        set: {
+          providers: [{ provide: NbDynamicOverlayHandler, useValue: overlayHandler }],
+        },
+      });
+    }));
     describe('default context-menu', () => {
       let fixture: ComponentFixture<NbContextMenuDefaultTestComponent>;
 

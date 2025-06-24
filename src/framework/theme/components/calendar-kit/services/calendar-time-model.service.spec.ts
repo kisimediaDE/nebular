@@ -5,7 +5,7 @@
  */
 
 import { inject, TestBed, waitForAsync } from '@angular/core/testing';
-import { NbDateService, NbNativeDateService, NbCalendarTimeModelService } from '@nebular/theme';
+import { NbDateService, NbNativeDateService, NbCalendarTimeModelService } from '@kisimedia/nebular-theme';
 
 describe('time-model-service', () => {
   let timeModel: NbCalendarTimeModelService<Date>;
@@ -16,13 +16,11 @@ describe('time-model-service', () => {
     });
   });
 
-  beforeEach(
-    waitForAsync(
-      inject([NbCalendarTimeModelService], (_monthModel) => {
-        timeModel = _monthModel;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbCalendarTimeModelService], (_monthModel) => {
+      timeModel = _monthModel;
+    }),
+  ));
 
   it('should format number', () => {
     const token = timeModel.paddToTwoSymbols(5);

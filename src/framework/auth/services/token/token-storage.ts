@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { NbAuthToken } from './token';
 import { NbAuthTokenParceler } from './token-parceler';
 
 export abstract class NbTokenStorage {
-
   abstract get(): NbAuthToken;
   abstract set(token: NbAuthToken);
   abstract clear();
@@ -27,10 +26,11 @@ export abstract class NbTokenStorage {
  */
 @Injectable()
 export class NbTokenLocalStorage extends NbTokenStorage {
+  private parceler = inject(NbAuthTokenParceler);
 
   protected key = 'auth_app_token';
 
-  constructor(private parceler: NbAuthTokenParceler) {
+  constructor() {
     super();
   }
 

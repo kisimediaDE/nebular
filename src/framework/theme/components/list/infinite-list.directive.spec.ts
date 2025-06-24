@@ -11,7 +11,7 @@ import {
   NbListModule,
   NbListComponent,
   NbInfiniteListDirective,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 const CONTENT_PADDING = 20;
 const CONTENT_HEIGHT = 10000 + CONTENT_PADDING;
@@ -39,7 +39,7 @@ function setup() {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout [withScroll]="withScroll">
       <nb-layout-column>
         <nb-list
@@ -58,8 +58,8 @@ function setup() {
       </nb-layout-column>
     </nb-layout>
   `,
-    styles: [
-        `
+  styles: [
+    `
       ::ng-deep nb-layout.with-scroll .scrollable-container {
         overflow: auto;
         height: 100vh;
@@ -77,8 +77,8 @@ function setup() {
         height: ${CONTENT_HEIGHT}px;
       }
     `,
-    ],
-    standalone: false
+  ],
+  imports: [NbLayoutModule, NbListModule],
 })
 class ScrollTestComponent {
   listenWindowScroll = false;
@@ -93,9 +93,8 @@ class ScrollTestComponent {
 describe('Directive: NbScrollDirective', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, NbListModule],
+      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, NbListModule, ScrollTestComponent],
       providers: [NbLayoutScrollService, { provide: APP_BASE_HREF, useValue: '/' }],
-      declarations: [ScrollTestComponent],
     }).createComponent(ScrollTestComponent);
   });
 

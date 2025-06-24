@@ -15,11 +15,13 @@ import {
   OnInit,
   Output,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
-import { NbIconConfig } from '../icon/icon.component';
+import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
 import { NbToast } from './model';
+import { NgIf } from '@angular/common';
 
 /**
  * The `NbToastComponent` is responsible for rendering each toast with appropriate styles.
@@ -90,12 +92,16 @@ import { NbToast } from './model';
  * toastr-destroyable-control-hover-border-color:
  * */
 @Component({
-    selector: 'nb-toast',
-    styleUrls: ['./toast.component.scss'],
-    templateUrl: './toast.component.html',
-    standalone: false
+  selector: 'nb-toast',
+  styleUrls: ['./toast.component.scss'],
+  templateUrl: './toast.component.html',
+  imports: [NgIf, NbIconComponent],
 })
 export class NbToastComponent implements OnInit, OnDestroy {
+  protected renderer = inject(Renderer2);
+  protected elementRef = inject(ElementRef);
+  protected statusService = inject(NbStatusService);
+
   @Input()
   toast: NbToast;
 
@@ -174,11 +180,7 @@ export class NbToastComponent implements OnInit, OnDestroy {
     this.toastClick.emit();
   }
 
-  constructor(
-    protected renderer: Renderer2,
-    protected elementRef: ElementRef,
-    protected statusService: NbStatusService,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     if (this.toast.config.toastClass) {

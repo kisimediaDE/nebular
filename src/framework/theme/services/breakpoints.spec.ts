@@ -6,7 +6,7 @@
 
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
 
-import { DEFAULT_MEDIA_BREAKPOINTS, NbMediaBreakpointsService, NB_MEDIA_BREAKPOINTS } from '@nebular/theme';
+import { DEFAULT_MEDIA_BREAKPOINTS, NbMediaBreakpointsService, NB_MEDIA_BREAKPOINTS } from '@kisimedia/nebular-theme';
 
 describe('breakpoint-service', () => {
   let breakpointService: NbMediaBreakpointsService;
@@ -19,13 +19,11 @@ describe('breakpoint-service', () => {
   });
 
   // Single async inject to save references; which are used in all tests below
-  beforeEach(
-    waitForAsync(
-      inject([NbMediaBreakpointsService], (_breakpointService) => {
-        breakpointService = _breakpointService;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbMediaBreakpointsService], (_breakpointService) => {
+      breakpointService = _breakpointService;
+    }),
+  ));
 
   const total = 8;
   it(`has ${total} default breakpoints`, () => {

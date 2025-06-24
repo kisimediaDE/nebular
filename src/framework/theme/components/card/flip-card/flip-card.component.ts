@@ -1,4 +1,6 @@
 import { Component, Input, HostBinding } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { NbIconComponent } from '../../icon/icon.component';
 
 /**
  *
@@ -56,9 +58,9 @@ import { Component, Input, HostBinding } from '@angular/core';
  *
  */
 @Component({
-    selector: 'nb-flip-card',
-    styleUrls: ['./flip-card.component.scss'],
-    template: `
+  selector: 'nb-flip-card',
+  styleUrls: ['./flip-card.component.scss'],
+  template: `
     <div class="flipcard-body">
       <div class="front-container">
         <ng-content select="nb-card-front"></ng-content>
@@ -74,7 +76,7 @@ import { Component, Input, HostBinding } from '@angular/core';
       </div>
     </div>
   `,
-    standalone: false
+  imports: [NgIf, NbIconComponent],
 })
 export class NbFlipCardComponent {
   /**

@@ -9,7 +9,7 @@ import {
   NbThemeService,
   NbThemeModule,
   NB_WINDOW,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 let currentWindow;
 let fixture: ComponentFixture<ScrollTestComponent>;
@@ -17,22 +17,22 @@ let componentInstance: ScrollTestComponent;
 let scrollService: NbLayoutScrollService;
 
 @Component({
-    template: `
+  template: `
     <nb-layout [withScroll]="localScroll" #layout>
       <nb-layout-column>
         <div #resize></div>
       </nb-layout-column>
     </nb-layout>
   `,
-    styles: [
-        `
+  styles: [
+    `
       ::ng-deep nb-layout.with-scroll .scrollable-container {
         overflow: auto;
         height: 100vh;
       }
     `,
-    ],
-    standalone: false
+  ],
+  imports: [NbLayoutModule],
 })
 class ScrollTestComponent {
   @ViewChild('resize', { read: ElementRef }) private resizeElement: ElementRef;
@@ -60,9 +60,8 @@ class ScrollTestComponent {
 describe('NbScrollService', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule],
+      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, ScrollTestComponent],
       providers: [NbLayoutScrollService, NbThemeService, { provide: APP_BASE_HREF, useValue: '/' }],
-      declarations: [ScrollTestComponent],
     }).createComponent(ScrollTestComponent);
 
     componentInstance = fixture.componentInstance;

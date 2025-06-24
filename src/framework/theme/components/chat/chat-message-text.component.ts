@@ -5,21 +5,23 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NgIf, DatePipe } from '@angular/common';
 
 /**
  * Chat message component.
  */
 @Component({
-    selector: 'nb-chat-message-text',
-    template: `
-    <p class="sender" *ngIf="sender || date">{{ sender }} <time>{{ date  | date: dateFormat }}</time></p>
+  selector: 'nb-chat-message-text',
+  template: `
+    <p class="sender" *ngIf="sender || date">
+      {{ sender }} <time>{{ date | date: dateFormat }}</time>
+    </p>
     <p class="text" *ngIf="message">{{ message }}</p>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, DatePipe],
 })
 export class NbChatMessageTextComponent {
-
   /**
    * Message sender
    * @type {string}
@@ -43,5 +45,4 @@ export class NbChatMessageTextComponent {
    * @type {string}
    */
   @Input() dateFormat: string = 'shortTime';
-
 }

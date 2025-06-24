@@ -10,14 +10,13 @@ import {
   OnChanges,
   ElementRef,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   Output,
   Type,
   OnInit,
   SimpleChanges,
-  Optional,
+  inject,
 } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
@@ -361,8 +360,8 @@ export abstract class NbBasePicker<D, T, P> extends NbDatepicker<T, D> {
   protected checkFormat() {
     if (this.dateService.getId() === 'native' && this.format) {
       throw new Error(
-        "Can't format native date. To use custom formatting you have to install @nebular/moment or " +
-          '@nebular/date-fns package and import NbMomentDateModule or NbDateFnsDateModule accordingly.' +
+        "Can't format native date. To use custom formatting you have to install @kisimedia/nebular-moment or " +
+          '@kisimedia/nebular-date-fns package and import NbMomentDateModule or NbDateFnsDateModule accordingly.' +
           'More information at "Formatting issue" ' +
           'https://akveo.github.io/nebular/docs/components/datepicker/overview#nbdatepickercomponent',
       );
@@ -375,10 +374,7 @@ export abstract class NbBasePicker<D, T, P> extends NbDatepicker<T, D> {
   }
 }
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 export class NbBasePickerComponent<D, T, P> extends NbBasePicker<D, T, P> implements OnInit, OnChanges, OnDestroy {
   /**
    * Datepicker date format. Can be used only with date adapters (moment, date-fns) since native date
@@ -481,14 +477,13 @@ export class NbBasePickerComponent<D, T, P> extends NbBasePicker<D, T, P> implem
   @Input() adjustment: NbAdjustment = NbAdjustment.COUNTERCLOCKWISE;
   static ngAcceptInputType_adjustment: NbAdjustmentValues;
 
-  constructor(
-    @Inject(NB_DOCUMENT) document,
-    positionBuilder: NbPositionBuilderService,
-    triggerStrategyBuilder: NbTriggerStrategyBuilderService,
-    overlay: NbOverlayService,
-    dateService: NbDateService<D>,
-    @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) dateServiceOptions,
-  ) {
+  constructor() {
+    const positionBuilder = inject(NbPositionBuilderService);
+    const triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
+    const overlay = inject(NbOverlayService);
+    const dateService = inject<NbDateService<D>>(NbDateService);
+    const dateServiceOptions = inject(NB_DATE_SERVICE_OPTIONS, { optional: true })!;
+
     super(overlay, positionBuilder, triggerStrategyBuilder, dateService, dateServiceOptions);
   }
 
@@ -545,7 +540,6 @@ export class NbBasePickerComponent<D, T, P> extends NbBasePicker<D, T, P> implem
 @Component({
   selector: 'nb-datepicker',
   template: '',
-  standalone: false,
 })
 export class NbDatepickerComponent<D> extends NbBasePickerComponent<D, D, NbCalendarComponent<D>> {
   protected pickerClass: Type<NbCalendarComponent<D>> = NbCalendarComponent;
@@ -601,7 +595,6 @@ export class NbDatepickerComponent<D> extends NbBasePickerComponent<D, D, NbCale
 @Component({
   selector: 'nb-rangepicker',
   template: '',
-  standalone: false,
 })
 export class NbRangepickerComponent<D> extends NbBasePickerComponent<
   D,

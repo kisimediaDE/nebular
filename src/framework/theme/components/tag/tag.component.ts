@@ -18,6 +18,7 @@ import {
   OnDestroy,
   Output,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -26,6 +27,8 @@ import { NbHighlightableOption } from '../cdk/a11y/descendant-key-manager';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { NbComponentSize } from '../component-size';
+import { NgIf } from '@angular/common';
+import { NbIconComponent } from '../icon/icon.component';
 
 export type NbTagAppearance = 'filled' | 'outline';
 
@@ -228,13 +231,18 @@ let tagUniqueId = 0;
  * tag-outline-control-selected-text-color:
  */
 @Component({
-    selector: 'nb-tag',
-    templateUrl: './tag.component.html',
-    exportAs: 'nbTag',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nb-tag',
+  templateUrl: './tag.component.html',
+  exportAs: 'nbTag',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NbIconComponent],
 })
 export class NbTagComponent implements AfterViewInit, OnDestroy, NbHighlightableOption {
+  _hostElement = inject(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected renderer = inject(Renderer2);
+  protected zone = inject(NgZone);
+  protected statusService = inject(NbStatusService);
 
   private _destroy$: Subject<NbTagComponent> = new Subject<NbTagComponent>();
 
@@ -404,19 +412,15 @@ export class NbTagComponent implements AfterViewInit, OnDestroy, NbHighlightable
     }
   }
 
-  constructor(
-    public _hostElement: ElementRef,
-    protected cd: ChangeDetectorRef,
-    protected renderer: Renderer2,
-    protected zone: NgZone,
-    protected statusService: NbStatusService,
-  ) {}
+  constructor() {}
 
   ngAfterViewInit() {
     // TODO: #2254
-    this.zone.runOutsideAngular(() => setTimeout(() => {
-      this.renderer.addClass(this._hostElement.nativeElement, 'nb-transition');
-    }));
+    this.zone.runOutsideAngular(() =>
+      setTimeout(() => {
+        this.renderer.addClass(this._hostElement.nativeElement, 'nb-transition');
+      }),
+    );
   }
 
   ngOnDestroy() {

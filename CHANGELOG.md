@@ -1,67 +1,61 @@
 <a name="15.0.0"></a>
+
 # [15.0.0](https://github.com/akveo/nebular/compare/v14.0.2...v15.0.0) (2025-02-16)
 
-* **angular:** update to Angular 19 ([#3280](https://github.com/akveo/nebular/pull/3280)) ([58f0db9](https://github.com/akveo/nebular/commit/58f0db9))
-
+- **angular:** update to Angular 19 ([#3280](https://github.com/akveo/nebular/pull/3280)) ([58f0db9](https://github.com/akveo/nebular/commit/58f0db9))
 
 <a name="14.0.2"></a>
+
 ## [14.0.2](https://github.com/akveo/nebular/compare/v14.0.1...v14.0.2) (2024-11-05)
 
-
 ### Bug Fixes
 
-* **theme:** sass deprecation warning of strict unary operations ([#3271](https://github.com/akveo/nebular/issues/3271)) ([364d6da](https://github.com/akveo/nebular/commit/364d6da))
-
-
+- **theme:** sass deprecation warning of strict unary operations ([#3271](https://github.com/akveo/nebular/issues/3271)) ([364d6da](https://github.com/akveo/nebular/commit/364d6da))
 
 <a name="14.0.1"></a>
-## [14.0.1](https://github.com/akveo/nebular/compare/v13.0.0...v14.0.1) (2024-10-23)
 
+## [14.0.1](https://github.com/akveo/nebular/compare/v13.0.0...v14.0.1) (2024-10-23)
 
 ### Bug Fixes
 
-* **NbTreeGrid:** Add a provide for CDK_TABLE ([#3265](https://github.com/akveo/nebular/issues/3265)) ([63d1d6c](https://github.com/akveo/nebular/commit/63d1d6c))
-
-
+- **NbTreeGrid:** Add a provide for CDK_TABLE ([#3265](https://github.com/akveo/nebular/issues/3265)) ([63d1d6c](https://github.com/akveo/nebular/commit/63d1d6c))
 
 <a name="14.0.0"></a>
+
 # [14.0.0](https://github.com/akveo/nebular/compare/v13.0.0...v14.0.0) (2024-08-07)
 
 ### Features
 
-* **angular:** update to Angular 18 ([#3262](https://github.com/akveo/nebular/pull/3262)) ([b666898](https://github.com/akveo/nebular/commit/b666898))
+- **angular:** update to Angular 18 ([#3262](https://github.com/akveo/nebular/pull/3262)) ([b666898](https://github.com/akveo/nebular/commit/b666898))
 
 <a name="13.0.0"></a>
-# [13.0.0](https://github.com/akveo/nebular/compare/v12.0.0...v13.0.0) (2024-01-28)
 
+# [13.0.0](https://github.com/akveo/nebular/compare/v12.0.0...v13.0.0) (2024-01-28)
 
 ### Features
 
-* **angular:** update to Angular 17 ([#3236](https://github.com/akveo/nebular/issues/3236)) ([bced0eb](https://github.com/akveo/nebular/commit/bced0eb))
-
-
+- **angular:** update to Angular 17 ([#3236](https://github.com/akveo/nebular/issues/3236)) ([bced0eb](https://github.com/akveo/nebular/commit/bced0eb))
 
 <a name="12.0.0"></a>
-# [12.0.0](https://github.com/akveo/nebular/compare/v11.0.1...v12.0.0) (2023-11-09)
 
+# [12.0.0](https://github.com/akveo/nebular/compare/v11.0.1...v12.0.0) (2023-11-09)
 
 ### Bug Fixes
 
-* **docs:** fix docs deployment ([#3218](https://github.com/akveo/nebular/issues/3218)) ([96968a6](https://github.com/akveo/nebular/commit/96968a6))
-
+- **docs:** fix docs deployment ([#3218](https://github.com/akveo/nebular/issues/3218)) ([96968a6](https://github.com/akveo/nebular/commit/96968a6))
 
 ### Features
 
-* **angular:** update to Angular 16 ([#3222](https://github.com/akveo/nebular/issues/3222)) ([c19e6bd](https://github.com/akveo/nebular/commit/c19e6bd))
-* add firstDayOfWeek to datepickers ([#3220](https://github.com/akveo/nebular/issues/3220)) ([5923384](https://github.com/akveo/nebular/commit/5923384))
+- **angular:** update to Angular 16 ([#3222](https://github.com/akveo/nebular/issues/3222)) ([c19e6bd](https://github.com/akveo/nebular/commit/c19e6bd))
+- add firstDayOfWeek to datepickers ([#3220](https://github.com/akveo/nebular/issues/3220)) ([5923384](https://github.com/akveo/nebular/commit/5923384))
 
 <a name="11.0.1"></a>
-## [11.0.1](https://github.com/akveo/nebular/compare/v11.0.0...v11.0.1) (2023-09-06)
 
+## [11.0.1](https://github.com/akveo/nebular/compare/v11.0.0...v11.0.1) (2023-09-06)
 
 ### Features
 
-* **select-with-autocomplete:** add search when multi ([#3204](https://github.com/akveo/nebular/issues/3204)) ([8792f84](https://github.com/akveo/nebular/commit/8792f84))
+- **select-with-autocomplete:** add search when multi ([#3204](https://github.com/akveo/nebular/issues/3204)) ([8792f84](https://github.com/akveo/nebular/commit/8792f84))
 
 <a name="11.0.0"></a>
 
@@ -203,10 +197,10 @@ This change doesn't affect users who use prebuilt Nebular themes. For prebult th
 
 #### API changes
 
-- `@nebular/theme/styles/_components.scss` file removed. Replace imports from this files with:
+- `@kisimedia/nebular-theme/styles/_components.scss` file removed. Replace imports from this files with:
   ```
-  @import '@nebular/theme/styles/theming';
-  @import '@nebular/theme/styles/themes';
+  @import '@kisimedia/nebular-theme/styles/theming';
+  @import '@kisimedia/nebular-theme/styles/themes';
   ```
 - `layout-window-mode-max-width`, `tabset-tab-text-hide-breakpoint`, `route-tabset-tab-text-hide-breakpoint` theme properties removed. [Migration guide](https://github.com/akveo/nebular/pull/2965#issuecomment-984410175).
 - **overlay trigger:** `NbTriggerStrategyBase`'s `isNotOnHostOrContainer`, `isOnHostOrContainer`, `isOnHost`, `isOnContainer` methods now expect `Element` instead of `Event` as the first parameter. Pass `event.target as Element` instead of `event`.
@@ -361,9 +355,8 @@ This change doesn't affect users who use prebuilt Nebular themes. For prebult th
 ### BREAKING CHANGES
 
 - **deps:**
-
   - Bump Angular version to 11+.
-  - `@nebular/fire` requires `@angular/fire` 6.1.0+ and `firebase` 8.0.0+.
+  - `@kisimedia/nebular-fire` requires `@angular/fire` 6.1.0+ and `firebase` 8.0.0+.
 
 - **sidebar:** Added change detector ref constructor parameter.
 
@@ -391,10 +384,9 @@ This change doesn't affect users who use prebuilt Nebular themes. For prebult th
 
 - **theme:** `NbPositionedContainer` renamed to `NbPositionedContainerComponent`.
 
-- **auth:** `~@nebular/auth/styles/all`file removed. Replace `~@nebular/auth/styles/all` imports with `~@nebular/auth/styles/globals`.
+- **auth:** `~@kisimedia/nebular-auth/styles/all`file removed. Replace `~@kisimedia/nebular-auth/styles/all` imports with `~@kisimedia/nebular-auth/styles/globals`.
 
 - **theme:**:
-
   - `NbComponentStatus` type replaced with `NbComponentOrCustomStatus` in following properties: `NbActionComponent.badgeStatus`, `NbBadge.status`, `NbBadgeComponent.status`, `NbButtonComponent.status`, `NbAlertComponent.status`, `NbCardComponent.status`, `NbChatFormComponent.status`, `NbChatComponent.status`, `NbCheckboxComponent.status`, `NbFormFieldControl.status$`, `NbFormControlState.status`, `NbInputDirective.status`, `NbInputDirective.status%`, `NbSelectComponent.status`, `NbSelectComponent.status$`, `NbIconConfig.status`, `NbIconComponent.status`, `NbProgressBarComponent.status`, `NbRadioComponent.status`, `NbRadioGroupComponent.status`, `NbSpinnerDirective.spinnerStatus`, `NbSpinnerComponent.status`, `NbTabComponent.badgeStatus`, `NbToastrConfig.status`, `NbToggleComponent.status`, `NbTooltipDirective.status`, `NbTooltipComponent.context.status`, `NbUserComponent.badgeStatus`.
     If you extended listed components replace `NbComponentStatus` in the property type with `NbComponentOrCustomStatus`.
   - `NbBadgeComponent`, `NbButtonComponent`, `NbAlertComponent`, `NbCardComponent`, `NbChatComponent`, `NbCheckboxComponent`, `NbInputDirective`, `NbSelectComponent`, `NbIconComponent`, `NbProgressBarComponent`, `NbRadioComponent`, `NbSpinnerComponent`, `NbToastComponent`, `NbToggleComponent`, `NbTooltipComponent` constructors now require `NbStatusService` as a constructor parameter. If you extended listed components, inject `NbStatusService` and pass it to the base class.
@@ -561,7 +553,6 @@ NbOAuth2AuthStrategy.setup({
 
 - Badge, button, progress bar, toastr components now use basic status as a default.
 - **calendar:**
-
   - `NbCalendarHeaderComponent` removed. Along with that `showHeader` property removed from following components:
   - `NbBaseCalendarComponent`
   - `NbCalendarRangeComponent`
@@ -570,7 +561,6 @@ NbOAuth2AuthStrategy.setup({
   - `NbBasePickerComponent`
 
   - `medium` and `size-medium` css classes were removed along with `medium`/`isMedium` properties from the following classes:
-
     - `NbCalendarDayPickerComponent`
     - `NbCalendarMonthPickerComponent`
     - `NbCalendarYearPickerComponent`
@@ -1012,10 +1002,10 @@ We would appreciate hearing your feedback on the update steps, quality of the gu
 
 - **themes:** - `nb-theme` function now throws an error if an unused variable is accessed
 
-* custom auth variables are removed and replaced with @nebular/theme variables
-* `nb-install` function moved into `@nebular/theme/styles/theming`
+* custom auth variables are removed and replaced with @kisimedia/nebular-theme variables
+* `nb-install` function moved into `@kisimedia/nebular-theme/styles/theming`
 * auth components now use `nb-icon` instead of icon css class
-* everything not mentioned in packages `public_api.ts` now private so direct imports from `@nebular/theme/*` will stop working.
+* everything not mentioned in packages `public_api.ts` now private so direct imports from `@kisimedia/nebular-theme/*` will stop working.
 * [Properties changed in Nebular 4.0.0](https://github.com/akveo/nebular/tree/master/src/framework/theme/350-400-properties-changes.md)
 * [Theme variables change in Nebular 4.0.0](https://github.com/akveo/nebular/tree/master/src/framework/theme/350-400-theme-variables-changes.md)
 * [Components variables changes in Nebular 4.0.0](https://github.com/akveo/nebular/tree/master/src/framework/theme/350-400-component-variables-changes.md)
@@ -1027,11 +1017,11 @@ Now all Nebular components internally use `<nb-icon></nb-icon>` component utiliz
 There are two ways to upgrade:
 **Migrate to Eva Icons** (recommended):
 
-1. install Eva Icons Nebular package `npm i @nebular/eva-icons`
+1. install Eva Icons Nebular package `npm i @kisimedia/nebular-eva-icons`
 2. register `NbEvaIconsModule` in the `app.module.ts`
 
 ```
-import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbEvaIconsModule } from '@kisimedia/nebular-eva-icons';
 
 @NgModule({
   imports: [
@@ -1055,7 +1045,7 @@ This option is also possible, but please note, Nebular Component will still use 
 1. Register nebular-icons as a pack for Nebular in your `app.component.ts`
 
 ```
-  import { NbIconLibraries } from '@nebular/theme';
+  import { NbIconLibraries } from '@kisimedia/nebular-theme';
 
   constructor(private iconLibraries: NbIconLibraries) {
     this.iconLibraries.registerFontPack('nebular', { iconClassPrefix: 'nb' });
@@ -1376,13 +1366,13 @@ Nebular 2.0 is stable now! After 10 release candidates and a year of work we fin
 
 This release has introduced a number of changes which may required some manual update steps, depending on your setup:
 
-1. In case if you use Nebular overrides of bootstrap styles - you need to manually install new `@nebular/bootstrap` package. To do that:
+1. In case if you use Nebular overrides of bootstrap styles - you need to manually install new `@kisimedia/nebular-bootstrap` package. To do that:
 
-- install Nebular Bootstrap `npm i @nebular/bootstrap`
+- install Nebular Bootstrap `npm i @kisimedia/nebular-bootstrap`
 - then add it into your `styles.scss`
 
 ```
-@import '~@nebular/bootstrap/styles/globals';
+@import '~@kisimedia/nebular-bootstrap/styles/globals';
 // ...
 
 @include nb-install() {
@@ -1391,8 +1381,8 @@ This release has introduced a number of changes which may required some manual u
 }
 ```
 
-- if you import `~@nebular/theme/styles/global/bootstrap/breakpoints` in your code, replace it with `~@nebular/theme/styles/global/breakpoints`
-- if you import `~@nebular/theme/styles/global/bootstrap/*.scss` somewhere in your code, replace it with `~@nebular/bootstrap/styles/*.scss`
+- if you import `~@kisimedia/nebular-theme/styles/global/bootstrap/breakpoints` in your code, replace it with `~@kisimedia/nebular-theme/styles/global/breakpoints`
+- if you import `~@kisimedia/nebular-theme/styles/global/bootstrap/*.scss` somewhere in your code, replace it with `~@kisimedia/nebular-bootstrap/styles/*.scss`
 
 2. Nebular 2.0 introduced a new peer dependency - @angular/cdk. A lot of out of the box functionality provided by @angular team gives our components a solid foundation. To do that:
 
@@ -1410,14 +1400,13 @@ Here's a list of other possibly breaking changes that you may need to take into 
   Inject `NbToastrService` into the required component.
   call `NbToastrService.show(...)` to render toasts.
   For more information check [toastr documentation](https://akveo.github.io/nebular/docs/components/toastr).
-- **theme:** All bootstrap override styles were moved from the @nebular/theme package to the new @nebular/bootstrap package. If you don't need bootstrap support you can simply no use this package.
-  @nebular/theme package introduced a dependency of normalize.css. To update:
-
-  - install Nebular Bootstrap `npm i @nebular/bootstrap`
+- **theme:** All bootstrap override styles were moved from the @kisimedia/nebular-theme package to the new @kisimedia/nebular-bootstrap package. If you don't need bootstrap support you can simply no use this package.
+  @kisimedia/nebular-theme package introduced a dependency of normalize.css. To update:
+  - install Nebular Bootstrap `npm i @kisimedia/nebular-bootstrap`
   - then add it into your `styles.scss`
 
   ```scss
-  @import '~@nebular/bootstrap/styles/globals';
+  @import '~@kisimedia/nebular-bootstrap/styles/globals';
   // ...
 
   @include nb-install() {

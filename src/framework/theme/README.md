@@ -1,1 +1,1 @@
-### @nebular/theme module, more details https://akveo.github.io/nebular/
+### @kisimedia/nebular-theme module, more details https://akveo.github.io/nebular/

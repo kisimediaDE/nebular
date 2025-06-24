@@ -4,23 +4,28 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { NbChatOptions } from './chat.options';
+import { NbChatMessageFileComponent } from './chat-message-file.component';
 
 /**
  * Chat message component.
  */
 @Component({
-    selector: 'nb-chat-message-map',
-    template: `
-    <nb-chat-message-file [files]="[file]" [message]="message" [sender]="sender" [date]="date"
-     [dateFormat]="dateFormat"></nb-chat-message-file>
+  selector: 'nb-chat-message-map',
+  template: `
+    <nb-chat-message-file
+      [files]="[file]"
+      [message]="message"
+      [sender]="sender"
+      [date]="date"
+      [dateFormat]="dateFormat"
+    ></nb-chat-message-file>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NbChatMessageFileComponent],
 })
 export class NbChatMessageMapComponent {
-
   /**
    * Message sender
    * @type {string}
@@ -68,7 +73,9 @@ export class NbChatMessageMapComponent {
 
   mapKey: string;
 
-  constructor(options: NbChatOptions) {
+  constructor() {
+    const options = inject(NbChatOptions);
+
     this.mapKey = options.messageGoogleMapKey;
   }
 }

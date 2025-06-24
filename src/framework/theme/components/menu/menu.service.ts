@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { Params, QueryParamsHandling } from '@angular/router';
 import { Observable, BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
@@ -207,7 +207,9 @@ export class NbMenuService {
 
 @Injectable()
 export class NbMenuInternalService {
-  constructor(private location: Location) {}
+  private location = inject(Location);
+
+  constructor() {}
 
   prepareItems(items: NbMenuItem[]) {
     const defaultItem = new NbMenuItem();

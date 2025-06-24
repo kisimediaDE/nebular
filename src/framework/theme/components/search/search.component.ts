@@ -19,6 +19,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -29,24 +30,27 @@ import { NbSearchService } from './search.service';
 import { NbThemeService } from '../../services/theme.service';
 import { NbOverlayService } from '../cdk/overlay/overlay-service';
 import { NbOverlayRef, NbPortalDirective } from '../cdk/overlay/mapping';
+import { NbButtonComponent } from '../button/button.component';
+import { NbIconComponent } from '../icon/icon.component';
+import { FormsModule } from '@angular/forms';
 
 /**
  * search-field-component is used under the hood by nb-search component
  * can't be used itself
  */
 @Component({
-    selector: 'nb-search-field',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: [
-        'styles/search.component.modal-zoomin.scss',
-        'styles/search.component.layout-rotate.scss',
-        'styles/search.component.modal-move.scss',
-        'styles/search.component.curtain.scss',
-        'styles/search.component.column-curtain.scss',
-        'styles/search.component.modal-drop.scss',
-        'styles/search.component.modal-half.scss',
-    ],
-    template: `
+  selector: 'nb-search-field',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: [
+    'styles/search.component.modal-zoomin.scss',
+    'styles/search.component.layout-rotate.scss',
+    'styles/search.component.modal-move.scss',
+    'styles/search.component.curtain.scss',
+    'styles/search.component.column-curtain.scss',
+    'styles/search.component.modal-drop.scss',
+    'styles/search.component.modal-half.scss',
+  ],
+  template: `
     <div class="search" (keyup.esc)="emitClose()">
       <button (click)="emitClose()" nbButton ghost class="close-button">
         <nb-icon icon="close-outline" pack="nebular-essentials"></nb-icon>
@@ -54,23 +58,24 @@ import { NbOverlayRef, NbPortalDirective } from '../cdk/overlay/mapping';
       <div class="form-wrapper">
         <form class="form" (keyup.enter)="submitSearch(searchInput.value)">
           <div class="form-content">
-            <input class="search-input"
-                   #searchInput
-                   (input)="emitSearchInput(searchInput.value)"
-                   autocomplete="off"
-                   [attr.placeholder]="placeholder"
-                   tabindex="-1"
-                   (blur)="focusInput()"/>
+            <input
+              class="search-input"
+              #searchInput
+              (input)="emitSearchInput(searchInput.value)"
+              autocomplete="off"
+              [attr.placeholder]="placeholder"
+              tabindex="-1"
+              (blur)="focusInput()"
+            />
           </div>
           <span class="info">{{ hint }}</span>
         </form>
       </div>
     </div>
   `,
-    standalone: false
+  imports: [NbButtonComponent, NbIconComponent, FormsModule],
 })
 export class NbSearchFieldComponent implements OnChanges, AfterViewInit {
-
   static readonly TYPE_MODAL_ZOOMIN = 'modal-zoomin';
   static readonly TYPE_ROTATE_LAYOUT = 'rotate-layout';
   static readonly TYPE_MODAL_MOVE = 'modal-move';
@@ -164,8 +169,14 @@ export class NbSearchFieldComponent implements OnChanges, AfterViewInit {
   }
 }
 
-export type NbSearchType = 'modal-zoomin' | 'rotate-layout' | 'modal-move' |
-  'curtain' | 'column-curtain' | 'modal-drop' | 'modal-half';
+export type NbSearchType =
+  | 'modal-zoomin'
+  | 'rotate-layout'
+  | 'modal-move'
+  | 'curtain'
+  | 'column-curtain'
+  | 'modal-drop'
+  | 'modal-half';
 
 /**
  * Beautiful full-page search control.
@@ -218,10 +229,10 @@ export type NbSearchType = 'modal-zoomin' | 'rotate-layout' | 'modal-move' |
  * search-info-text-line-height:
  */
 @Component({
-    selector: 'nb-search',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['styles/search.component.scss'],
-    template: `
+  selector: 'nb-search',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['styles/search.component.scss'],
+  template: `
     <button #searchButton class="start-search" (click)="emitActivate()" nbButton ghost>
       <nb-icon icon="search-outline" pack="nebular-essentials"></nb-icon>
     </button>
@@ -233,12 +244,18 @@ export type NbSearchType = 'modal-zoomin' | 'rotate-layout' | 'modal-move' |
       [hint]="hint"
       (search)="search($event)"
       (searchInput)="emitInput($event)"
-      (close)="emitDeactivate()">
+      (close)="emitDeactivate()"
+    >
     </nb-search-field>
   `,
-    standalone: false
+  imports: [NbButtonComponent, NbIconComponent, NbPortalDirective, NbSearchFieldComponent],
 })
 export class NbSearchComponent implements OnInit, OnDestroy {
+  private searchService = inject(NbSearchService);
+  private themeService = inject(NbThemeService);
+  private router = inject(Router);
+  private overlayService = inject(NbOverlayService);
+  private changeDetector = inject(ChangeDetectorRef);
 
   private destroy$ = new Subject<void>();
   private overlayRef: NbOverlayRef;
@@ -275,32 +292,28 @@ export class NbSearchComponent implements OnInit, OnDestroy {
   @ViewChild(NbPortalDirective) searchFieldPortal: NbPortalDirective;
   @ViewChild('searchButton', { read: ElementRef }) searchButton: ElementRef<HTMLElement>;
 
-  constructor(
-    private searchService: NbSearchService,
-    private themeService: NbThemeService,
-    private router: Router,
-    private overlayService: NbOverlayService,
-    private changeDetector: ChangeDetectorRef,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationEnd),
+        filter((event) => event instanceof NavigationEnd),
         takeUntil(this.destroy$),
       )
       .subscribe(() => this.hideSearch());
 
-    this.searchService.onSearchActivate()
+    this.searchService
+      .onSearchActivate()
       .pipe(
-        filter(data => !this.tag || data.tag === this.tag),
+        filter((data) => !this.tag || data.tag === this.tag),
         takeUntil(this.destroy$),
       )
       .subscribe(() => this.openSearch());
 
-    this.searchService.onSearchDeactivate()
+    this.searchService
+      .onSearchDeactivate()
       .pipe(
-        filter(data => !this.tag || data.tag === this.tag),
+        filter((data) => !this.tag || data.tag === this.tag),
         takeUntil(this.destroy$),
       )
       .subscribe(() => this.hideSearch());
@@ -323,11 +336,13 @@ export class NbSearchComponent implements OnInit, OnDestroy {
     }
 
     this.themeService.appendLayoutClass(this.type);
-    observableOf(null).pipe(delay(0)).subscribe(() => {
-      this.themeService.appendLayoutClass('with-search');
-      this.showSearchField = true;
-      this.changeDetector.detectChanges();
-    });
+    observableOf(null)
+      .pipe(delay(0))
+      .subscribe(() => {
+        this.themeService.appendLayoutClass('with-search');
+        this.showSearchField = true;
+        this.changeDetector.detectChanges();
+      });
   }
 
   hideSearch() {
@@ -356,8 +371,10 @@ export class NbSearchComponent implements OnInit, OnDestroy {
 
   private removeLayoutClasses() {
     this.themeService.removeLayoutClass('with-search');
-    observableOf(null).pipe(delay(500)).subscribe(() => {
-      this.themeService.removeLayoutClass(this.type);
-    });
+    observableOf(null)
+      .pipe(delay(500))
+      .subscribe(() => {
+        this.themeService.removeLayoutClass(this.type);
+      });
   }
 }

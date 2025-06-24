@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
@@ -20,10 +20,10 @@ import { NbAuthToken } from './token/token';
  */
 @Injectable()
 export class NbAuthService {
+  protected tokenService = inject(NbTokenService);
+  protected strategies = inject(NB_AUTH_STRATEGIES);
 
-  constructor(protected tokenService: NbTokenService,
-              @Inject(NB_AUTH_STRATEGIES) protected strategies) {
-  }
+  constructor() {}
 
   /**
    * Retrieves current authenticated token stored
@@ -38,8 +38,7 @@ export class NbAuthService {
    * @returns {Observable<boolean>}
    */
   isAuthenticated(): Observable<boolean> {
-    return this.getToken()
-      .pipe(map((token: NbAuthToken) => token.isValid()));
+    return this.getToken().pipe(map((token: NbAuthToken) => token.isValid()));
   }
 
   /**
@@ -48,24 +47,23 @@ export class NbAuthService {
    * @returns {Observable<boolean>}
    */
   isAuthenticatedOrRefresh(): Observable<boolean> {
-    return this.getToken()
-      .pipe(
-        switchMap(token => {
+    return this.getToken().pipe(
+      switchMap((token) => {
         if (token.getValue() && !token.isValid()) {
-          return this.refreshToken(token.getOwnerStrategyName(), token)
-            .pipe(
-              switchMap(res => {
-                if (res.isSuccess()) {
-                  return this.isAuthenticated();
-                } else {
-                  return observableOf(false);
-                }
-              }),
-            )
+          return this.refreshToken(token.getOwnerStrategyName(), token).pipe(
+            switchMap((res) => {
+              if (res.isSuccess()) {
+                return this.isAuthenticated();
+              } else {
+                return observableOf(false);
+              }
+            }),
+          );
         } else {
           return observableOf(token.isValid());
         }
-    }));
+      }),
+    );
   }
 
   /**
@@ -81,8 +79,7 @@ export class NbAuthService {
    * @returns {Observable<boolean>}
    */
   onAuthenticationChange(): Observable<boolean> {
-    return this.onTokenChange()
-      .pipe(map((token: NbAuthToken) => token.isValid()));
+    return this.onTokenChange().pipe(map((token: NbAuthToken) => token.isValid()));
   }
 
   /**
@@ -97,7 +94,8 @@ export class NbAuthService {
    * @returns {Observable<NbAuthResult>}
    */
   authenticate(strategyName: string, data?: any): Observable<NbAuthResult> {
-    return this.getStrategy(strategyName).authenticate(data)
+    return this.getStrategy(strategyName)
+      .authenticate(data)
       .pipe(
         switchMap((result: NbAuthResult) => {
           return this.processResultToken(result);
@@ -117,7 +115,8 @@ export class NbAuthService {
    * @returns {Observable<NbAuthResult>}
    */
   register(strategyName: string, data?: any): Observable<NbAuthResult> {
-    return this.getStrategy(strategyName).register(data)
+    return this.getStrategy(strategyName)
+      .register(data)
       .pipe(
         switchMap((result: NbAuthResult) => {
           return this.processResultToken(result);
@@ -136,12 +135,12 @@ export class NbAuthService {
    * @returns {Observable<NbAuthResult>}
    */
   logout(strategyName: string): Observable<NbAuthResult> {
-    return this.getStrategy(strategyName).logout()
+    return this.getStrategy(strategyName)
+      .logout()
       .pipe(
         switchMap((result: NbAuthResult) => {
           if (result.isSuccess()) {
-            this.tokenService.clear()
-              .pipe(map(() => result));
+            this.tokenService.clear().pipe(map(() => result));
           }
           return observableOf(result);
         }),
@@ -188,7 +187,8 @@ export class NbAuthService {
    * @returns {Observable<NbAuthResult>}
    */
   refreshToken(strategyName: string, data?: any): Observable<NbAuthResult> {
-    return this.getStrategy(strategyName).refreshToken(data)
+    return this.getStrategy(strategyName)
+      .refreshToken(data)
       .pipe(
         switchMap((result: NbAuthResult) => {
           return this.processResultToken(result);
@@ -206,23 +206,23 @@ export class NbAuthService {
    * @returns {NbAbstractAuthProvider}
    */
   protected getStrategy(strategyName: string): NbAuthStrategy {
-    const found = this.strategies.find((strategy: NbAuthStrategy) => strategy.getName() === strategyName);
+    const [StrategyClass, options] =
+      this.strategies.find(([Strategy]) => new Strategy().getName() === strategyName) ?? [];
 
-    if (!found) {
+    if (!StrategyClass) {
       throw new TypeError(`There is no Auth Strategy registered under '${strategyName}' name`);
     }
 
-    return found;
+    return new StrategyClass(options);
   }
 
   private processResultToken(result: NbAuthResult) {
     if (result.isSuccess() && result.getToken()) {
-      return this.tokenService.set(result.getToken())
-        .pipe(
-          map((token: NbAuthToken) => {
-            return result;
-          }),
-        );
+      return this.tokenService.set(result.getToken()).pipe(
+        map((token: NbAuthToken) => {
+          return result;
+        }),
+      );
     }
 
     return observableOf(result);

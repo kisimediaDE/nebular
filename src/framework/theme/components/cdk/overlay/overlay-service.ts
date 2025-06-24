@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, TemplateRef, Type } from '@angular/core';
+import { ComponentRef, Injectable, TemplateRef, Type, inject } from '@angular/core';
 
 import { NbComponentPortal, NbComponentType, NbOverlay, NbOverlayConfig, NbOverlayRef } from './mapping';
 import { NbScrollStrategyOptions } from '../adapter/block-scroll-strategy-adapter';
@@ -20,10 +20,10 @@ export function createContainer<T>(ref: NbOverlayRef, container: NbComponentType
 
 @Injectable()
 export class NbOverlayService {
-  constructor(
-    protected overlay: NbOverlay,
-    protected layoutDirection: NbLayoutDirectionService,
-  ) {}
+  protected overlay = inject(NbOverlay);
+  protected layoutDirection = inject(NbLayoutDirectionService);
+
+  constructor() {}
 
   get scrollStrategies(): NbScrollStrategyOptions {
     return this.overlay.scrollStrategies;

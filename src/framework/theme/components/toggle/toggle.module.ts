@@ -11,11 +11,7 @@ import { NbIconModule } from '../icon/icon.module';
 import { NbToggleComponent } from './toggle.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NbIconModule,
-  ],
-  declarations: [NbToggleComponent],
+  imports: [CommonModule, NbIconModule, NbToggleComponent],
   exports: [NbToggleComponent],
 })
-export class NbToggleModule { }
+export class NbToggleModule {}

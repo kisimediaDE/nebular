@@ -4,12 +4,8 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@nebular/theme": [
-        "dist/theme"
-      ],
-      "@nebular/auth": [
-        "dist/auth"
-      ]
+      "@kisimedia/nebular-theme": ["dist/theme"],
+      "@kisimedia/nebular-auth": ["dist/auth"]
     }
   },
   "angularCompilerOptions": {

@@ -1,6 +1,6 @@
 {
   "name": "@kisimedia/nebular-eva-icons",
-  "version": "15.0.0-custom.1",
+  "version": "15.0.0-custom.3",
   "description": "@kisimedia/nebular-eva-icons",
   "author": "Simon Kirchner (based on Akveo Nebular)",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "eva-icons"
   ],
   "peerDependencies": {
-    "@kisimedia/nebular-theme": "15.0.0-custom.1",
+    "@kisimedia/nebular-theme": "15.0.0-custom.3",
     "eva-icons": "^1.1.3"
   },
   "dependencies": {

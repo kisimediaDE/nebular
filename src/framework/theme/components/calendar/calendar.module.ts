@@ -9,11 +9,8 @@ import { NgModule } from '@angular/core';
 import { NbCalendarComponent } from './calendar.component';
 import { NbBaseCalendarModule } from './base-calendar.module';
 
-
 @NgModule({
-  imports: [NbBaseCalendarModule],
+  imports: [NbBaseCalendarModule, NbCalendarComponent],
   exports: [NbCalendarComponent],
-  declarations: [NbCalendarComponent],
 })
-export class NbCalendarModule {
-}
+export class NbCalendarModule {}

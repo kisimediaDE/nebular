@@ -18,18 +18,20 @@ import {
   NbTooltipComponent,
   NbIconLibraries,
   NbOverlayConfig,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
+import { NbLayoutComponent, NbLayoutColumnComponent } from '../layout/layout.component';
+import { NbTooltipDirective as NbTooltipDirective_1 } from './tooltip.directive';
 
 @Component({
-    selector: 'nb-tooltip-default-test',
-    template: `
+  selector: 'nb-tooltip-default-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button #button nbTooltip="test">show tooltip</button>
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
 })
 export class NbTooltipDefaultTestComponent {
   @ViewChild('button') button: ElementRef;
@@ -37,8 +39,8 @@ export class NbTooltipDefaultTestComponent {
 }
 
 @Component({
-    selector: 'nb-tooltip-bindings-test',
-    template: `
+  selector: 'nb-tooltip-bindings-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button
@@ -54,7 +56,7 @@ export class NbTooltipDefaultTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
 })
 export class NbTooltipBindingsTestComponent {
   @ViewChild(NbTooltipDirective) tooltip: NbTooltipDirective;
@@ -69,8 +71,8 @@ export class NbTooltipBindingsTestComponent {
 }
 
 @Component({
-    selector: 'nb-tooltip-instance-test',
-    template: `
+  selector: 'nb-tooltip-instance-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <button #button nbTooltip="test"></button>
@@ -79,7 +81,7 @@ export class NbTooltipBindingsTestComponent {
 
     <ng-template>Some Template</ng-template>
   `,
-    standalone: false
+  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
 })
 export class NbTooltipInstanceTestComponent {
   @ViewChild(NbTooltipDirective) tooltip: NbTooltipDirective;
@@ -177,27 +179,24 @@ export class NbDynamicOverlayHandlerMock {
 const TEST_COMPONENTS = [NbTooltipDefaultTestComponent, NbTooltipBindingsTestComponent, NbTooltipInstanceTestComponent];
 
 @NgModule({
-  imports: [NbLayoutModule, NbTooltipModule],
+  imports: [NbLayoutModule, NbTooltipModule, ...TEST_COMPONENTS],
   exports: [...TEST_COMPONENTS],
-  declarations: [...TEST_COMPONENTS],
 })
 class PopoverTestModule {}
 
 describe('Directive: NbTooltipDirective', () => {
   const overlayHandler = new NbDynamicOverlayHandlerMock();
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.resetTestingModule();
-      TestBed.configureTestingModule({
-        imports: [NoopAnimationsModule, RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), PopoverTestModule],
-      });
+  beforeEach(waitForAsync(() => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      imports: [NoopAnimationsModule, RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), PopoverTestModule],
+    });
 
-      const iconLibs: NbIconLibraries = TestBed.inject(NbIconLibraries);
-      iconLibs.registerSvgPack('test', { 'some-icon': '<svg>some-icon</svg>' });
-      iconLibs.setDefaultPack('test');
-    }),
-  );
+    const iconLibs: NbIconLibraries = TestBed.inject(NbIconLibraries);
+    iconLibs.registerSvgPack('test', { 'some-icon': '<svg>some-icon</svg>' });
+    iconLibs.setDefaultPack('test');
+  }));
 
   describe('smoke ', () => {
     let fixture: ComponentFixture<any>;
@@ -323,18 +322,16 @@ describe('Directive: NbTooltipDirective', () => {
   });
 
   describe('mocked services', () => {
-    beforeEach(
-      waitForAsync(() => {
-        TestBed.resetTestingModule();
-        TestBed.configureTestingModule({
-          imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), PopoverTestModule],
-        }).overrideDirective(NbTooltipDirective, {
-          set: {
-            providers: [{ provide: NbDynamicOverlayHandler, useValue: overlayHandler }],
-          },
-        });
-      }),
-    );
+    beforeEach(waitForAsync(() => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), PopoverTestModule],
+      }).overrideDirective(NbTooltipDirective, {
+        set: {
+          providers: [{ provide: NbDynamicOverlayHandler, useValue: overlayHandler }],
+        },
+      });
+    }));
     describe('default tooltip', () => {
       let fixture: ComponentFixture<NbTooltipDefaultTestComponent>;
 

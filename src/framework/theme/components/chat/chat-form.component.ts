@@ -13,10 +13,16 @@ import {
   HostListener,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { NbComponentOrCustomStatus } from '../component-status';
+import { NgIf, NgFor } from '@angular/common';
+import { NbIconComponent } from '../icon/icon.component';
+import { NbInputDirective } from '../input/input.directive';
+import { FormsModule } from '@angular/forms';
+import { NbButtonComponent } from '../button/button.component';
 
 /**
  * Chat form component.
@@ -47,8 +53,8 @@ import { NbComponentOrCustomStatus } from '../component-status';
  * ```
  */
 @Component({
-    selector: 'nb-chat-form',
-    template: `
+  selector: 'nb-chat-form',
+  template: `
     <div class="dropped-files" *ngIf="droppedFiles?.length">
       <ng-container *ngFor="let file of droppedFiles">
         <div *ngIf="file.urlStyle" [style.background-image]="file.urlStyle">
@@ -90,10 +96,13 @@ import { NbComponentOrCustomStatus } from '../component-status';
       </button>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgIf, NgFor, NbIconComponent, NbInputDirective, FormsModule, NbButtonComponent],
 })
 export class NbChatFormComponent {
+  protected cd = inject(ChangeDetectorRef);
+  protected domSanitizer = inject(DomSanitizer);
+
   status: NbComponentOrCustomStatus = 'basic';
   inputFocus: boolean = false;
   inputHover: boolean = false;
@@ -157,7 +166,7 @@ export class NbChatFormComponent {
 
   @HostBinding('class.file-over') fileOver = false;
 
-  constructor(protected cd: ChangeDetectorRef, protected domSanitizer: DomSanitizer) {}
+  constructor() {}
 
   @HostListener('drop', ['$event'])
   onDrop(event: any) {

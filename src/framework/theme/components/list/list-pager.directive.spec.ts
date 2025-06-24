@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { TestBed, ComponentFixture, fakeAsync, tick, ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { NbListModule, NbListComponent } from '@nebular/theme';
+import { NbListModule, NbListComponent } from '@kisimedia/nebular-theme';
 
 function waitForSpyCall(spy: jasmine.Spy, checkInterval: number = 40, timeout: number = 1000): Promise<any> {
   const initialCallsCount = spy.calls.count();
@@ -29,7 +29,7 @@ const PAGE_HEIGHT: number = ITEMS_PER_PAGE * ITEM_HEIGHT;
 let initialItemsCount: number = 100;
 
 @Component({
-    template: `
+  template: `
     <nb-list
       nbListPageTracker
       [pageSize]="pageSize"
@@ -40,8 +40,8 @@ let initialItemsCount: number = 100;
       <nb-list-item *ngFor="let _ of items" class="list-item"></nb-list-item>
     </nb-list>
   `,
-    styles: [
-        `
+  styles: [
+    `
       .list {
         background: lightslategray;
         height: ${LIST_HEIGHT}px;
@@ -54,8 +54,8 @@ let initialItemsCount: number = 100;
         height: ${ITEM_HEIGHT * 0.98}px;
       }
     `,
-    ],
-    standalone: false
+  ],
+  imports: [NbListModule],
 })
 class PagerTestComponent {
   @ViewChild(NbListComponent, { read: ElementRef }) listElementRef: ElementRef;
@@ -85,8 +85,7 @@ describe('Directive: NbListPageTrackerDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [NbListModule],
-      declarations: [PagerTestComponent],
+      imports: [NbListModule, PagerTestComponent],
       providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
     }).createComponent(PagerTestComponent);
 

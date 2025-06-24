@@ -6,7 +6,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
-import { NbCalendarDaysNamesComponent, NbDateService, NbNativeDateService } from '@nebular/theme';
+import { NbCalendarDaysNamesComponent, NbDateService, NbNativeDateService } from '@kisimedia/nebular-theme';
 
 describe('Component: NbCalendarDaysNames', () => {
   let fixture: ComponentFixture<NbCalendarDaysNamesComponent<Date>>;
@@ -14,7 +14,7 @@ describe('Component: NbCalendarDaysNames', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [NbCalendarDaysNamesComponent],
+      imports: [NbCalendarDaysNamesComponent],
       providers: [{ provide: NbDateService, useClass: NbNativeDateService }, DatePipe],
     });
     fixture = TestBed.createComponent<NbCalendarDaysNamesComponent<Date>>(NbCalendarDaysNamesComponent);

@@ -12,7 +12,7 @@ import {
   NbJSThemesRegistry,
   NB_BUILT_IN_JS_THEMES,
   NB_JS_THEMES,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 describe('js-themes-registry-service', () => {
   let jsThemesRegistry: NbJSThemesRegistry;
@@ -58,13 +58,11 @@ describe('js-themes-registry-service', () => {
   });
 
   // Single async inject to save references; which are used in all tests below
-  beforeEach(
-    waitForAsync(
-      inject([NbJSThemesRegistry], (_jsThemesRegistry) => {
-        jsThemesRegistry = _jsThemesRegistry;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbJSThemesRegistry], (_jsThemesRegistry) => {
+      jsThemesRegistry = _jsThemesRegistry;
+    }),
+  ));
 
   it('has built in themes', () => {
     expect(jsThemesRegistry.get('default')).not.toBeUndefined();

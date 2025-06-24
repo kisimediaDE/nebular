@@ -15,7 +15,7 @@ import {
   NB_JS_THEMES,
   NB_MEDIA_BREAKPOINTS,
   NB_THEME_OPTIONS,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 describe('theme-service', () => {
   let breakpointService: NbMediaBreakpointsService;
@@ -37,14 +37,12 @@ describe('theme-service', () => {
   });
 
   // Single async inject to save references; which are used in all tests below
-  beforeEach(
-    waitForAsync(
-      inject([NbMediaBreakpointsService, NbThemeService], (_breakpointService, _themeService) => {
-        breakpointService = _breakpointService;
-        themeService = _themeService;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbMediaBreakpointsService, NbThemeService], (_breakpointService, _themeService) => {
+      breakpointService = _breakpointService;
+      themeService = _themeService;
+    }),
+  ));
 
   it('returns default theme specified in options', () => {
     let current: any;

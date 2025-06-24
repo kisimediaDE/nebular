@@ -1,13 +1,14 @@
-import { OnInit, ChangeDetectorRef, Directive, ElementRef, HostBinding, Input, OnDestroy } from '@angular/core';
+import { OnInit, ChangeDetectorRef, Directive, ElementRef, HostBinding, Input, OnDestroy, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { ComponentsListService } from './components-list.service';
 
-@Directive({
-    selector: '[npgComponentLink]',
-    standalone: false
-})
+@Directive({ selector: '[npgComponentLink]' })
 export class ComponentLinkDirective implements OnInit, OnDestroy {
+  private componentsListService = inject(ComponentsListService);
+  private cd = inject(ChangeDetectorRef);
+  private elementRef = inject<ElementRef<Element>>(ElementRef);
+
   private destroy$ = new Subject<void>();
 
   @Input() npgComponentLink: string = '';
@@ -15,11 +16,7 @@ export class ComponentLinkDirective implements OnInit, OnDestroy {
   @HostBinding('class.selected')
   selected = false;
 
-  constructor(
-    private componentsListService: ComponentsListService,
-    private cd: ChangeDetectorRef,
-    private elementRef: ElementRef<Element>,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     let isFirstEmission = true;

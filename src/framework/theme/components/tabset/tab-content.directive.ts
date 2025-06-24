@@ -1,12 +1,11 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
  * Directive to wrap tab lazy content.
  * */
-@Directive({
-    selector: '[nbTabContent]',
-    standalone: false
-})
+@Directive({ selector: '[nbTabContent]' })
 export class NbTabContentDirective {
-  constructor(public templateRef: TemplateRef<any>) {}
+  templateRef = inject<TemplateRef<any>>(TemplateRef);
+
+  constructor() {}
 }

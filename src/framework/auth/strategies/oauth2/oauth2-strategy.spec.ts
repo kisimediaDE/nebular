@@ -8,7 +8,7 @@ import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
-import { NB_WINDOW } from '@nebular/theme';
+import { NB_WINDOW } from '@kisimedia/nebular-theme';
 import {
   NbOAuth2AuthStrategy,
   NbOAuth2ClientAuthMethod,
@@ -17,7 +17,7 @@ import {
   NbAuthResult,
   nbAuthCreateToken,
   NbAuthOAuth2Token,
-} from '@nebular/auth';
+} from '@kisimedia/nebular-auth';
 
 function createURL(params: any) {
   return Object.keys(params)
@@ -102,16 +102,14 @@ describe('oauth2-auth-strategy', () => {
     });
   });
 
-  beforeEach(
-    waitForAsync(
-      inject([NbOAuth2AuthStrategy, HttpTestingController], (_strategy, _httpMock) => {
-        strategy = _strategy;
-        httpMock = _httpMock;
+  beforeEach(waitForAsync(
+    inject([NbOAuth2AuthStrategy, HttpTestingController], (_strategy, _httpMock) => {
+      strategy = _strategy;
+      httpMock = _httpMock;
 
-        strategy.setOptions({});
-      }),
-    ),
-  );
+      strategy.setOptions({});
+    }),
+  ));
 
   afterEach(() => {
     httpMock.verify();

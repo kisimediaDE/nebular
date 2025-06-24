@@ -2,22 +2,16 @@ import { ComponentFixture, fakeAsync, inject, TestBed, tick, waitForAsync } from
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NbRestoreScrollTopHelper } from '@nebular/theme';
+import { NbRestoreScrollTopHelper } from '@kisimedia/nebular-theme';
 
 let restoreHelper: NbRestoreScrollTopHelper;
 let router: Router;
 let fixture: ComponentFixture<TestBootstrapComponent>;
 
-@Component({
-    template: '<router-outlet></router-outlet>',
-    standalone: false
-})
+@Component({ template: '<router-outlet></router-outlet>' })
 class TestBootstrapComponent {}
 
-@Component({
-    template: '',
-    standalone: false
-})
+@Component({ template: '' })
 class TestComponent {}
 
 describe('NbRestoreScrollTopHelper', () => {
@@ -46,22 +40,21 @@ describe('NbRestoreScrollTopHelper', () => {
             pathMatch: 'full',
           },
         ]),
+        TestComponent,
+        TestBootstrapComponent,
       ],
       providers: [NbRestoreScrollTopHelper],
-      declarations: [TestComponent, TestBootstrapComponent],
     }).createComponent(TestBootstrapComponent);
 
     fixture.detectChanges();
   });
 
-  beforeEach(
-    waitForAsync(
-      inject([NbRestoreScrollTopHelper, Router], (_restoreHelper, _router) => {
-        restoreHelper = _restoreHelper;
-        router = _router;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbRestoreScrollTopHelper, Router], (_restoreHelper, _router) => {
+      restoreHelper = _restoreHelper;
+      router = _router;
+    }),
+  ));
 
   afterEach(fakeAsync(() => {
     fixture.destroy();

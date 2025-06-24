@@ -23,7 +23,7 @@ import {
   NbOptionGroupComponent,
   NbTriggerStrategyBuilderService,
   NbFocusKeyManagerFactoryService,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 const eventMock = { preventDefault() {} } as Event;
 
@@ -64,8 +64,8 @@ const TEST_GROUPS = [
 ];
 
 @Component({
-    selector: 'nb-select-test',
-    template: `
+  selector: 'nb-select-test',
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select
@@ -85,7 +85,7 @@ const TEST_GROUPS = [
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [FormsModule, ReactiveFormsModule, NbLayoutModule, NbSelectModule],
 })
 export class NbSelectTestComponent {
   @Input() selected: any = null;
@@ -97,7 +97,7 @@ export class NbSelectTestComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select>
@@ -108,12 +108,12 @@ export class NbSelectTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule, NbSelectModule],
 })
 export class BasicSelectTestComponent {}
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select [selected]="selected" [compareWith]="compareFn">
@@ -122,7 +122,7 @@ export class BasicSelectTestComponent {}
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [FormsModule, ReactiveFormsModule, NbLayoutModule, NbSelectModule],
 })
 export class NbSelectWithOptionsObjectsComponent {
   @Input() compareFn = (o1: any, o2: any) => JSON.stringify(o1) === JSON.stringify(o2);
@@ -133,7 +133,7 @@ export class NbSelectWithOptionsObjectsComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select [selected]="selected">
@@ -142,7 +142,7 @@ export class NbSelectWithOptionsObjectsComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [FormsModule, ReactiveFormsModule, NbLayoutModule, NbSelectModule],
 })
 export class NbSelectWithInitiallySelectedOptionComponent {
   @Input() selected = 1;
@@ -150,7 +150,7 @@ export class NbSelectWithInitiallySelectedOptionComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select *ngIf="showSelect" [formControl]="formControl">
@@ -159,7 +159,7 @@ export class NbSelectWithInitiallySelectedOptionComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [FormsModule, ReactiveFormsModule, NbLayoutModule, NbSelectModule],
 })
 export class NbReactiveFormSelectComponent {
   options: number[] = [1];
@@ -171,7 +171,7 @@ export class NbReactiveFormSelectComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select [(ngModel)]="selectedValue">
@@ -180,7 +180,7 @@ export class NbReactiveFormSelectComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [FormsModule, ReactiveFormsModule, NbLayoutModule, NbSelectModule],
 })
 export class NbNgModelSelectComponent {
   options: number[] = [1];
@@ -190,7 +190,7 @@ export class NbNgModelSelectComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select>
@@ -206,7 +206,7 @@ export class NbNgModelSelectComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule, NbSelectModule],
 })
 export class NbSelectWithFalsyOptionValuesComponent {
   nanValue = NaN;
@@ -265,7 +265,7 @@ export class NbSelectWithFalsyOptionValuesComponent {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select multiple>
@@ -281,12 +281,12 @@ export class NbSelectWithFalsyOptionValuesComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule, NbSelectModule],
 })
 export class NbMultipleSelectWithFalsyOptionValuesComponent extends NbSelectWithFalsyOptionValuesComponent {}
 
 @Component({
-    template: `
+  template: `
     <nb-layout>
       <nb-layout-column>
         <nb-select>
@@ -297,7 +297,7 @@ export class NbMultipleSelectWithFalsyOptionValuesComponent extends NbSelectWith
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
+  imports: [NbLayoutModule, NbSelectModule],
 })
 export class NbOptionDisabledTestComponent {
   optionGroupDisabled = false;
@@ -330,8 +330,6 @@ describe('Component: NbSelectComponent', () => {
         NbThemeModule.forRoot(),
         NbLayoutModule,
         NbSelectModule,
-      ],
-      declarations: [
         NbSelectTestComponent,
         NbSelectWithOptionsObjectsComponent,
         NbSelectWithInitiallySelectedOptionComponent,
@@ -707,8 +705,14 @@ describe('NbSelectComponent - falsy values', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule, NbSelectModule],
-      declarations: [NbSelectWithFalsyOptionValuesComponent, NbMultipleSelectWithFalsyOptionValuesComponent],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        NbThemeModule.forRoot(),
+        NbLayoutModule,
+        NbSelectModule,
+        NbSelectWithFalsyOptionValuesComponent,
+        NbMultipleSelectWithFalsyOptionValuesComponent,
+      ],
     });
 
     fixture = TestBed.createComponent(NbSelectWithFalsyOptionValuesComponent);
@@ -864,8 +868,13 @@ describe('NbSelectComponent - Triggers', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule, NbSelectModule],
-      declarations: [BasicSelectTestComponent],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        NbThemeModule.forRoot(),
+        NbLayoutModule,
+        NbSelectModule,
+        BasicSelectTestComponent,
+      ],
     });
     TestBed.overrideProvider(NbTriggerStrategyBuilderService, { useValue: triggerBuilderStub });
 
@@ -928,8 +937,13 @@ describe('NbSelectComponent - Key manager', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule, NbSelectModule],
-      declarations: [BasicSelectTestComponent],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        NbThemeModule.forRoot(),
+        NbLayoutModule,
+        NbSelectModule,
+        BasicSelectTestComponent,
+      ],
     });
     TestBed.overrideProvider(NbFocusKeyManagerFactoryService, { useValue: keyManagerFactoryStub });
 
@@ -966,8 +980,10 @@ describe('NbOptionComponent', () => {
         NbThemeModule.forRoot(),
         NbLayoutModule,
         NbSelectModule,
+        NbNgModelSelectComponent,
+        NbSelectTestComponent,
+        NbReactiveFormSelectComponent,
       ],
-      declarations: [NbNgModelSelectComponent, NbSelectTestComponent, NbReactiveFormSelectComponent],
     });
 
     fixture = TestBed.createComponent(NbReactiveFormSelectComponent);
@@ -1028,8 +1044,13 @@ describe('NbOptionComponent disabled', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule, NbSelectModule],
-      declarations: [NbOptionDisabledTestComponent],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        NbThemeModule.forRoot(),
+        NbLayoutModule,
+        NbSelectModule,
+        NbOptionDisabledTestComponent,
+      ],
     });
 
     fixture = TestBed.createComponent(NbOptionDisabledTestComponent);
@@ -1076,8 +1097,8 @@ describe('NbSelect - dynamic options', () => {
         NbThemeModule.forRoot(),
         NbLayoutModule,
         NbSelectModule,
+        NbReactiveFormSelectComponent,
       ],
-      declarations: [NbReactiveFormSelectComponent],
     });
 
     fixture = TestBed.createComponent(NbReactiveFormSelectComponent);

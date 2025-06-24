@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NB_MEDIA_BREAKPOINTS } from '../theme.options';
 
 /**
@@ -60,10 +60,11 @@ export const DEFAULT_MEDIA_BREAKPOINTS = [
  */
 @Injectable()
 export class NbMediaBreakpointsService {
+  private breakpoints = inject(NB_MEDIA_BREAKPOINTS);
 
   private breakpointsMap: { [breakpoint: string]: number };
 
-  constructor(@Inject(NB_MEDIA_BREAKPOINTS) private breakpoints) {
+  constructor() {
     this.breakpointsMap = this.breakpoints.reduce((res, b: NbMediaBreakpoint) => {
       res[b.name] = b.width;
       return res;
@@ -79,11 +80,12 @@ export class NbMediaBreakpointsService {
     const unknown = { name: 'unknown', width: width };
     const breakpoints = this.getBreakpoints();
 
-    return breakpoints
-      .find((point: NbMediaBreakpoint, index: number) => {
+    return (
+      breakpoints.find((point: NbMediaBreakpoint, index: number) => {
         const next = breakpoints[index + 1];
         return width >= point.width && (!next || width < next.width);
-      }) || unknown;
+      }) || unknown
+    );
   }
 
   /**

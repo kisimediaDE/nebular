@@ -1,16 +1,17 @@
-import { Injectable, IterableDiffer, IterableDiffers } from '@angular/core';
+import { Injectable, IterableDiffer, IterableDiffers, inject } from '@angular/core';
 import { merge, Observable, Subject } from 'rxjs';
-
 
 @Injectable()
 export class NbColumnsService {
+  private differs = inject(IterableDiffers);
+
   private allColumns: string[];
   private visibleColumns: string[];
   private changesDiffer: IterableDiffer<any>;
   private columnHide$: Subject<void> = new Subject<void>();
   private columnShow$: Subject<void> = new Subject<void>();
 
-  constructor(private differs: IterableDiffers) {}
+  constructor() {}
 
   setColumns(columns: Iterable<string>): void {
     if (!this.changesDiffer) {

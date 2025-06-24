@@ -4,14 +4,19 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef, inject } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbChatMessageFile } from './chat-message-file.component';
+import { NbChatMessageFile, NbChatMessageFileComponent } from './chat-message-file.component';
 import { NbChatCustomMessageService } from './chat-custom-message.service';
 import { NbChatCustomMessageDirective } from './chat-custom-message.directive';
+import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
+import { NbChatAvatarComponent } from './chat-avatar.component';
+import { NbChatMessageQuoteComponent } from './chat-message-quote.component';
+import { NbChatMessageMapComponent } from './chat-message-map.component';
+import { NbChatMessageTextComponent } from './chat-message-text.component';
 
 /**
  * Chat message component.
@@ -58,8 +63,8 @@ import { NbChatCustomMessageDirective } from './chat-custom-message.directive';
  * chat-message-file-background-color:
  */
 @Component({
-    selector: 'nb-chat-message',
-    template: `
+  selector: 'nb-chat-message',
+  template: `
     <nb-chat-avatar *ngIf="notReply" [initials]="getInitials()" [avatarStyle]="avatarStyle"> </nb-chat-avatar>
 
     <div class="message">
@@ -120,17 +125,31 @@ import { NbChatCustomMessageDirective } from './chat-custom-message.directive';
       </div>
     </ng-template>
   `,
-    animations: [
-        trigger('flyInOut', [
-            state('in', style({ transform: 'translateX(0)' })),
-            transition('void => *', [style({ transform: 'translateX(-100%)' }), animate(80)]),
-            transition('* => void', [animate(80, style({ transform: 'translateX(100%)' }))]),
-        ]),
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({ transform: 'translateX(0)' })),
+      transition('void => *', [style({ transform: 'translateX(-100%)' }), animate(80)]),
+      transition('* => void', [animate(80, style({ transform: 'translateX(100%)' }))]),
+    ]),
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgIf,
+    NbChatAvatarComponent,
+    NgSwitch,
+    NgSwitchCase,
+    NbChatMessageFileComponent,
+    NbChatMessageQuoteComponent,
+    NbChatMessageMapComponent,
+    NgSwitchDefault,
+    NbChatMessageTextComponent,
+    NgTemplateOutlet,
+  ],
 })
 export class NbChatMessageComponent {
+  protected domSanitizer = inject(DomSanitizer);
+  protected customMessageService = inject(NbChatCustomMessageService);
+
   protected readonly builtInMessageTypes: string[] = ['text', 'file', 'map', 'quote'];
 
   avatarStyle: SafeStyle;
@@ -239,7 +258,7 @@ export class NbChatMessageComponent {
    */
   @Input() customMessageData: any;
 
-  constructor(protected domSanitizer: DomSanitizer, protected customMessageService: NbChatCustomMessageService) {}
+  constructor() {}
 
   getInitials(): string {
     if (this.sender) {

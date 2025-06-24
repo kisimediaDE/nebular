@@ -17,6 +17,7 @@ import {
   Output,
   QueryList,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { from, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, startWith, switchMap, takeUntil } from 'rxjs/operators';
@@ -100,13 +101,15 @@ import { NB_BUTTON_GROUP } from './button-group-injection-tokens';
  * button-group-ghost-divider-color:
  **/
 @Component({
-    selector: 'nb-button-group',
-    template: ` <ng-content></ng-content> `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [{ provide: NB_BUTTON_GROUP, useExisting: NbButtonGroupComponent }],
-    standalone: false
+  selector: 'nb-button-group',
+  template: ` <ng-content></ng-content> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: NB_BUTTON_GROUP, useExisting: NbButtonGroupComponent }],
 })
 export class NbButtonGroupComponent implements OnChanges, AfterContentInit {
+  protected cd = inject(ChangeDetectorRef);
+  protected statusService = inject(NbStatusService);
+
   protected lastEmittedValue: any[] = [];
 
   protected readonly destroy$: Subject<void> = new Subject<void>();
@@ -219,7 +222,7 @@ export class NbButtonGroupComponent implements OnChanges, AfterContentInit {
     return [];
   }
 
-  constructor(protected cd: ChangeDetectorRef, protected statusService: NbStatusService) {}
+  constructor() {}
 
   ngOnChanges({ size, status, shape, multiple, filled, outline, ghost, disabled }: SimpleChanges) {
     if (size || status || shape || multiple || filled || outline || ghost || disabled) {

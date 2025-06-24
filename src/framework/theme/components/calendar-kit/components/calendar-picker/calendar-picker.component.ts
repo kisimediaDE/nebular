@@ -7,11 +7,12 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type, HostBinding } from '@angular/core';
 
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
-
+import { NgFor } from '@angular/common';
+import { NbCalendarPickerRowComponent } from './calendar-picker-row.component';
 
 @Component({
-    selector: 'nb-calendar-picker',
-    template: `
+  selector: 'nb-calendar-picker',
+  template: `
     <nb-calendar-picker-row
       *ngFor="let row of data"
       [row]="row"
@@ -22,11 +23,12 @@ import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../mode
       [max]="max"
       [filter]="filter"
       [size]="size"
-      (select)="select.emit($event)">
+      (select)="select.emit($event)"
+    >
     </nb-calendar-picker-row>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgFor, NbCalendarPickerRowComponent],
 })
 export class NbCalendarPickerComponent<D, T> {
   @Input() data: D[][];

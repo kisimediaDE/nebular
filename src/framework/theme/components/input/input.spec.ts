@@ -6,17 +6,17 @@
 
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NbInputDirective, NbThemeModule } from '@nebular/theme';
+import { NbInputDirective, NbThemeModule } from '@kisimedia/nebular-theme';
 import { By } from '@angular/platform-browser';
-import { NbComponentStatus, NbComponentSize, NbComponentShape, NbInputModule } from '@nebular/theme';
+import { NbComponentStatus, NbComponentSize, NbComponentShape, NbInputModule } from '@kisimedia/nebular-theme';
 
 @Component({
-    template: `
+  template: `
     <input #inputEl nbInput [fieldSize]="size" [status]="status" [shape]="shape" [fullWidth]="fullWidth" />
     <textarea #textareaEl nbInput [fieldSize]="size" [status]="status" [shape]="shape" [fullWidth]="fullWidth">
     </textarea>
   `,
-    standalone: false
+  imports: [NbInputModule],
 })
 class InputTestComponent {
   @Input() size: NbComponentSize;
@@ -34,8 +34,7 @@ describe('Directive: NbInput', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbInputModule],
-      declarations: [InputTestComponent],
+      imports: [NbThemeModule.forRoot(), NbInputModule, InputTestComponent],
     }).createComponent(InputTestComponent);
 
     inputTestComponent = fixture.componentInstance;

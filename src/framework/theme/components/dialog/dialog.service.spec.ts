@@ -9,7 +9,7 @@ import {
   NbDialogModule,
   NbThemeModule,
   NB_DOCUMENT,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 @Injectable()
 export class NbViewportRulerMockAdapter extends NbViewportRulerAdapter {
@@ -22,13 +22,13 @@ export class NbViewportRulerMockAdapter extends NbViewportRulerAdapter {
 }
 
 @Component({
-    selector: 'nb-test-dialog', template: '<button class="test-focusable-button"></button>',
-    standalone: false
+  selector: 'nb-test-dialog',
+  template: '<button class="test-focusable-button"></button>',
 })
 class NbTestDialogComponent {}
 
 @NgModule({
-  declarations: [NbTestDialogComponent],
+  imports: [NbTestDialogComponent],
 })
 class NbTestDialogModule {}
 

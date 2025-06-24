@@ -1,4 +1,4 @@
-import { InjectionToken, Optional, Inject, Injectable } from '@angular/core';
+import { InjectionToken, Injectable, inject } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { share } from 'rxjs/operators';
 
@@ -21,11 +21,13 @@ export const NB_LAYOUT_DIRECTION = new InjectionToken<NbLayoutDirection>('Layout
  */
 @Injectable()
 export class NbLayoutDirectionService {
+  private direction = inject(NB_LAYOUT_DIRECTION, { optional: true })! ?? NbLayoutDirection.LTR;
+
   private $directionChange = new ReplaySubject<NbLayoutDirection>(1);
 
-  constructor(
-    @Optional() @Inject(NB_LAYOUT_DIRECTION) private direction = NbLayoutDirection.LTR,
-  ) {
+  constructor() {
+    const direction = this.direction;
+
     this.setDirection(direction);
   }
 

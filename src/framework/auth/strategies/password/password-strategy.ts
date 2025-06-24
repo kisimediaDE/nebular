@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of as observableOf } from 'rxjs';
@@ -141,13 +141,16 @@ import { NbAuthIllegalTokenError } from '../../services/token/token';
  */
 @Injectable()
 export class NbPasswordAuthStrategy extends NbAuthStrategy {
+  protected http = inject(HttpClient);
+  private route = inject(ActivatedRoute);
+
   protected defaultOptions: NbPasswordAuthStrategyOptions = passwordStrategyOptions;
 
   static setup(options: NbPasswordAuthStrategyOptions): [NbAuthStrategyClass, NbPasswordAuthStrategyOptions] {
     return [NbPasswordAuthStrategy, options];
   }
 
-  constructor(protected http: HttpClient, private route: ActivatedRoute) {
+  constructor() {
     super();
   }
 

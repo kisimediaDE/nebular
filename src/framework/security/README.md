@@ -1,1 +1,1 @@
-### @nebular/security module, more details https://akveo.github.io/nebular/
+### @kisimedia/nebular-security module, more details https://akveo.github.io/nebular/

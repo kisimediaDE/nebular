@@ -5,7 +5,7 @@
  */
 
 import { TestBed, inject, waitForAsync } from '@angular/core/testing';
-import { NbAclService, NB_SECURITY_OPTIONS_TOKEN } from '@nebular/security';
+import { NbAclService, NB_SECURITY_OPTIONS_TOKEN } from '@kisimedia/nebular-security';
 import { deepExtend } from '../../auth/helpers'; // TODO: common module?
 
 let aclService: NbAclService;
@@ -343,13 +343,11 @@ describe('acl-service', () => {
     });
 
     // Single async inject to save references; which are used in all tests below
-    beforeEach(
-      waitForAsync(
-        inject([NbAclService], (_aclService) => {
-          aclService = _aclService;
-        }),
-      ),
-    );
+    beforeEach(waitForAsync(
+      inject([NbAclService], (_aclService) => {
+        aclService = _aclService;
+      }),
+    ));
 
     it(`has empty default state`, () => {
       // @ts-ignore
@@ -384,13 +382,11 @@ describe('acl-service', () => {
     });
 
     // Single async inject to save references; which are used in all tests below
-    beforeEach(
-      waitForAsync(
-        inject([NbAclService], (_aclService) => {
-          aclService = _aclService;
-        }),
-      ),
-    );
+    beforeEach(waitForAsync(
+      inject([NbAclService], (_aclService) => {
+        aclService = _aclService;
+      }),
+    ));
 
     it(`has predefined default state`, () => {
       // @ts-ignore
@@ -428,13 +424,11 @@ describe('acl-service', () => {
     });
 
     // Single async inject to save references; which are used in all tests below
-    beforeEach(
-      waitForAsync(
-        inject([NbAclService], (_aclService) => {
-          aclService = _aclService;
-        }),
-      ),
-    );
+    beforeEach(waitForAsync(
+      inject([NbAclService], (_aclService) => {
+        aclService = _aclService;
+      }),
+    ));
 
     it(`has predefined default state`, () => {
       // @ts-ignore
@@ -480,13 +474,11 @@ describe('acl-service', () => {
     });
 
     // Single async inject to save references; which are used in all tests below
-    beforeEach(
-      waitForAsync(
-        inject([NbAclService], (_aclService) => {
-          aclService = _aclService;
-        }),
-      ),
-    );
+    beforeEach(waitForAsync(
+      inject([NbAclService], (_aclService) => {
+        aclService = _aclService;
+      }),
+    ));
 
     it(`has predefined default state`, () => {
       // @ts-ignore

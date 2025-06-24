@@ -4,13 +4,13 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, Input, HostBinding, Output, EventEmitter, inject } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
 import { NbComponentOrCustomStatus, NbComponentStatus } from '../component-status';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-
+import { NgIf } from '@angular/common';
 
 /**
  * Alert component.
@@ -109,17 +109,18 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
  * alert-outline-control-color:
  */
 @Component({
-    selector: 'nb-alert',
-    styleUrls: ['./alert.component.scss'],
-    template: `
+  selector: 'nb-alert',
+  styleUrls: ['./alert.component.scss'],
+  template: `
     <button *ngIf="closable" type="button" class="close" aria-label="Close" (click)="onClose()">
       <span aria-hidden="true">&times;</span>
     </button>
     <ng-content></ng-content>
   `,
-    standalone: false
+  imports: [NgIf],
 })
 export class NbAlertComponent {
+  protected statusService = inject(NbStatusService);
 
   /**
    * Alert size, available sizes:
@@ -168,8 +169,7 @@ export class NbAlertComponent {
    */
   @Output() close = new EventEmitter();
 
-  constructor(protected statusService: NbStatusService) {
-  }
+  constructor() {}
 
   /**
    * Emits the removed chip event

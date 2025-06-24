@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, inject } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
@@ -37,36 +37,30 @@ import { NbComponentOrCustomStatus, NbComponentStatus } from '../component-statu
  * card-header-control-text-color:
  */
 @Component({
-    selector: 'nb-card-header',
-    template: `<ng-content></ng-content>`,
-    standalone: false
+  selector: 'nb-card-header',
+  template: `<ng-content></ng-content>`,
 })
-export class NbCardHeaderComponent {
-}
+export class NbCardHeaderComponent {}
 
 /**
  * Component intended to be used within  the `<nb-card>` component.
  * Adds styles for a preset body section.
  */
 @Component({
-    selector: 'nb-card-body',
-    template: `<ng-content></ng-content>`,
-    standalone: false
+  selector: 'nb-card-body',
+  template: `<ng-content></ng-content>`,
 })
-export class NbCardBodyComponent {
-}
+export class NbCardBodyComponent {}
 
 /**
  * Component intended to be used within  the `<nb-card>` component.
  * Adds styles for a preset footer section.
  */
 @Component({
-    selector: 'nb-card-footer',
-    template: `<ng-content></ng-content>`,
-    standalone: false
+  selector: 'nb-card-footer',
+  template: `<ng-content></ng-content>`,
 })
-export class NbCardFooterComponent {
-}
+export class NbCardFooterComponent {}
 
 /**
  * Basic content container component.
@@ -149,17 +143,17 @@ export class NbCardFooterComponent {
  * card-scrollbar-width:
  */
 @Component({
-    selector: 'nb-card',
-    styleUrls: ['./card.component.scss'],
-    template: `
+  selector: 'nb-card',
+  styleUrls: ['./card.component.scss'],
+  template: `
     <ng-content select="nb-card-header"></ng-content>
     <ng-content select="nb-card-body"></ng-content>
     <ng-content></ng-content>
     <ng-content select="nb-card-footer"></ng-content>
   `,
-    standalone: false
 })
 export class NbCardComponent {
+  protected statusService = inject(NbStatusService);
 
   /**
    * Card size, available sizes:
@@ -296,6 +290,5 @@ export class NbCardComponent {
     return [];
   }
 
-  constructor(protected statusService: NbStatusService) {
-  }
+  constructor() {}
 }

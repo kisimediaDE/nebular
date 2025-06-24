@@ -5,10 +5,12 @@
  */
 
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbIconConfig } from '../icon/icon.component';
+import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
+import { NgFor, NgIf } from '@angular/common';
+import { NbMergeConfigsPipe } from './merge-configs.pipe';
 
 export interface NbRouteTab {
   route?: RouterLink['routerLink'] | undefined;
@@ -96,9 +98,9 @@ export interface NbRouteTab {
  * route-tabset-scrollbar-width:
  */
 @Component({
-    selector: 'nb-route-tabset',
-    styleUrls: ['./route-tabset.component.scss'],
-    template: `
+  selector: 'nb-route-tabset',
+  styleUrls: ['./route-tabset.component.scss'],
+  template: `
     <ul class="route-tabset">
       <ng-container *ngFor="let tab of tabs">
         <li
@@ -141,7 +143,7 @@ export interface NbRouteTab {
     </ul>
     <router-outlet></router-outlet>
   `,
-    standalone: false
+  imports: [NgFor, NgIf, NbIconComponent, RouterLinkActive, RouterLink, RouterOutlet, NbMergeConfigsPipe],
 })
 export class NbRouteTabsetComponent {
   @HostBinding('class.full-width') fullWidthValue: boolean = false;

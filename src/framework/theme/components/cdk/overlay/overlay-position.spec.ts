@@ -15,7 +15,7 @@ import {
   NbAdjustment,
   NbViewportRulerAdapter,
   NbLayoutDirectionService,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 @Injectable()
 export class MockViewportRulerAdapter extends NbViewportRulerAdapter {
@@ -24,14 +24,11 @@ export class MockViewportRulerAdapter extends NbViewportRulerAdapter {
   }
 }
 
-@Component({
-    template: `portal-component`,
-    standalone: false
-})
+@Component({ template: `portal-component` })
 export class PortalComponent {}
 
 @NgModule({
-  declarations: [PortalComponent],
+  imports: [PortalComponent],
   exports: [PortalComponent],
 })
 export class PortalModule {}

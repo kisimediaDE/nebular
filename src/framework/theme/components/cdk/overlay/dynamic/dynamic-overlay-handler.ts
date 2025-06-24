@@ -1,4 +1,4 @@
-import { ElementRef, Injectable, SimpleChange, Type } from '@angular/core';
+import { ElementRef, Injectable, SimpleChange, Type, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 
@@ -27,6 +27,11 @@ export class NbDynamicOverlayChange extends SimpleChange {
 
 @Injectable()
 export class NbDynamicOverlayHandler {
+  private positionBuilder = inject(NbPositionBuilderService);
+  private triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
+  private dynamicOverlayService = inject(NbDynamicOverlay);
+  private directionService = inject(NbLayoutDirectionService);
+
   protected _componentType: Type<NbRenderableContainer>;
   protected _host: ElementRef;
   protected _context: Object = {};
@@ -47,12 +52,7 @@ export class NbDynamicOverlayHandler {
 
   protected destroy$ = new Subject<void>();
 
-  constructor(
-    private positionBuilder: NbPositionBuilderService,
-    private triggerStrategyBuilder: NbTriggerStrategyBuilderService,
-    private dynamicOverlayService: NbDynamicOverlay,
-    private directionService: NbLayoutDirectionService,
-  ) {}
+  constructor() {}
 
   host(host: ElementRef) {
     this.changes.host = new NbDynamicOverlayChange(this._host, host);

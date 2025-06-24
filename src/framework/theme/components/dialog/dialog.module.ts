@@ -12,29 +12,21 @@ import { NbDialogService } from './dialog.service';
 import { NbDialogContainerComponent } from './dialog-container';
 import { NB_DIALOG_CONFIG, NbDialogConfig } from './dialog-config';
 
-
 @NgModule({
-  imports: [NbSharedModule, NbOverlayModule],
-  declarations: [NbDialogContainerComponent],
+  imports: [NbSharedModule, NbOverlayModule, NbDialogContainerComponent],
 })
 export class NbDialogModule {
   static forRoot(dialogConfig: Partial<NbDialogConfig> = {}): ModuleWithProviders<NbDialogModule> {
     return {
       ngModule: NbDialogModule,
-      providers: [
-        NbDialogService,
-        { provide: NB_DIALOG_CONFIG, useValue: dialogConfig },
-      ],
-    }
+      providers: [NbDialogService, { provide: NB_DIALOG_CONFIG, useValue: dialogConfig }],
+    };
   }
 
   static forChild(dialogConfig: Partial<NbDialogConfig> = {}): ModuleWithProviders<NbDialogModule> {
     return {
       ngModule: NbDialogModule,
-      providers: [
-        NbDialogService,
-        { provide: NB_DIALOG_CONFIG, useValue: dialogConfig },
-      ],
-    }
+      providers: [NbDialogService, { provide: NB_DIALOG_CONFIG, useValue: dialogConfig }],
+    };
   }
 }

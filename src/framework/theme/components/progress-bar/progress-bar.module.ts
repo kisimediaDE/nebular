@@ -10,10 +10,7 @@ import { NbSharedModule } from '../shared/shared.module';
 import { NbProgressBarComponent } from './progress-bar.component';
 
 @NgModule({
-  imports: [
-    NbSharedModule,
-  ],
-  declarations: [NbProgressBarComponent],
+  imports: [NbSharedModule, NbProgressBarComponent],
   exports: [NbProgressBarComponent],
 })
-export class NbProgressBarModule { }
+export class NbProgressBarModule {}

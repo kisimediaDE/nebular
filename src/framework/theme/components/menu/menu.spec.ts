@@ -12,6 +12,7 @@ import {
   ViewChildren,
   Injectable,
   ProviderToken,
+  inject as inject_1,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router, Routes } from '@angular/router';
@@ -40,35 +41,32 @@ import {
   NbMenuService,
   NbMenuComponent,
   NbThemeModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 import { NbMenuInternalService } from './menu.service';
 
-@Component({
-    template: '',
-    standalone: false
-})
+@Component({ template: '' })
 export class NoopComponent {}
 
-@Component({
-    template: `<nb-menu [items]="items" [tag]="menuTag"></nb-menu>`,
-    standalone: false
-})
+@Component({ template: `<nb-menu [items]="items" [tag]="menuTag"></nb-menu>` })
 export class SingleMenuTestComponent {
-  constructor(public menuPublicService: NbMenuService) {}
+  menuPublicService = inject_1(NbMenuService);
+
+  constructor() {}
   @Input() items: NbMenuItem[];
   @Input() menuTag: string;
   @ViewChild(NbMenuComponent) menuComponent: NbMenuComponent;
 }
 
 @Component({
-    template: `
+  template: `
     <nb-menu [items]="firstMenuItems" [tag]="firstMenuTag"></nb-menu>
     <nb-menu [items]="secondMenuItems" [tag]="secondMenuTag"></nb-menu>
   `,
-    standalone: false
 })
 export class DoubleMenusTestComponent {
-  constructor(public menuPublicService: NbMenuService) {}
+  menuPublicService = inject_1(NbMenuService);
+
+  constructor() {}
   @Input() firstMenuItems: NbMenuItem[];
   @Input() secondMenuItems: NbMenuItem[];
   @Input() firstMenuTag: string;
@@ -99,8 +97,10 @@ function createTestBed(routes: Routes = []) {
       NbMenuModule.forRoot(),
       RouterTestingModule.withRoutes(routes),
       NoopAnimationsModule,
+      SingleMenuTestComponent,
+      DoubleMenusTestComponent,
+      NoopComponent,
     ],
-    declarations: [SingleMenuTestComponent, DoubleMenusTestComponent, NoopComponent],
     providers: [NbMenuService],
   });
 

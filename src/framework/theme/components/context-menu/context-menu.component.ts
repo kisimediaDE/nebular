@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 
 import { NbMenuItem } from '../../components/menu/menu.service';
 import { NbPositionedContainerComponent, NbRenderableContainer } from '../cdk/overlay/overlay-container';
+import { NbMenuComponent } from '../menu/menu.component';
 
 /**
  * Context menu component used as content within NbContextMenuDirective.
@@ -25,20 +26,16 @@ import { NbPositionedContainerComponent, NbRenderableContainer } from '../cdk/ov
  * context-menu-shadow:
  * */
 @Component({
-    selector: 'nb-context-menu',
-    template: `
-    <nb-menu class="context-menu" [items]="context.items" [tag]="context.tag"></nb-menu>
-  `,
-    standalone: false
+  selector: 'nb-context-menu',
+  template: ` <nb-menu class="context-menu" [items]="context.items" [tag]="context.tag"></nb-menu> `,
+  imports: [NbMenuComponent],
 })
 export class NbContextMenuComponent extends NbPositionedContainerComponent implements NbRenderableContainer {
-
   @Input() items: NbMenuItem[] = [];
   @Input() tag: string;
 
   @Input()
-  context: { items: NbMenuItem[], tag?: string } = { items: [] };
-
+  context: { items: NbMenuItem[]; tag?: string } = { items: [] };
 
   /**
    * The method is empty since we don't need to do anything additionally

@@ -4,14 +4,15 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostBinding, Input } from '@angular/core';
+import { Component, HostBinding, Input, inject } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NbComponentSize } from '../component-size';
 import { NbComponentShape } from '../component-shape';
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NbBadgePosition } from '../badge/badge.component';
+import { NbBadgePosition, NbBadgeComponent } from '../badge/badge.component';
+import { NgIf } from '@angular/common';
 
 /**
  * Represents a component showing a user avatar (picture) with a user name on the right.
@@ -108,12 +109,13 @@ import { NbBadgePosition } from '../badge/badge.component';
  * user-giant-title-text-line-height:
  */
 @Component({
-    selector: 'nb-user',
-    styleUrls: ['./user.component.scss'],
-    templateUrl: './user.component.html',
-    standalone: false
+  selector: 'nb-user',
+  styleUrls: ['./user.component.scss'],
+  templateUrl: './user.component.html',
+  imports: [NgIf, NbBadgeComponent],
 })
 export class NbUserComponent {
+  private domSanitizer = inject(DomSanitizer);
 
   imageBackgroundStyle: SafeStyle;
 
@@ -273,13 +275,17 @@ export class NbUserComponent {
     return this.shape === 'round';
   }
 
-  constructor(private domSanitizer: DomSanitizer) { }
+  constructor() {}
 
   getInitials(): string {
     if (this.name) {
       const names = this.name.split(' ');
 
-      return names.map(n => n.charAt(0)).splice(0, 2).join('').toUpperCase();
+      return names
+        .map((n) => n.charAt(0))
+        .splice(0, 2)
+        .join('')
+        .toUpperCase();
     }
 
     return '';

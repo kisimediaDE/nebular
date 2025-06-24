@@ -26,16 +26,10 @@ import {
 } from '@angular/cdk/overlay';
 import { NbScrollStrategyOptions } from '../adapter/block-scroll-strategy-adapter';
 
-@Directive({
-  selector: '[nbPortal]',
-  standalone: false,
-})
+@Directive({ selector: '[nbPortal]' })
 export class NbPortalDirective extends CdkPortal {}
 
-@Directive({
-  selector: '[nbPortalOutlet]',
-  standalone: false,
-})
+@Directive({ selector: '[nbPortalOutlet]' })
 export class NbPortalOutletDirective extends CdkPortalOutlet {}
 
 export class NbComponentPortal<T = any> extends ComponentPortal<T> {}
@@ -91,9 +85,8 @@ const CDK_MODULES = [OverlayModule, PortalModule];
  * Approach will help us move cdk in separate npm package and refactor nebular/theme code.
  * */
 @NgModule({
-  imports: [...CDK_MODULES],
+  imports: [...CDK_MODULES, NbPortalDirective, NbPortalOutletDirective],
   exports: [...CDK_MODULES, NbPortalDirective, NbPortalOutletDirective],
-  declarations: [NbPortalDirective, NbPortalOutletDirective],
 })
 export class NbCdkMappingModule {
   static forRoot(): ModuleWithProviders<NbCdkMappingModule> {

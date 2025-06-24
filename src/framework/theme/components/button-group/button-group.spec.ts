@@ -17,11 +17,11 @@ import {
   NbComponentStatus,
   NbButtonToggleAppearance,
   NbThemeModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-button-group-test',
-    template: `
+  selector: 'nb-button-group-test',
+  template: `
     <nb-button-group
       [size]="size"
       [status]="status"
@@ -39,7 +39,7 @@ import {
       <button nbButtonToggle value="F" *ngIf="showLastButton">F</button>
     </nb-button-group>
   `,
-    standalone: false
+  imports: [NbButtonGroupModule, NbButtonModule],
 })
 export class NbButtonGroupTestComponent {
   size: NbComponentSize = 'large';
@@ -65,8 +65,7 @@ describe('Component: NbButtonGroup', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbButtonGroupModule, NbButtonModule],
-      declarations: [NbButtonGroupTestComponent],
+      imports: [NbThemeModule.forRoot(), NbButtonGroupModule, NbButtonModule, NbButtonGroupTestComponent],
     });
 
     fixture = TestBed.createComponent(NbButtonGroupTestComponent);

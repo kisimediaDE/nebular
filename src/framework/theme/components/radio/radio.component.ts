@@ -15,6 +15,7 @@ import {
   ViewChild,
   ElementRef,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
@@ -212,8 +213,8 @@ import { NbComponentOrCustomStatus } from '../component-status';
  * radio-control-disabled-checked-inner-circle-color:
  * */
 @Component({
-    selector: 'nb-radio',
-    template: `
+  selector: 'nb-radio',
+  template: `
     <label>
       <input
         #input
@@ -224,7 +225,8 @@ import { NbComponentOrCustomStatus } from '../component-status';
         [checked]="checked"
         [disabled]="disabled"
         (change)="onChange($event)"
-        (click)="onClick($event)">
+        (click)="onClick($event)"
+      />
       <span class="outer-circle"></span>
       <span class="inner-circle"></span>
       <span class="text">
@@ -232,11 +234,13 @@ import { NbComponentOrCustomStatus } from '../component-status';
       </span>
     </label>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['./radio.component.scss'],
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./radio.component.scss'],
 })
 export class NbRadioComponent {
+  protected cd = inject(ChangeDetectorRef);
+  protected renderer = inject(Renderer2);
+  protected statusService = inject(NbStatusService);
 
   @Input()
   get name(): string {
@@ -294,11 +298,7 @@ export class NbRadioComponent {
 
   @ViewChild('input', { read: ElementRef }) input: ElementRef<HTMLInputElement>;
 
-  constructor(
-    protected cd: ChangeDetectorRef,
-    protected renderer: Renderer2,
-    protected statusService: NbStatusService,
-  ) {}
+  constructor() {}
 
   @HostBinding('class.status-primary')
   get isPrimary(): boolean {

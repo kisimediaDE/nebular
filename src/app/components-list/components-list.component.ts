@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { ComponentLink } from '../playground-components';
+import { NgFor, NgIf } from '@angular/common';
+import { RouterLinkActive, RouterLink } from '@angular/router';
+import { ComponentLinkDirective } from '../components-link.directive';
 
 export function convertToBoolProperty(val: any): boolean {
   if (typeof val === 'string') {
@@ -12,10 +15,10 @@ export function convertToBoolProperty(val: any): boolean {
 }
 
 @Component({
-    selector: 'npg-components-list',
-    styleUrls: ['./components-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'npg-components-list',
+  styleUrls: ['./components-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <div *ngFor="let component of components; trackBy: trackByFn" class="component-block">
       <span *ngIf="!component.component">{{ component.path }}</span>
 
@@ -35,7 +38,7 @@ export function convertToBoolProperty(val: any): boolean {
       <npg-components-list *ngIf="component.children" vertical [components]="component.children"></npg-components-list>
     </div>
   `,
-    standalone: false
+  imports: [NgFor, NgIf, RouterLinkActive, RouterLink, ComponentLinkDirective],
 })
 export class ComponentsListComponent {
   @Input()

@@ -28,8 +28,7 @@ const NB_LAYOUT_COMPONENTS = [
 const NB_LAYOUT_DIRECTIVES = [NbLtrDirective, NbRtlDirective];
 
 @NgModule({
-  imports: [NbSharedModule],
-  declarations: [...NB_LAYOUT_COMPONENTS, ...NB_LAYOUT_DIRECTIVES],
+  imports: [NbSharedModule, ...NB_LAYOUT_COMPONENTS, ...NB_LAYOUT_DIRECTIVES],
   providers: [NbRestoreScrollTopHelper],
   exports: [...NB_LAYOUT_COMPONENTS, ...NB_LAYOUT_DIRECTIVES],
 })

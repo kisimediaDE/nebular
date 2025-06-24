@@ -42,7 +42,7 @@ export function registerPrebuiltTheme(options: Schema) {
   return updateWorkspace(async (workspace: WorkspaceDefinition) => {
     const project = getProjectFromWorkspace(workspace, options.project);
 
-    const themePath = `./node_modules/@nebular/theme/styles/prebuilt/${options.theme}.css`;
+    const themePath = `./node_modules/@kisimedia/nebular-theme/styles/prebuilt/${options.theme}.css`;
 
     addStyleToTarget(project, 'build', themePath);
   });
@@ -86,7 +86,7 @@ function addStyleToTarget(project: ProjectDefinition, targetName: string, styles
 function noNebularThemeIncluded(targetOptions: any, stylesPath: string): boolean {
   const existingStyles = targetOptions.styles.map((s: any) => (typeof s === 'string' ? s : s.input));
   const hasGivenTheme = existingStyles.find((s: any) => s.includes(stylesPath));
-  const hasOtherTheme = existingStyles.find((s: any) => s.includes('@nebular/theme/styles/prebuilt'));
+  const hasOtherTheme = existingStyles.find((s: any) => s.includes('@kisimedia/nebular-theme/styles/prebuilt'));
 
   return !hasGivenTheme && !hasOtherTheme;
 }

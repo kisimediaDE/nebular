@@ -1,4 +1,4 @@
-import { ElementRef, Inject, Injectable } from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { GlobalPositionStrategy } from '@angular/cdk/overlay';
 
 import { map } from 'rxjs/operators';
@@ -287,13 +287,13 @@ export class NbGlobalPositionStrategy extends GlobalPositionStrategy {
 
 @Injectable()
 export class NbPositionBuilderService {
-  constructor(
-    @Inject(NB_DOCUMENT) protected document,
-    protected viewportRuler: NbViewportRulerAdapter,
-    protected platform: NbPlatform,
-    protected positionBuilder: NbOverlayPositionBuilder,
-    protected overlayContainer: NbOverlayContainerAdapter,
-  ) {}
+  protected document = inject(NB_DOCUMENT);
+  protected viewportRuler = inject(NbViewportRulerAdapter);
+  protected platform = inject(NbPlatform);
+  protected positionBuilder = inject(NbOverlayPositionBuilder);
+  protected overlayContainer = inject(NbOverlayContainerAdapter);
+
+  constructor() {}
 
   global(): NbGlobalPositionStrategy {
     return new NbGlobalPositionStrategy();

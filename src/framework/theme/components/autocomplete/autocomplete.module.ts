@@ -14,24 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NbOptionModule } from '../option/option-list.module';
 
-const NB_AUTOCOMPLETE_COMPONENTS = [
-  NbAutocompleteComponent,
-  NbAutocompleteDirective,
-];
+const NB_AUTOCOMPLETE_COMPONENTS = [NbAutocompleteComponent, NbAutocompleteDirective];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    NbOverlayModule,
-    NbCardModule,
-    NbOptionModule,
-  ],
-   exports: [
-     ...NB_AUTOCOMPLETE_COMPONENTS,
-     NbOptionModule,
-   ],
-   declarations: [...NB_AUTOCOMPLETE_COMPONENTS],
+  imports: [CommonModule, FormsModule, NbOverlayModule, NbCardModule, NbOptionModule, ...NB_AUTOCOMPLETE_COMPONENTS],
+  exports: [...NB_AUTOCOMPLETE_COMPONENTS, NbOptionModule],
 })
-export class NbAutocompleteModule {
-}
+export class NbAutocompleteModule {}

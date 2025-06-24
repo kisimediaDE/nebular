@@ -13,6 +13,7 @@ import {
   OnChanges,
   OnInit,
   Renderer2,
+  inject,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -42,15 +43,15 @@ export interface NbIconConfig {
  * ### Installation
  *
  * By default Nebular comes without any pre-installed icon pack.
- * Starting with Nebular 4.0.0 we ship separate package called `@nebular/eva-icons`
+ * Starting with Nebular 4.0.0 we ship separate package called `@kisimedia/nebular-eva-icons`
  * which integrates SVG [Eva Icons](https://akveo.github.io/eva-icons/) pack to Nebular. To add it to your
  * project run:
  * ```sh
- * npm i eva-icons @nebular/eva-icons
+ * npm i eva-icons @kisimedia/nebular-eva-icons
  * ```
  * This command will install Eva Icons pack. Then register `NbEvaIconsModule` into your app module:
  * ```ts
- * import { NbEvaIconsModule } from '@nebular/eva-icons';
+ * import { NbEvaIconsModule } from '@kisimedia/nebular-eva-icons';
  *
  * @NgModule({
  *   imports: [
@@ -62,7 +63,7 @@ export interface NbIconConfig {
  * ```
  * Last thing, import `NbIconModule` to your feature module where you need to show an icon:
  * ```ts
- * import { NbIconModule } from '@nebular/theme';
+ * import { NbIconModule } from '@kisimedia/nebular-theme';
  *
  * @NgModule({
  *   imports: [
@@ -108,13 +109,17 @@ export interface NbIconConfig {
  * icon-control-color:
  */
 @Component({
-    selector: 'nb-icon',
-    styleUrls: [`./icon.component.scss`],
-    template: '',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nb-icon',
+  styleUrls: [`./icon.component.scss`],
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NbIconComponent implements NbIconConfig, OnChanges, OnInit {
+  protected sanitizer = inject(DomSanitizer);
+  protected iconLibrary = inject(NbIconLibraries);
+  protected el = inject(ElementRef);
+  protected renderer = inject(Renderer2);
+  protected statusService = inject(NbStatusService);
 
   protected iconDef;
   protected prevClasses = [];
@@ -216,13 +221,7 @@ export class NbIconComponent implements NbIconConfig, OnChanges, OnInit {
   }
   protected _config: string | NbIconConfig;
 
-  constructor(
-    protected sanitizer: DomSanitizer,
-    protected iconLibrary: NbIconLibraries,
-    protected el: ElementRef,
-    protected renderer: Renderer2,
-    protected statusService: NbStatusService,
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     this.iconDef = this.renderIcon(this.icon, this.pack, this.options);

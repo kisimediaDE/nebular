@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbChatMessageComponent, NbChatModule, NbThemeModule, NbChatCustomMessageService } from '@nebular/theme';
+import {
+  NbChatMessageComponent,
+  NbChatModule,
+  NbThemeModule,
+  NbChatCustomMessageService,
+} from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-chat-message-test',
-    template: `
+  selector: 'nb-chat-message-test',
+  template: `
     <nb-chat size="large">
       <nb-chat-message
         *ngFor="let msg of messages"
@@ -24,7 +29,7 @@ import { NbChatMessageComponent, NbChatModule, NbThemeModule, NbChatCustomMessag
       <nb-chat-form [dropFiles]="false"> </nb-chat-form>
     </nb-chat>
   `,
-    standalone: false
+  imports: [NbChatModule],
 })
 export class NbChatMessageTestComponent {
   messages = [];
@@ -64,8 +69,7 @@ describe('Chat-message component: NbChatMessageTestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, NbThemeModule.forRoot(), NbChatModule],
-      declarations: [NbChatMessageTestComponent],
+      imports: [BrowserAnimationsModule, NbThemeModule.forRoot(), NbChatModule, NbChatMessageTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatMessageTestComponent);

@@ -10,21 +10,9 @@ import { NbCdkAdapterModule } from '../adapter/adapter.module';
 import { NbPositionHelper } from './position-helper';
 import { NbTriggerStrategyBuilderService } from './overlay-trigger';
 
-
 @NgModule({
-  imports: [
-    NbCdkMappingModule,
-    NbSharedModule,
-  ],
-  declarations: [
-    NbPositionedContainerComponent,
-    NbOverlayContainerComponent,
-  ],
-  exports: [
-    NbCdkMappingModule,
-    NbCdkAdapterModule,
-    NbOverlayContainerComponent,
-  ],
+  imports: [NbCdkMappingModule, NbSharedModule, NbPositionedContainerComponent, NbOverlayContainerComponent],
+  exports: [NbCdkMappingModule, NbCdkAdapterModule, NbOverlayContainerComponent],
 })
 export class NbOverlayModule {
   static forRoot(): ModuleWithProviders<NbOverlayModule> {

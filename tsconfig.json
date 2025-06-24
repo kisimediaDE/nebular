@@ -19,14 +19,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
-      "@nebular/*": [
-        "src/framework/*/public_api.ts"
-      ]
+      "@kisimedia/nebular-*": ["src/framework/*/public_api.ts"]
     },
     "useDefineForClassFields": false
   },

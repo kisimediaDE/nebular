@@ -11,6 +11,7 @@ import {
   NgZone,
   QueryList,
   Renderer2,
+  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
@@ -27,6 +28,12 @@ export type NbButtonProperties = Pick<NbButton, 'appearance' | 'size' | 'shape' 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class NbButton implements AfterContentChecked, AfterViewInit {
+  protected renderer = inject(Renderer2);
+  protected hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected cd = inject(ChangeDetectorRef);
+  protected zone = inject(NgZone);
+  protected statusService = inject(NbStatusService);
+
   /**
    * Button size, available sizes:
    * `tiny`, `small`, `medium`, `large`, `giant`
@@ -199,14 +206,7 @@ export abstract class NbButton implements AfterContentChecked, AfterViewInit {
 
   @ContentChildren(NbIconComponent, { read: ElementRef }) icons: QueryList<ElementRef>;
 
-  protected constructor(
-    protected renderer: Renderer2,
-    protected hostElement: ElementRef<HTMLElement>,
-    protected cd: ChangeDetectorRef,
-    protected zone: NgZone,
-    protected statusService: NbStatusService,
-  ) {
-  }
+  protected constructor() {}
 
   ngAfterContentChecked() {
     const firstNode = this.nodes[0];
@@ -218,9 +218,11 @@ export abstract class NbButton implements AfterContentChecked, AfterViewInit {
 
   ngAfterViewInit() {
     // TODO: #2254
-    this.zone.runOutsideAngular(() => setTimeout(() => {
-      this.renderer.addClass(this.hostElement.nativeElement, 'nb-transition');
-    }));
+    this.zone.runOutsideAngular(() =>
+      setTimeout(() => {
+        this.renderer.addClass(this.hostElement.nativeElement, 'nb-transition');
+      }),
+    );
   }
 
   /**

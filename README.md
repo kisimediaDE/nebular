@@ -23,7 +23,7 @@
 npm install @kisimedia/nebular-theme
 ```
 
-> All packages are published under the `15.0.0-custom.1` version and available on npm.
+> All packages are published under the `15.0.0-custom.3` version and available on npm.
 
 ---
 

@@ -66,15 +66,11 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
  * accordion-item-text-line-height:
  */
 @Component({
-    selector: 'nb-accordion',
-    template: `
-    <ng-content select="nb-accordion-item"></ng-content>
-  `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'nb-accordion',
+  template: ` <ng-content select="nb-accordion-item"></ng-content> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NbAccordionComponent {
-
   openCloseItems = new Subject<boolean>();
 
   /**

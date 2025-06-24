@@ -8,10 +8,12 @@ import {
   Input,
   ViewChild,
   ViewContainerRef,
+  inject,
 } from '@angular/core';
 
 import { NbPosition } from './overlay-position';
 import { NbComponentPortal, NbPortalInjector, NbPortalOutletDirective, NbTemplatePortal } from './mapping';
+import { NgIf } from '@angular/common';
 
 export interface NbRenderableContainer {
   /**
@@ -23,10 +25,7 @@ export interface NbRenderableContainer {
   renderContent();
 }
 
-@Component({
-  template: '',
-  standalone: false,
-})
+@Component({ template: '' })
 export class NbPositionedContainerComponent {
   @Input() position: NbPosition;
 
@@ -97,9 +96,13 @@ export class NbPositionedContainerComponent {
     <div *ngIf="isStringContent" class="primitive-overlay">{{ content }}</div>
     <ng-template nbPortalOutlet></ng-template>
   `,
-  standalone: false,
+  imports: [NgIf, NbPortalOutletDirective],
 })
 export class NbOverlayContainerComponent {
+  protected vcr = inject(ViewContainerRef);
+  protected injector = inject(Injector);
+  private changeDetectorRef = inject(ChangeDetectorRef);
+
   // TODO static must be false as of Angular 9.0.0, issues/1514
   @ViewChild(NbPortalOutletDirective, { static: true }) portalOutlet: NbPortalOutletDirective;
 
@@ -107,11 +110,7 @@ export class NbOverlayContainerComponent {
 
   content: string;
 
-  constructor(
-    protected vcr: ViewContainerRef,
-    protected injector: Injector,
-    private changeDetectorRef: ChangeDetectorRef,
-  ) {}
+  constructor() {}
 
   get isStringContent(): boolean {
     return !!this.content;

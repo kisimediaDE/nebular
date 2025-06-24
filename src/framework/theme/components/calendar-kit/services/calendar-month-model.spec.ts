@@ -7,7 +7,7 @@
 import { inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
 
-import { NbCalendarMonthModelService, NbDateService, NbNativeDateService } from '@nebular/theme';
+import { NbCalendarMonthModelService, NbDateService, NbNativeDateService } from '@kisimedia/nebular-theme';
 
 describe('month-model-service', () => {
   let monthModel: NbCalendarMonthModelService<Date>;
@@ -18,13 +18,11 @@ describe('month-model-service', () => {
     });
   });
 
-  beforeEach(
-    waitForAsync(
-      inject([NbCalendarMonthModelService], (_monthModel) => {
-        monthModel = _monthModel;
-      }),
-    ),
-  );
+  beforeEach(waitForAsync(
+    inject([NbCalendarMonthModelService], (_monthModel) => {
+      monthModel = _monthModel;
+    }),
+  ));
 
   it('should create days grid with active month', () => {
     const date = new Date(2018, 7, 1);

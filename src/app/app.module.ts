@@ -11,13 +11,13 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule } from '@nebular/theme';
+import { NbThemeModule } from '@kisimedia/nebular-theme';
 
 import { AppComponent } from './app.component';
 import { LayoutDirectionToggleComponent } from './layout-direction-toggle/layout-direction-toggle.component';
 import { LayoutThemeToggleComponent } from './layout-theme-toggle/layout-theme-toggle.component';
 import { ComponentsListComponent } from './components-list/components-list.component';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbEvaIconsModule } from '@kisimedia/nebular-eva-icons';
 import { ComponentLinkDirective } from './components-link.directive';
 
 @NgModule({
@@ -38,19 +38,17 @@ import { ComponentLinkDirective } from './components-link.directive';
     ),
     NbThemeModule.forRoot(),
     NbEvaIconsModule,
-  ],
-  declarations: [
-    AppComponent,
     LayoutDirectionToggleComponent,
     LayoutThemeToggleComponent,
     ComponentsListComponent,
     ComponentLinkDirective,
   ],
+  declarations: [AppComponent],
   providers: [
     {
       provide: REMOVE_STYLES_ON_COMPONENT_DESTROY,
       useValue: false,
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })

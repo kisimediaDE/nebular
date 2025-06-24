@@ -4,8 +4,8 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { NgModule } from '@angular/core';
-import { NbIconLibraries, NbSvgIcon, NbIcons } from '@nebular/theme';
+import { NgModule, inject } from '@angular/core';
+import { NbIconLibraries, NbSvgIcon, NbIcons } from '@kisimedia/nebular-theme';
 import { icons } from 'eva-icons';
 
 interface NbOriginalEvaIcon {
@@ -13,19 +13,21 @@ interface NbOriginalEvaIcon {
 }
 
 export interface NbEvaIconOptions {
-  width: string,
-  height: string,
-  fill: string,
+  width: string;
+  height: string;
+  fill: string;
   animation: {
-    type: string,
-    hover: boolean,
-    infinite: boolean,
-  },
+    type: string;
+    hover: boolean;
+    infinite: boolean;
+  };
 }
 
 export class NbEvaSvgIcon extends NbSvgIcon {
-
-  constructor(protected name, protected content: NbOriginalEvaIcon) {
+  constructor(
+    protected name,
+    protected content: NbOriginalEvaIcon,
+  ) {
     super(name, '');
   }
 
@@ -41,17 +43,17 @@ export class NbEvaSvgIcon extends NbSvgIcon {
 
 @NgModule({})
 export class NbEvaIconsModule {
-
   private NAME = 'eva';
 
-  constructor(iconLibrary: NbIconLibraries) {
+  constructor() {
+    const iconLibrary = inject(NbIconLibraries);
+
     iconLibrary.registerSvgPack(this.NAME, this.createIcons());
     iconLibrary.setDefaultPack(this.NAME);
   }
 
   private createIcons(): NbIcons {
-    return Object
-      .entries<NbOriginalEvaIcon>(icons)
+    return Object.entries<NbOriginalEvaIcon>(icons)
       .map(([name, icon]) => {
         return [name, new NbEvaSvgIcon(name, icon)] as [string, NbSvgIcon];
       })

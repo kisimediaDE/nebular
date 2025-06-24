@@ -12,6 +12,7 @@ import {
   HostListener,
   Input,
   Output,
+  inject,
 } from '@angular/core';
 
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../calendar-kit/model';
@@ -20,17 +21,19 @@ import { NbCalendarRange } from './calendar-range.component';
 import { NbBaseCalendarRangeCell } from './base-calendar-range-cell';
 
 @Component({
-    selector: 'nb-calendar-range-month-cell',
-    template: `
+  selector: 'nb-calendar-range-month-cell',
+  template: `
     <div class="cell-content">
       {{ month }}
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NbCalendarRangeMonthCellComponent<D> extends NbBaseCalendarRangeCell<D>
-                                                  implements NbCalendarCell<D, NbCalendarRange<D>> {
+export class NbCalendarRangeMonthCellComponent<D>
+  extends NbBaseCalendarRangeCell<D>
+  implements NbCalendarCell<D, NbCalendarRange<D>>
+{
+  protected dateService = inject<NbDateService<D>>(NbDateService);
 
   get month(): string {
     return this.dateService.getMonthName(this.date);
@@ -115,7 +118,7 @@ export class NbCalendarRangeMonthCellComponent<D> extends NbBaseCalendarRangeCel
     this.select.emit(this.date);
   }
 
-  constructor(protected dateService: NbDateService<D>) {
+  constructor() {
     super();
   }
 

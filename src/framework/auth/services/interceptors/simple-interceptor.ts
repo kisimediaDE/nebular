@@ -1,4 +1,4 @@
-import { Inject, Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -9,10 +9,10 @@ import { NbAuthToken } from '../token/token';
 
 @Injectable()
 export class NbAuthSimpleInterceptor implements HttpInterceptor {
-  constructor(
-    private injector: Injector,
-    @Inject(NB_AUTH_INTERCEPTOR_HEADER) protected headerName: string = 'Authorization',
-  ) {}
+  private injector = inject(Injector);
+  protected headerName = inject(NB_AUTH_INTERCEPTOR_HEADER) ?? 'Authorization';
+
+  constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return this.authService.getToken().pipe(
