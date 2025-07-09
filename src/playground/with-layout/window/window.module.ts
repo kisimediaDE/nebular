@@ -7,7 +7,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbCheckboxModule, NbInputModule, NbWindowModule } from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbInputModule,
+  NbWindowModule,
+} from '@kisimedia/nebular-theme';
 
 import { WindowRoutingModule } from './window-routing.module';
 import { TemplateWindowComponent } from './template-window.component';

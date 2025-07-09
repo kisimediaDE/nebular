@@ -5,17 +5,16 @@
  */
 
 import { Component } from '@angular/core';
-import { NbRouteTab } from '@nebular/theme';
+import { NbRouteTab } from '@kisimedia/nebular-theme';
 
 @Component({
-    template: `
+  template: `
     <nb-card>
       <nb-card-body>
         <nb-route-tabset [tabs]="tabs" fullWidth></nb-route-tabset>
       </nb-card-body>
     </nb-card>
   `,
-    standalone: false
 })
 export class RouteTabsetShowcaseComponent {
   tabs: NbRouteTab[] = [

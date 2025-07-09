@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, NgZone, Type, inject } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable, NgZone, Type } from '@angular/core';
 import { filter, takeUntil, distinctUntilChanged, take } from 'rxjs/operators';
 import { Subject, BehaviorSubject, Observable, merge } from 'rxjs';
 
@@ -17,10 +17,6 @@ export interface NbDynamicOverlayController {
 
 @Injectable()
 export class NbDynamicOverlay {
-  protected overlay = inject(NbOverlayService);
-  protected zone = inject(NgZone);
-  protected overlayContainer = inject(NbOverlayContainer);
-
   protected ref: NbOverlayRef;
   protected container: ComponentRef<NbRenderableContainer>;
   protected componentType: Type<NbRenderableContainer>;
@@ -44,7 +40,12 @@ export class NbDynamicOverlay {
     return this.isShown$.pipe(distinctUntilChanged());
   }
 
-  constructor() {}
+  constructor(
+    protected overlay: NbOverlayService,
+    protected componentFactoryResolver: ComponentFactoryResolver,
+    protected zone: NgZone,
+    protected overlayContainer: NbOverlayContainer,
+  ) {}
 
   create(
     componentType: Type<NbRenderableContainer>,
@@ -203,7 +204,7 @@ export class NbDynamicOverlay {
   protected renderContainer() {
     const containerContext = this.createContainerContext();
     if (!this.container) {
-      this.container = createContainer(this.ref, this.componentType, containerContext);
+      this.container = createContainer(this.ref, this.componentType, containerContext, this.componentFactoryResolver);
     }
     this.container.instance.renderContent();
   }
@@ -219,6 +220,7 @@ export class NbDynamicOverlay {
     return {
       content: this.content,
       context: this.context,
+      cfr: this.componentFactoryResolver,
       position: this.lastAppliedPosition,
     };
   }

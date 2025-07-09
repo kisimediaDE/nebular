@@ -16,7 +16,7 @@ import { NbComponentStatus, NbComponentSize, NbComponentShape, NbInputModule } f
     <textarea #textareaEl nbInput [fieldSize]="size" [status]="status" [shape]="shape" [fullWidth]="fullWidth">
     </textarea>
   `,
-  imports: [NbInputModule],
+  standalone: false,
 })
 class InputTestComponent {
   @Input() size: NbComponentSize;
@@ -34,7 +34,8 @@ describe('Directive: NbInput', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbInputModule, InputTestComponent],
+      imports: [NbThemeModule.forRoot(), NbInputModule],
+      declarations: [InputTestComponent],
     }).createComponent(InputTestComponent);
 
     inputTestComponent = fixture.componentInstance;

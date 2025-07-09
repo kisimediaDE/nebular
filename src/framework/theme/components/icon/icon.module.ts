@@ -4,22 +4,21 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { NbIconComponent } from './icon.component';
 import { NbIconLibraries } from './icon-libraries';
 
 @NgModule({
-  imports: [CommonModule, NbIconComponent],
+  imports: [CommonModule],
+  declarations: [NbIconComponent],
   exports: [NbIconComponent],
 })
 export class NbIconModule {
-  private iconsLibrary = inject(NbIconLibraries);
-
   private essentialsPackName = 'nebular-essentials';
 
-  constructor() {
+  constructor(private iconsLibrary: NbIconLibraries) {
     // in case of consequent calls we don't need to enable `nebular-essentials` pack again
     if (this.iconsLibrary.getPack(this.essentialsPackName)) {
       return;

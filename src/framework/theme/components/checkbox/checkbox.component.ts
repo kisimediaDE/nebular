@@ -17,15 +17,12 @@ import {
   ElementRef,
   AfterViewInit,
   NgZone,
-  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 /**
  * Styled checkbox component
@@ -296,15 +293,9 @@ import { NbIconComponent } from '../icon/icon.component';
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbCheckboxComponent implements AfterViewInit, ControlValueAccessor {
-  private changeDetector = inject(ChangeDetectorRef);
-  private renderer = inject(Renderer2);
-  private hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-  private zone = inject(NgZone);
-  private statusService = inject(NbStatusService);
-
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -399,7 +390,13 @@ export class NbCheckboxComponent implements AfterViewInit, ControlValueAccessor 
     return [];
   }
 
-  constructor() {}
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private renderer: Renderer2,
+    private hostElement: ElementRef<HTMLElement>,
+    private zone: NgZone,
+    private statusService: NbStatusService,
+  ) {}
 
   ngAfterViewInit() {
     // TODO: #2254

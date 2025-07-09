@@ -13,7 +13,6 @@ import {
   OnChanges,
   OnInit,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -113,14 +112,9 @@ export interface NbIconConfig {
   styleUrls: [`./icon.component.scss`],
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbIconComponent implements NbIconConfig, OnChanges, OnInit {
-  protected sanitizer = inject(DomSanitizer);
-  protected iconLibrary = inject(NbIconLibraries);
-  protected el = inject(ElementRef);
-  protected renderer = inject(Renderer2);
-  protected statusService = inject(NbStatusService);
-
   protected iconDef;
   protected prevClasses = [];
 
@@ -221,7 +215,13 @@ export class NbIconComponent implements NbIconConfig, OnChanges, OnInit {
   }
   protected _config: string | NbIconConfig;
 
-  constructor() {}
+  constructor(
+    protected sanitizer: DomSanitizer,
+    protected iconLibrary: NbIconLibraries,
+    protected el: ElementRef,
+    protected renderer: Renderer2,
+    protected statusService: NbStatusService,
+  ) {}
 
   ngOnInit() {
     this.iconDef = this.renderIcon(this.icon, this.pack, this.options);

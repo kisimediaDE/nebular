@@ -19,7 +19,7 @@ import {
   NbProgressBarModule,
   NbCheckboxModule,
   NbDialogModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 import { NgdThemeModule } from './@theme/theme.module';
 import { NgdAppComponent } from './app.component';
 import { routes } from './app.routes';
@@ -55,7 +55,7 @@ import * as docs from '../output.json';
     {
       provide: REMOVE_STYLES_ON_COMPONENT_DESTROY,
       useValue: false,
-    }
+    },
   ],
   bootstrap: [NgdAppComponent],
 })

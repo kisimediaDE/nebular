@@ -12,7 +12,6 @@ import {
   HostListener,
   Input,
   Output,
-  inject,
 } from '@angular/core';
 
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
@@ -26,10 +25,9 @@ import { NbDateService } from '../../services/date.service';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbCalendarDayCellComponent<D> implements NbCalendarCell<D, D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   @Input() date: D;
 
   @Input() selectedValue: D;
@@ -47,7 +45,7 @@ export class NbCalendarDayCellComponent<D> implements NbCalendarCell<D, D> {
 
   @Output() select: EventEmitter<D> = new EventEmitter(true);
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   @HostBinding('class.today') get today(): boolean {
     return this.dateService.isSameDaySafe(this.date, this.dateService.today());

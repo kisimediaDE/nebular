@@ -3,9 +3,9 @@ import { SafeHtml } from '@angular/platform-browser';
 import { NgdHighlightService } from '../../../@theme/services';
 
 @Component({
-    selector: 'ngd-code-block',
-    styleUrls: ['./code-block.component.scss'],
-    template: `
+  selector: 'ngd-code-block',
+  styleUrls: ['./code-block.component.scss'],
+  template: `
     <div class="container">
       <div class="lines">
         <span *ngFor="let line of lines">{{ line }}</span>
@@ -13,11 +13,10 @@ import { NgdHighlightService } from '../../../@theme/services';
       <pre><code class="hljs" [innerHTML]="code"></code></pre>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NgdCodeBlockComponent {
-
   @Input() path = '';
   @Input() firstLine: number;
   @Input() lastLine: number;
@@ -32,8 +31,7 @@ export class NgdCodeBlockComponent {
   code: SafeHtml;
   lines: number[] = [];
 
-  constructor(private highlightService: NgdHighlightService) {
-  }
+  constructor(private highlightService: NgdHighlightService) {}
 
   getVisible(code): string {
     return code
@@ -44,6 +42,8 @@ export class NgdCodeBlockComponent {
 
   createLines(code): number[] {
     const length = code.split('\n').length;
-    return Array(length).fill(0).map((_, i) => i + (this.firstLine || 1));
+    return Array(length)
+      .fill(0)
+      .map((_, i) => i + (this.firstLine || 1));
   }
 }

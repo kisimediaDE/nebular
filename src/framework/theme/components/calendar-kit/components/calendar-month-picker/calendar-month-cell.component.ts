@@ -12,7 +12,6 @@ import {
   HostListener,
   Input,
   Output,
-  inject,
 } from '@angular/core';
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { NbDateService } from '../../services/date.service';
@@ -25,10 +24,9 @@ import { NbDateService } from '../../services/date.service';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbCalendarMonthCellComponent<D> implements NbCalendarCell<D, D> {
-  private dateService = inject<NbDateService<D>>(NbDateService);
-
   @Input() date: D;
 
   @Input() selectedValue: D;
@@ -42,7 +40,7 @@ export class NbCalendarMonthCellComponent<D> implements NbCalendarCell<D, D> {
 
   @Output() select: EventEmitter<D> = new EventEmitter(true);
 
-  constructor() {}
+  constructor(private dateService: NbDateService<D>) {}
 
   @HostBinding('class.selected') get selected(): boolean {
     return this.dateService.isSameMonthSafe(this.date, this.selectedValue);

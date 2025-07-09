@@ -32,7 +32,7 @@ let scrollService: NbLayoutScrollService;
       }
     `,
   ],
-  imports: [NbLayoutModule],
+  standalone: false,
 })
 class ScrollTestComponent {
   @ViewChild('resize', { read: ElementRef }) private resizeElement: ElementRef;
@@ -60,8 +60,9 @@ class ScrollTestComponent {
 describe('NbScrollService', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, ScrollTestComponent],
+      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule],
       providers: [NbLayoutScrollService, NbThemeService, { provide: APP_BASE_HREF, useValue: '/' }],
+      declarations: [ScrollTestComponent],
     }).createComponent(ScrollTestComponent);
 
     componentInstance = fixture.componentInstance;

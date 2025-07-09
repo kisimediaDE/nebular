@@ -5,8 +5,6 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { NgIf, DatePipe } from '@angular/common';
-import { NbChatMessageTextComponent } from './chat-message-text.component';
 
 /**
  * Chat message component.
@@ -15,7 +13,7 @@ import { NbChatMessageTextComponent } from './chat-message-text.component';
   selector: 'nb-chat-message-quote',
   template: `
     <p class="sender" *ngIf="sender || date">
-      {{ sender }} <time>{{ date | date: dateFormat }}</time>
+      {{ sender }} <time>{{ date | date : dateFormat }}</time>
     </p>
     <p class="quote">
       {{ quote }}
@@ -25,7 +23,7 @@ import { NbChatMessageTextComponent } from './chat-message-text.component';
     </nb-chat-message-text>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbChatMessageTextComponent, DatePipe],
+  standalone: false,
 })
 export class NbChatMessageQuoteComponent {
   /**

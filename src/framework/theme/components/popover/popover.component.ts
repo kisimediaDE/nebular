@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, TemplateRef, Type, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Input, TemplateRef, Type, ViewChild } from '@angular/core';
 import { NbComponentPortal, NbTemplatePortal } from '../cdk/overlay/mapping';
 import {
   NbOverlayContainerComponent,
@@ -38,13 +38,14 @@ import {
     <span class="arrow"></span>
     <nb-overlay-container></nb-overlay-container>
   `,
-  imports: [NbOverlayContainerComponent],
+  standalone: false,
 })
 export class NbPopoverComponent extends NbPositionedContainerComponent implements NbRenderableContainer {
   @ViewChild(NbOverlayContainerComponent) overlayContainer: NbOverlayContainerComponent;
 
   @Input() content: any;
   @Input() context: Object;
+  @Input() cfr: ComponentFactoryResolver;
 
   renderContent() {
     this.detachContent();
@@ -72,7 +73,7 @@ export class NbPopoverComponent extends NbPositionedContainerComponent implement
   }
 
   protected attachComponent() {
-    const portal = new NbComponentPortal(this.content);
+    const portal = new NbComponentPortal(this.content, null, null, this.cfr);
     const ref = this.overlayContainer.attachComponentPortal(portal, this.context);
     ref.changeDetectorRef.detectChanges();
   }

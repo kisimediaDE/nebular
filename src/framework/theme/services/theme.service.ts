@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, filter, pairwise, distinctUntilChanged, startWith, share } from 'rxjs/operators';
@@ -19,10 +19,6 @@ import { NbMediaBreakpointsService, NbMediaBreakpoint } from './breakpoints.serv
  */
 @Injectable()
 export class NbThemeService {
-  protected options = inject(NB_THEME_OPTIONS);
-  private breakpointService = inject(NbMediaBreakpointsService);
-  private jsThemesRegistry = inject(NbJSThemesRegistry);
-
   // TODO: behavioral subject here?
   currentTheme: string;
   private themeChanges$ = new ReplaySubject(1);
@@ -30,9 +26,11 @@ export class NbThemeService {
   private removeLayoutClass$ = new Subject();
   private changeWindowWidth$ = new ReplaySubject<number>(2);
 
-  constructor() {
-    const options = this.options;
-
+  constructor(
+    @Inject(NB_THEME_OPTIONS) protected options: any,
+    private breakpointService: NbMediaBreakpointsService,
+    private jsThemesRegistry: NbJSThemesRegistry,
+  ) {
     if (options && options.name) {
       this.changeTheme(options.name);
     }

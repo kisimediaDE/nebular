@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Injectable, inject } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
 import { NB_SECURITY_OPTIONS_TOKEN, NbAclOptions, NbAclRole, NbAccessControl } from '../security.options';
 
 const shallowObjectClone = (o) => Object.assign({}, o);
@@ -19,15 +19,11 @@ const popParent = (abilities) => {
  */
 @Injectable()
 export class NbAclService {
-  protected settings = inject<NbAclOptions>(NB_SECURITY_OPTIONS_TOKEN, { optional: true })! ?? {};
-
   private static readonly ANY_RESOURCE = '*';
 
   private state: NbAccessControl = {};
 
-  constructor() {
-    const settings = this.settings;
-
+  constructor(@Optional() @Inject(NB_SECURITY_OPTIONS_TOKEN) protected settings: NbAclOptions = {}) {
     if (settings.accessControl) {
       this.setAccessControl(settings.accessControl);
     }

@@ -9,7 +9,7 @@ import { NbChatModule, NbThemeModule, NbChatCustomMessageService } from '@kisime
       <p>Hello world</p>
     </div>
   `,
-  imports: [NbChatModule],
+  standalone: false,
 })
 export class NbCustomMessageTestComponent {
   customMessageType: string = 'simpleMessageType';
@@ -21,7 +21,8 @@ describe('Directive chat-custom-message-directive: NbCustomMessageTestComponent'
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbChatModule, NbCustomMessageTestComponent],
+      imports: [NbThemeModule.forRoot(), NbChatModule],
+      declarations: [NbCustomMessageTestComponent],
       providers: [NbChatCustomMessageService],
     });
 

@@ -11,16 +11,14 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  Inject,
   Input,
   Output,
   TemplateRef,
-  inject,
 } from '@angular/core';
 
 import { convertToBoolProperty, NbBooleanInput, NbNullableInput } from '../helpers';
 import { NB_SORT_HEADER_COLUMN_DEF } from '../cdk/table/cell';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 /** Column definition associated with a `NbSortHeaderDirective`. */
 interface NbSortHeaderColumnDef {
@@ -47,7 +45,10 @@ const sortDirections: NbSortDirection[] = [NbSortDirection.ASCENDING, NbSortDire
 /**
  * Directive triggers sort method of passed object when sort header changes direction
  */
-@Directive({ selector: '[nbSort]' })
+@Directive({
+  selector: '[nbSort]',
+  standalone: false,
+})
 export class NbSortDirective {
   @Input('nbSort') sortable: NbSortable;
   static ngAcceptInputType_sortable: NbSortable | NbNullableInput;
@@ -74,7 +75,10 @@ export interface NbSortHeaderIconDirectiveContext {
  * it'll set template's implicit context with current direction. Context also has `isAscending`,
  * `isDescending` and `isNone` properties.
  */
-@Directive({ selector: '[nbSortHeaderIcon]' })
+@Directive({
+  selector: '[nbSortHeaderIcon]',
+  standalone: false,
+})
 export class NbSortHeaderIconDirective {}
 
 @Component({
@@ -85,7 +89,7 @@ export class NbSortHeaderIconDirective {}
       <nb-icon *ngIf="isDescending()" icon="chevron-up-outline" pack="nebular-essentials" aria-hidden="true"></nb-icon>
     </ng-container>
   `,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbSortIconComponent {
   @Input() direction: NbSortDirection = NbSortDirection.NONE;
@@ -120,12 +124,9 @@ export class NbSortIconComponent {
     <nb-sort-icon *ngIf="!sortIcon; else customIcon" [direction]="direction"></nb-sort-icon>
     <ng-template #customIcon [ngTemplateOutlet]="sortIcon" [ngTemplateOutletContext]="getIconContext()"></ng-template>
   `,
-  imports: [NgIf, NbSortIconComponent, NgTemplateOutlet],
+  standalone: false,
 })
 export class NbSortHeaderComponent {
-  private sort = inject(NbSortDirective);
-  private columnDef = inject<NbSortHeaderColumnDef>(NB_SORT_HEADER_COLUMN_DEF);
-
   @ContentChild(NbSortHeaderIconDirective, { read: TemplateRef })
   sortIcon: TemplateRef<NbSortHeaderIconDirectiveContext>;
 
@@ -158,7 +159,10 @@ export class NbSortHeaderComponent {
     }
   }
 
-  constructor() {}
+  constructor(
+    private sort: NbSortDirective,
+    @Inject(NB_SORT_HEADER_COLUMN_DEF) private columnDef: NbSortHeaderColumnDef,
+  ) {}
 
   isAscending(): boolean {
     return this.direction === NbSortDirection.ASCENDING;

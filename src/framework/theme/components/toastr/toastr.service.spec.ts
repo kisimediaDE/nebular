@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
@@ -23,12 +24,10 @@ import {
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutModule],
+  standalone: false,
 })
 export class NbToastrTestComponent {
-  private toastrService = inject(NbToastrService);
-
-  constructor() {}
+  constructor(private toastrService: NbToastrService) {}
 
   showToast(className: string) {
     this.toastrService.show('testing toastr', '', { toastClass: className });
@@ -41,12 +40,13 @@ describe('toastr-component', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
+        RouterTestingModule.withRoutes([]),
         NoopAnimationsModule,
         NbThemeModule.forRoot(),
         NbLayoutModule,
         NbToastrModule.forRoot(),
-        NbToastrTestComponent,
       ],
+      declarations: [NbToastrTestComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NbToastrTestComponent);
@@ -240,7 +240,17 @@ describe('toastr-container-registry', () => {
   });
 
   beforeEach(() => {
-    toastrContainerRegistry = new NbToastrContainerRegistry(overlayStub, positionBuilder, positionHelper, documentStub);
+    const cfr = TestBed.configureTestingModule({
+      imports: [NbToastrModule.forRoot()],
+    }).inject(ComponentFactoryResolver);
+
+    toastrContainerRegistry = new NbToastrContainerRegistry(
+      overlayStub,
+      positionBuilder,
+      positionHelper,
+      cfr,
+      documentStub,
+    );
   });
 
   it('should create new container if not exists for requested position', () => {

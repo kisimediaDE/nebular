@@ -24,7 +24,7 @@ let rulerService: NbLayoutRulerService;
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutModule],
+  standalone: false,
 })
 class RulerTestComponent {
   @ViewChild('resize', { read: ElementRef }) private resizeElement: ElementRef;
@@ -53,8 +53,9 @@ class RulerTestComponent {
 describe('NbLayoutRulerService', () => {
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule, RulerTestComponent],
+      imports: [RouterModule.forRoot([]), NbThemeModule.forRoot(), NbLayoutModule],
       providers: [NbLayoutRulerService, NbThemeService, { provide: APP_BASE_HREF, useValue: '/' }],
+      declarations: [RulerTestComponent],
     }).createComponent(RulerTestComponent);
 
     componentInstance = fixture.componentInstance;

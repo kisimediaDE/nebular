@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
 
 @Component({
-    template: `
+  template: `
     <nb-card size="small">
       <nb-list>
         <nb-list-item *ngFor="let user of users">
-          <nb-user [name]="user.name" [title]="user.title">
-          </nb-user>
+          <nb-user [name]="user.name" [title]="user.title"> </nb-user>
         </nb-list-item>
       </nb-list>
     </nb-card>
   `,
-    styleUrls: ['./simple-list-showcase.component.scss'],
-    standalone: false
+  styleUrls: ['./simple-list-showcase.component.scss'],
 })
 export class UsersListShowcaseComponent {
-  users: { name: string, title: string }[] = [
+  users: { name: string; title: string }[] = [
     { name: 'Carla Espinosa', title: 'Nurse' },
     { name: 'Bob Kelso', title: 'Doctor of Medicine' },
     { name: 'Janitor', title: 'Janitor' },

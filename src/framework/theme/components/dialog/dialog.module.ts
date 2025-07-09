@@ -13,7 +13,8 @@ import { NbDialogContainerComponent } from './dialog-container';
 import { NB_DIALOG_CONFIG, NbDialogConfig } from './dialog-config';
 
 @NgModule({
-  imports: [NbSharedModule, NbOverlayModule, NbDialogContainerComponent],
+  imports: [NbSharedModule, NbOverlayModule],
+  declarations: [NbDialogContainerComponent],
 })
 export class NbDialogModule {
   static forRoot(dialogConfig: Partial<NbDialogConfig> = {}): ModuleWithProviders<NbDialogModule> {

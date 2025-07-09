@@ -4,12 +4,11 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostBinding, Input, inject } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NgIf } from '@angular/common';
 
 /**
  * Progress Bar is a component for indicating progress.
@@ -106,11 +105,9 @@ import { NgIf } from '@angular/common';
       </div>
     </div>
   `,
-  imports: [NgIf],
+  standalone: false,
 })
 export class NbProgressBarComponent {
-  protected statusService = inject(NbStatusService);
-
   /**
    * Progress bar value in percent (0 - 100)
    */
@@ -199,5 +196,5 @@ export class NbProgressBarComponent {
     return [];
   }
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 }

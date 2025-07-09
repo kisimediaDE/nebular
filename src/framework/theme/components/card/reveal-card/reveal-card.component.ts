@@ -1,6 +1,4 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../../icon/icon.component';
 
 /**
  *
@@ -68,7 +66,7 @@ import { NbIconComponent } from '../../icon/icon.component';
       <nb-icon icon="chevron-down-outline" pack="nebular-essentials" aria-hidden="true"></nb-icon>
     </a>
   `,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbRevealCardComponent {
   /**

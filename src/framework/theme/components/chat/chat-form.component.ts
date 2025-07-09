@@ -13,16 +13,10 @@ import {
   HostListener,
   Input,
   Output,
-  inject,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NgIf, NgFor } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
-import { NbInputDirective } from '../input/input.directive';
-import { FormsModule } from '@angular/forms';
-import { NbButtonComponent } from '../button/button.component';
 
 /**
  * Chat form component.
@@ -97,12 +91,9 @@ import { NbButtonComponent } from '../button/button.component';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgFor, NbIconComponent, NbInputDirective, FormsModule, NbButtonComponent],
+  standalone: false,
 })
 export class NbChatFormComponent {
-  protected cd = inject(ChangeDetectorRef);
-  protected domSanitizer = inject(DomSanitizer);
-
   status: NbComponentOrCustomStatus = 'basic';
   inputFocus: boolean = false;
   inputHover: boolean = false;
@@ -166,7 +157,7 @@ export class NbChatFormComponent {
 
   @HostBinding('class.file-over') fileOver = false;
 
-  constructor() {}
+  constructor(protected cd: ChangeDetectorRef, protected domSanitizer: DomSanitizer) {}
 
   @HostListener('drop', ['$event'])
   onDrop(event: any) {

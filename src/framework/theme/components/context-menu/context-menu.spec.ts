@@ -17,8 +17,6 @@ import {
   NbContextMenuModule,
   NbOverlayConfig,
 } from '@kisimedia/nebular-theme';
-import { NbLayoutComponent, NbLayoutColumnComponent } from '../layout/layout.component';
-import { NbContextMenuDirective as NbContextMenuDirective_1 } from './context-menu.directive';
 
 @Component({
   selector: 'nb-context-menu-default-test',
@@ -29,7 +27,7 @@ import { NbContextMenuDirective as NbContextMenuDirective_1 } from './context-me
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
+  standalone: false,
 })
 export class NbContextMenuDefaultTestComponent {
   @ViewChild('button') button: ElementRef;
@@ -55,7 +53,7 @@ export class NbContextMenuDefaultTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
+  standalone: false,
 })
 export class NbContextMenuBindingsTestComponent {
   @ViewChild(NbContextMenuDirective) contextMenu: NbContextMenuDirective;
@@ -78,7 +76,7 @@ export class NbContextMenuBindingsTestComponent {
 
     <ng-template>Some Template</ng-template>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbContextMenuDirective_1],
+  standalone: false,
 })
 export class NbContextMenuInstanceTestComponent {
   @ViewChild(NbContextMenuDirective) contextMenu: NbContextMenuDirective;
@@ -174,8 +172,9 @@ const TEST_COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [NbLayoutModule, NbContextMenuModule, ...TEST_COMPONENTS],
+  imports: [NbLayoutModule, NbContextMenuModule],
   exports: [...TEST_COMPONENTS],
+  declarations: [...TEST_COMPONENTS],
 })
 class ContextMenuTestModule {}
 

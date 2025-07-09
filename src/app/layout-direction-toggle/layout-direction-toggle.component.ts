@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NbLayoutDirectionService, NbLayoutDirection } from '@kisimedia/nebular-theme';
 
 @Component({
@@ -12,9 +12,7 @@ import { NbLayoutDirectionService, NbLayoutDirection } from '@kisimedia/nebular-
   `,
 })
 export class LayoutDirectionToggleComponent {
-  private directionService = inject(NbLayoutDirectionService);
-
-  constructor() {}
+  constructor(private directionService: NbLayoutDirectionService) {}
 
   get isRtl() {
     return this.directionService.isRtl();

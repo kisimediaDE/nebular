@@ -4,16 +4,14 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { NbDateService } from './date.service';
 import { batch, range } from '../helpers';
 
 @Injectable()
 export class NbCalendarMonthModelService<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   createDaysGrid(activeMonth: D, boundingMonth: boolean = true, firstDayOfWeek?: number): D[][] {
     const weeks = this.createDates(activeMonth, firstDayOfWeek);

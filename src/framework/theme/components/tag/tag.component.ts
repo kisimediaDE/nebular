@@ -18,7 +18,6 @@ import {
   OnDestroy,
   Output,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -27,8 +26,6 @@ import { NbHighlightableOption } from '../cdk/a11y/descendant-key-manager';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { NbComponentSize } from '../component-size';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 export type NbTagAppearance = 'filled' | 'outline';
 
@@ -235,15 +232,9 @@ let tagUniqueId = 0;
   templateUrl: './tag.component.html',
   exportAs: 'nbTag',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbTagComponent implements AfterViewInit, OnDestroy, NbHighlightableOption {
-  _hostElement = inject(ElementRef);
-  protected cd = inject(ChangeDetectorRef);
-  protected renderer = inject(Renderer2);
-  protected zone = inject(NgZone);
-  protected statusService = inject(NbStatusService);
-
   private _destroy$: Subject<NbTagComponent> = new Subject<NbTagComponent>();
 
   get destroy$(): Observable<NbTagComponent> {
@@ -412,7 +403,13 @@ export class NbTagComponent implements AfterViewInit, OnDestroy, NbHighlightable
     }
   }
 
-  constructor() {}
+  constructor(
+    public _hostElement: ElementRef,
+    protected cd: ChangeDetectorRef,
+    protected renderer: Renderer2,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {}
 
   ngAfterViewInit() {
     // TODO: #2254

@@ -10,7 +10,8 @@ import { NbRadioComponent } from './radio.component';
 import { NbRadioGroupComponent } from './radio-group.component';
 
 @NgModule({
-  imports: [NbRadioComponent, NbRadioGroupComponent],
+  imports: [],
   exports: [NbRadioComponent, NbRadioGroupComponent],
+  declarations: [NbRadioComponent, NbRadioGroupComponent],
 })
 export class NbRadioModule {}

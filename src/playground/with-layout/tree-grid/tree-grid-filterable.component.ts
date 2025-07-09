@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
+import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@kisimedia/nebular-theme';
 
 interface TreeNode<T> {
   data: T;
@@ -15,52 +15,43 @@ interface FSEntry {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-card>
       <nb-card-body>
-
         <label class="search-label" for="search">Type to filter:</label>
-        <input nbInput (input)="filter($event)" id="search" class="search-input">
+        <input nbInput (input)="filter($event)" id="search" class="search-input" />
 
         <table [nbTreeGrid]="dataSource" equalColumnsWidth>
-
           <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
           <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
 
           <ng-container [nbTreeGridColumnDef]="customColumn">
             <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
-              {{customColumn}}
+              {{ customColumn }}
             </th>
 
             <td nbTreeGridCell *nbTreeGridCellDef="let row">
-
-              <nb-tree-grid-row-toggle
-                [expanded]="row.expanded"
-                *ngIf="row.data.kind === 'dir'">
+              <nb-tree-grid-row-toggle [expanded]="row.expanded" *ngIf="row.data.kind === 'dir'">
               </nb-tree-grid-row-toggle>
 
-              {{row.data.name}}
-
+              {{ row.data.name }}
             </td>
           </ng-container>
 
           <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
-            <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{column}}</th>
-            <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
+            <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{ column }}</th>
+            <td nbTreeGridCell *nbTreeGridCellDef="let row">{{ row.data[column] }}</td>
           </ng-container>
-
         </table>
-
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./tree-grid-shared.scss', './tree-grid-showcase.component.scss'],
-    standalone: false
+  styleUrls: ['./tree-grid-shared.scss', './tree-grid-showcase.component.scss'],
 })
 export class TreeGridFilterableComponent {
   customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
-  allColumns = [ this.customColumn, ...this.defaultColumns ];
+  defaultColumns = ['size', 'kind', 'items'];
+  allColumns = [this.customColumn, ...this.defaultColumns];
 
   dataSource: NbTreeGridDataSource<any>;
 
@@ -94,9 +85,7 @@ export class TreeGridFilterableComponent {
       children: [
         {
           data: { name: 'Report 1', kind: 'dir', size: '100 KB', items: 1 },
-          children: [
-            { data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } },
-          ],
+          children: [{ data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } }],
         },
         {
           data: { name: 'Report 2', kind: 'dir', size: '300 KB', items: 2 },

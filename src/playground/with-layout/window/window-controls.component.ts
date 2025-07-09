@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbWindowControlButtonsConfig, NbWindowService } from '@nebular/theme';
+import { NbWindowControlButtonsConfig, NbWindowService } from '@kisimedia/nebular-theme';
 
 import { FormComponent } from './components/form.component';
 
 @Component({
-    templateUrl: 'window-controls.component.html',
-    styleUrls: ['./window.scss', './window-controls.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  templateUrl: 'window-controls.component.html',
+  styleUrls: ['./window.scss', './window-controls.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WindowControlsComponent {
   minimize = true;

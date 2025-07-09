@@ -355,6 +355,7 @@ This change doesn't affect users who use prebuilt Nebular themes. For prebult th
 ### BREAKING CHANGES
 
 - **deps:**
+
   - Bump Angular version to 11+.
   - `@kisimedia/nebular-fire` requires `@angular/fire` 6.1.0+ and `firebase` 8.0.0+.
 
@@ -387,6 +388,7 @@ This change doesn't affect users who use prebuilt Nebular themes. For prebult th
 - **auth:** `~@kisimedia/nebular-auth/styles/all`file removed. Replace `~@kisimedia/nebular-auth/styles/all` imports with `~@kisimedia/nebular-auth/styles/globals`.
 
 - **theme:**:
+
   - `NbComponentStatus` type replaced with `NbComponentOrCustomStatus` in following properties: `NbActionComponent.badgeStatus`, `NbBadge.status`, `NbBadgeComponent.status`, `NbButtonComponent.status`, `NbAlertComponent.status`, `NbCardComponent.status`, `NbChatFormComponent.status`, `NbChatComponent.status`, `NbCheckboxComponent.status`, `NbFormFieldControl.status$`, `NbFormControlState.status`, `NbInputDirective.status`, `NbInputDirective.status%`, `NbSelectComponent.status`, `NbSelectComponent.status$`, `NbIconConfig.status`, `NbIconComponent.status`, `NbProgressBarComponent.status`, `NbRadioComponent.status`, `NbRadioGroupComponent.status`, `NbSpinnerDirective.spinnerStatus`, `NbSpinnerComponent.status`, `NbTabComponent.badgeStatus`, `NbToastrConfig.status`, `NbToggleComponent.status`, `NbTooltipDirective.status`, `NbTooltipComponent.context.status`, `NbUserComponent.badgeStatus`.
     If you extended listed components replace `NbComponentStatus` in the property type with `NbComponentOrCustomStatus`.
   - `NbBadgeComponent`, `NbButtonComponent`, `NbAlertComponent`, `NbCardComponent`, `NbChatComponent`, `NbCheckboxComponent`, `NbInputDirective`, `NbSelectComponent`, `NbIconComponent`, `NbProgressBarComponent`, `NbRadioComponent`, `NbSpinnerComponent`, `NbToastComponent`, `NbToggleComponent`, `NbTooltipComponent` constructors now require `NbStatusService` as a constructor parameter. If you extended listed components, inject `NbStatusService` and pass it to the base class.
@@ -553,6 +555,7 @@ NbOAuth2AuthStrategy.setup({
 
 - Badge, button, progress bar, toastr components now use basic status as a default.
 - **calendar:**
+
   - `NbCalendarHeaderComponent` removed. Along with that `showHeader` property removed from following components:
   - `NbBaseCalendarComponent`
   - `NbCalendarRangeComponent`
@@ -561,6 +564,7 @@ NbOAuth2AuthStrategy.setup({
   - `NbBasePickerComponent`
 
   - `medium` and `size-medium` css classes were removed along with `medium`/`isMedium` properties from the following classes:
+
     - `NbCalendarDayPickerComponent`
     - `NbCalendarMonthPickerComponent`
     - `NbCalendarYearPickerComponent`
@@ -1402,6 +1406,7 @@ Here's a list of other possibly breaking changes that you may need to take into 
   For more information check [toastr documentation](https://akveo.github.io/nebular/docs/components/toastr).
 - **theme:** All bootstrap override styles were moved from the @kisimedia/nebular-theme package to the new @kisimedia/nebular-bootstrap package. If you don't need bootstrap support you can simply no use this package.
   @kisimedia/nebular-theme package introduced a dependency of normalize.css. To update:
+
   - install Nebular Bootstrap `npm i @kisimedia/nebular-bootstrap`
   - then add it into your `styles.scss`
 

@@ -4,19 +4,17 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { range, batch } from '../helpers';
 import { NbDateService } from './date.service';
 
 @Injectable()
 export class NbCalendarYearModelService<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   protected yearsInView = 12;
   protected yearsInRow = 4;
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   getYearsInView(): number {
     return this.yearsInView;

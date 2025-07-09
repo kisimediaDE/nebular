@@ -19,7 +19,6 @@ import {
   Renderer2,
   AfterViewInit,
   HostBinding,
-  inject,
 } from '@angular/core';
 import { merge, Subject, Observable, combineLatest, ReplaySubject } from 'rxjs';
 import { takeUntil, distinctUntilChanged, map, tap } from 'rxjs/operators';
@@ -27,7 +26,6 @@ import { takeUntil, distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { NbPrefixDirective } from './prefix.directive';
 import { NbSuffixDirective } from './suffix.directive';
 import { NbFormFieldControl, NbFormControlState, NbFormFieldControlConfig } from './form-field-control';
-import { NgIf, NgClass, AsyncPipe } from '@angular/common';
 
 export type NbFormControlAddon = 'prefix' | 'suffix';
 
@@ -91,14 +89,9 @@ function throwFormControlElementNotFound() {
   styleUrls: ['./form-field.component.scss'],
   templateUrl: './form-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NgClass, AsyncPipe],
+  standalone: false,
 })
 export class NbFormFieldComponent implements AfterContentChecked, AfterContentInit, AfterViewInit, OnDestroy {
-  protected cd = inject(ChangeDetectorRef);
-  protected zone = inject(NgZone);
-  protected elementRef = inject(ElementRef);
-  protected renderer = inject(Renderer2);
-
   protected readonly destroy$ = new Subject<void>();
 
   protected formControlState$ = new ReplaySubject<NbFormControlState>(1);
@@ -113,7 +106,12 @@ export class NbFormFieldComponent implements AfterContentChecked, AfterContentIn
 
   @HostBinding('class') formFieldClasses;
 
-  constructor() {}
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected zone: NgZone,
+    protected elementRef: ElementRef,
+    protected renderer: Renderer2,
+  ) {}
 
   ngAfterContentChecked() {
     if (!this.formControl) {

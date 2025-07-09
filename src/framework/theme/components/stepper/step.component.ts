@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, Inject, Input, TemplateRef, ViewChild } from '@angular/core';
 import { NbStepperComponent } from './stepper.component';
 import { NB_STEPPER } from './stepper-tokens';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
@@ -14,6 +14,7 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
       <ng-content></ng-content>
     </ng-template>
   `,
+  standalone: false,
 })
 export class NbStepComponent {
   protected stepper: NbStepperComponent;
@@ -83,10 +84,8 @@ export class NbStepComponent {
 
   interacted = false;
 
-  constructor() {
-    const stepper = inject(NB_STEPPER);
-
-    this.stepper = stepper as NbStepperComponent;
+  constructor(@Inject(NB_STEPPER) stepper) {
+    this.stepper = stepper;
   }
 
   /**

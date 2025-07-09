@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { NgModule, inject } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { NbIconLibraries, NbSvgIcon, NbIcons } from '@kisimedia/nebular-theme';
 import { icons } from 'eva-icons';
 
@@ -24,10 +24,7 @@ export interface NbEvaIconOptions {
 }
 
 export class NbEvaSvgIcon extends NbSvgIcon {
-  constructor(
-    protected name,
-    protected content: NbOriginalEvaIcon,
-  ) {
+  constructor(protected name, protected content: NbOriginalEvaIcon) {
     super(name, '');
   }
 
@@ -45,9 +42,7 @@ export class NbEvaSvgIcon extends NbSvgIcon {
 export class NbEvaIconsModule {
   private NAME = 'eva';
 
-  constructor() {
-    const iconLibrary = inject(NbIconLibraries);
-
+  constructor(iconLibrary: NbIconLibraries) {
     iconLibrary.registerSvgPack(this.NAME, this.createIcons());
     iconLibrary.setDefaultPack(this.NAME);
   }

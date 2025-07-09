@@ -14,7 +14,6 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  inject,
 } from '@angular/core';
 import { skip, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -72,11 +71,9 @@ import { NbIconConfig } from '../icon/icon.component';
   selector: '[nbTooltip]',
   exportAs: 'nbTooltip',
   providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
+  standalone: false,
 })
 export class NbTooltipDirective implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  protected hostRef = inject(ElementRef);
-  protected dynamicOverlayHandler = inject(NbDynamicOverlayHandler);
-
   protected destroy$ = new Subject<void>();
   protected tooltipComponent = NbTooltipComponent;
   protected dynamicOverlay: NbDynamicOverlay;
@@ -167,7 +164,7 @@ export class NbTooltipDirective implements OnInit, OnChanges, AfterViewInit, OnD
     return !!(this.dynamicOverlay && this.dynamicOverlay.isAttached);
   }
 
-  constructor() {}
+  constructor(protected hostRef: ElementRef, protected dynamicOverlayHandler: NbDynamicOverlayHandler) {}
 
   ngOnInit() {
     this.dynamicOverlayHandler.host(this.hostRef).componentType(this.tooltipComponent).offset(this.offset);

@@ -6,12 +6,10 @@
 
 import { TranslationWidth } from '@angular/common';
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { NbCalendarViewMode, NbCalendarViewModeValues } from '../../model';
 import { NbCalendarYearModelService } from '../../services/calendar-year-model.service';
 import { NbDateService } from '../../services/date.service';
-import { NbButtonComponent } from '../../../button/button.component';
-import { NbIconComponent } from '../../../icon/icon.component';
 
 @Component({
   selector: 'nb-calendar-view-mode',
@@ -22,18 +20,15 @@ import { NbIconComponent } from '../../../icon/icon.component';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NbButtonComponent, NbIconComponent],
+  standalone: false,
 })
 export class NbCalendarViewModeComponent<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-  protected yearModelService = inject<NbCalendarYearModelService<D>>(NbCalendarYearModelService);
-
   @Input() date: D;
   @Input() viewMode: NbCalendarViewMode = NbCalendarViewMode.DATE;
   static ngAcceptInputType_viewMode: NbCalendarViewModeValues;
   @Output() changeMode = new EventEmitter<void>(true);
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>, protected yearModelService: NbCalendarYearModelService<D>) {}
 
   getText(): string {
     if (!this.date) {

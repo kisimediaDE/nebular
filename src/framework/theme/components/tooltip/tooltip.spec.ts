@@ -19,8 +19,6 @@ import {
   NbIconLibraries,
   NbOverlayConfig,
 } from '@kisimedia/nebular-theme';
-import { NbLayoutComponent, NbLayoutColumnComponent } from '../layout/layout.component';
-import { NbTooltipDirective as NbTooltipDirective_1 } from './tooltip.directive';
 
 @Component({
   selector: 'nb-tooltip-default-test',
@@ -31,7 +29,7 @@ import { NbTooltipDirective as NbTooltipDirective_1 } from './tooltip.directive'
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
+  standalone: false,
 })
 export class NbTooltipDefaultTestComponent {
   @ViewChild('button') button: ElementRef;
@@ -56,7 +54,7 @@ export class NbTooltipDefaultTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
+  standalone: false,
 })
 export class NbTooltipBindingsTestComponent {
   @ViewChild(NbTooltipDirective) tooltip: NbTooltipDirective;
@@ -81,7 +79,7 @@ export class NbTooltipBindingsTestComponent {
 
     <ng-template>Some Template</ng-template>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbTooltipDirective_1],
+  standalone: false,
 })
 export class NbTooltipInstanceTestComponent {
   @ViewChild(NbTooltipDirective) tooltip: NbTooltipDirective;
@@ -179,8 +177,9 @@ export class NbDynamicOverlayHandlerMock {
 const TEST_COMPONENTS = [NbTooltipDefaultTestComponent, NbTooltipBindingsTestComponent, NbTooltipInstanceTestComponent];
 
 @NgModule({
-  imports: [NbLayoutModule, NbTooltipModule, ...TEST_COMPONENTS],
+  imports: [NbLayoutModule, NbTooltipModule],
   exports: [...TEST_COMPONENTS],
+  declarations: [...TEST_COMPONENTS],
 })
 class PopoverTestModule {}
 

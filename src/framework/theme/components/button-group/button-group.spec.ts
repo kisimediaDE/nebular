@@ -39,7 +39,7 @@ import {
       <button nbButtonToggle value="F" *ngIf="showLastButton">F</button>
     </nb-button-group>
   `,
-  imports: [NbButtonGroupModule, NbButtonModule],
+  standalone: false,
 })
 export class NbButtonGroupTestComponent {
   size: NbComponentSize = 'large';
@@ -65,7 +65,8 @@ describe('Component: NbButtonGroup', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbButtonGroupModule, NbButtonModule, NbButtonGroupTestComponent],
+      imports: [NbThemeModule.forRoot(), NbButtonGroupModule, NbButtonModule],
+      declarations: [NbButtonGroupTestComponent],
     });
 
     fixture = TestBed.createComponent(NbButtonGroupTestComponent);

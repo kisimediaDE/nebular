@@ -11,7 +11,8 @@ import { NbPopoverDirective } from './popover.directive';
 import { NbPopoverComponent } from './popover.component';
 
 @NgModule({
-  imports: [NbOverlayModule, NbPopoverDirective, NbPopoverComponent],
+  imports: [NbOverlayModule],
+  declarations: [NbPopoverDirective, NbPopoverComponent],
   exports: [NbPopoverDirective],
 })
 export class NbPopoverModule {}

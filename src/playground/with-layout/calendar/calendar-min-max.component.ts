@@ -5,11 +5,11 @@
  */
 
 import { Component } from '@angular/core';
-import { NbDateService } from '@nebular/theme';
+import { NbDateService } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-calendar-min-max',
-    template: `
+  selector: 'nb-calendar-min-max',
+  template: `
     <nb-card>
       <nb-card-header>
         <h1 class="h5">Selected date: {{ date | date }}</h1>
@@ -19,7 +19,6 @@ import { NbDateService } from '@nebular/theme';
       </nb-card-body>
     </nb-card>
   `,
-    standalone: false
 })
 export class CalendarMinMaxComponent {
   date: Date;

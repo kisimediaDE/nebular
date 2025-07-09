@@ -17,7 +17,6 @@ import {
   AfterViewInit,
   Renderer2,
   NgZone,
-  inject,
 } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { map, finalize, takeUntil } from 'rxjs/operators';
@@ -220,14 +219,9 @@ import { NbFocusMonitor } from '../cdk/a11y/a11y.module';
 @Directive({
   selector: 'input[nbInput],textarea[nbInput]',
   providers: [{ provide: NbFormFieldControl, useExisting: NbInputDirective }],
+  standalone: false,
 })
 export class NbInputDirective implements DoCheck, OnChanges, OnInit, AfterViewInit, OnDestroy, NbFormFieldControl {
-  protected elementRef = inject<ElementRef<HTMLInputElement | HTMLTextAreaElement>>(ElementRef);
-  protected focusMonitor = inject(NbFocusMonitor);
-  protected renderer = inject(Renderer2);
-  protected zone = inject(NgZone);
-  protected statusService = inject(NbStatusService);
-
   protected destroy$ = new Subject<void>();
 
   /**
@@ -270,7 +264,13 @@ export class NbInputDirective implements DoCheck, OnChanges, OnInit, AfterViewIn
     return [];
   }
 
-  constructor() {}
+  constructor(
+    protected elementRef: ElementRef<HTMLInputElement | HTMLTextAreaElement>,
+    protected focusMonitor: NbFocusMonitor,
+    protected renderer: Renderer2,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {}
 
   ngDoCheck() {
     const isDisabled = this.elementRef.nativeElement.disabled;

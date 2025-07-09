@@ -11,7 +11,8 @@ import { NbIconModule } from '../icon/icon.module';
 import { NbCheckboxComponent } from './checkbox.component';
 
 @NgModule({
-  imports: [NbSharedModule, NbIconModule, NbCheckboxComponent],
+  imports: [NbSharedModule, NbIconModule],
+  declarations: [NbCheckboxComponent],
   exports: [NbCheckboxComponent],
 })
 export class NbCheckboxModule {}

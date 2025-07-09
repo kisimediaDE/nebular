@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { NbThemeService } from '@kisimedia/nebular-theme';
-import { NgFor, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'npg-layout-theme-toggle',
@@ -19,14 +18,11 @@ import { NgFor, TitleCasePipe } from '@angular/common';
       </label>
     </div>
   `,
-  imports: [NgFor, TitleCasePipe],
 })
 export class LayoutThemeToggleComponent {
-  private themeService = inject(NbThemeService);
-
   readonly themeList = ['default', 'dark', 'cosmic', 'corporate'];
 
-  constructor() {}
+  constructor(private themeService: NbThemeService) {}
 
   handleChange(theme: string): void {
     this.themeService.changeTheme(theme);

@@ -19,7 +19,6 @@ import {
   ElementRef,
   AfterViewInit,
   NgZone,
-  inject,
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -30,8 +29,6 @@ import { NbStatusService } from '../../services/status.service';
 import { NbLayoutDirectionService } from '../../services/direction.service';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 /**
  * Toggle is a control representing `on` and `off` states.
@@ -301,16 +298,9 @@ import { NbIconComponent } from '../icon/icon.component';
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbToggleComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
-  private changeDetector = inject(ChangeDetectorRef);
-  private layoutDirection = inject(NbLayoutDirectionService);
-  private renderer = inject(Renderer2);
-  private hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-  private zone = inject(NgZone);
-  protected statusService = inject(NbStatusService);
-
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -424,7 +414,14 @@ export class NbToggleComponent implements OnInit, AfterViewInit, OnDestroy, Cont
     return this.labelPosition === 'end';
   }
 
-  constructor() {}
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private layoutDirection: NbLayoutDirectionService,
+    private renderer: Renderer2,
+    private hostElement: ElementRef<HTMLElement>,
+    private zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {}
 
   ngOnInit(): void {
     this.layoutDirection

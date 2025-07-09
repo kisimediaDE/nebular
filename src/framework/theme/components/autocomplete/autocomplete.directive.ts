@@ -17,7 +17,6 @@ import {
   OnDestroy,
   QueryList,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { merge, Subject } from 'rxjs';
@@ -88,18 +87,9 @@ import { NbAutocompleteComponent } from './autocomplete.component';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class NbAutocompleteDirective<T> implements OnDestroy, AfterViewInit, ControlValueAccessor {
-  protected hostRef = inject(ElementRef);
-  protected overlay = inject(NbOverlayService);
-  protected cd = inject(ChangeDetectorRef);
-  protected triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
-  protected positionBuilder = inject(NbPositionBuilderService);
-  protected activeDescendantKeyManagerFactory = inject<
-    NbActiveDescendantKeyManagerFactoryService<NbOptionComponent<T>>
-  >(NbActiveDescendantKeyManagerFactoryService);
-  protected renderer = inject(Renderer2);
-
   /**
    * NbAutocompleteComponent instance passed via input.
    * */
@@ -194,7 +184,15 @@ export class NbAutocompleteDirective<T> implements OnDestroy, AfterViewInit, Con
     return this.isOpen && this.keyManager.activeItem ? this.keyManager.activeItem.id : null;
   }
 
-  constructor() {}
+  constructor(
+    protected hostRef: ElementRef,
+    protected overlay: NbOverlayService,
+    protected cd: ChangeDetectorRef,
+    protected triggerStrategyBuilder: NbTriggerStrategyBuilderService,
+    protected positionBuilder: NbPositionBuilderService,
+    protected activeDescendantKeyManagerFactory: NbActiveDescendantKeyManagerFactoryService<NbOptionComponent<T>>,
+    protected renderer: Renderer2,
+  ) {}
 
   ngAfterViewInit() {
     this.triggerStrategy = this.createTriggerStrategy();

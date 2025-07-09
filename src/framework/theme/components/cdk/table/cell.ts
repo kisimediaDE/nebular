@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license infornbion.
  */
 
-import { Directive, ElementRef, InjectionToken, Input, inject } from '@angular/core';
+import { Directive, ElementRef, InjectionToken, Input } from '@angular/core';
 import {
   CdkCell,
   CdkCellDef,
@@ -23,6 +23,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 @Directive({
   selector: '[nbCellDef]',
   providers: [{ provide: CdkCellDef, useExisting: NbCellDefDirective }],
+  standalone: false,
 })
 export class NbCellDefDirective extends CdkCellDef {}
 
@@ -33,6 +34,7 @@ export class NbCellDefDirective extends CdkCellDef {}
 @Directive({
   selector: '[nbHeaderCellDef]',
   providers: [{ provide: CdkHeaderCellDef, useExisting: NbHeaderCellDefDirective }],
+  standalone: false,
 })
 export class NbHeaderCellDefDirective extends CdkHeaderCellDef {}
 
@@ -43,6 +45,7 @@ export class NbHeaderCellDefDirective extends CdkHeaderCellDef {}
 @Directive({
   selector: '[nbFooterCellDef]',
   providers: [{ provide: CdkFooterCellDef, useExisting: NbFooterCellDefDirective }],
+  standalone: false,
 })
 export class NbFooterCellDefDirective extends CdkFooterCellDef {}
 
@@ -58,6 +61,7 @@ export const NB_SORT_HEADER_COLUMN_DEF = new InjectionToken('NB_SORT_HEADER_COLU
     { provide: CdkColumnDef, useExisting: NbColumnDefDirective },
     { provide: NB_SORT_HEADER_COLUMN_DEF, useExisting: NbColumnDefDirective },
   ],
+  standalone: false,
 })
 export class NbColumnDefDirective extends CdkColumnDef {
   private _hasStickyCellChanged = false;
@@ -115,12 +119,10 @@ export class NbColumnDefDirective extends CdkColumnDef {
     class: 'nb-header-cell',
     role: 'columnheader',
   },
+  standalone: false,
 })
 export class NbHeaderCellDirective extends CdkHeaderCell {
-  constructor() {
-    const columnDef = inject(NbColumnDefDirective);
-    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
+  constructor(columnDef: NbColumnDefDirective, elementRef: ElementRef<HTMLElement>) {
     super(columnDef, elementRef);
     elementRef.nativeElement.classList.add(`nb-column-${columnDef.cssClassFriendlyName}`);
   }
@@ -133,12 +135,10 @@ export class NbHeaderCellDirective extends CdkHeaderCell {
     class: 'nb-footer-cell',
     role: 'gridcell',
   },
+  standalone: false,
 })
 export class NbFooterCellDirective extends CdkFooterCell {
-  constructor() {
-    const columnDef = inject(NbColumnDefDirective);
-    const elementRef = inject(ElementRef);
-
+  constructor(columnDef: NbColumnDefDirective, elementRef: ElementRef) {
     super(columnDef, elementRef);
     elementRef.nativeElement.classList.add(`nb-column-${columnDef.cssClassFriendlyName}`);
   }
@@ -151,12 +151,10 @@ export class NbFooterCellDirective extends CdkFooterCell {
     class: 'nb-cell',
     role: 'gridcell',
   },
+  standalone: false,
 })
 export class NbCellDirective extends CdkCell {
-  constructor() {
-    const columnDef = inject(NbColumnDefDirective);
-    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
+  constructor(columnDef: NbColumnDefDirective, elementRef: ElementRef<HTMLElement>) {
     super(columnDef, elementRef);
     elementRef.nativeElement.classList.add(`nb-column-${columnDef.cssClassFriendlyName}`);
   }

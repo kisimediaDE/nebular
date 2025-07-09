@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -14,9 +14,7 @@ import { getPathPartOfUrl } from '../menu/url-matching-helpers';
  */
 @Injectable()
 export class NbRestoreScrollTopHelper {
-  private router = inject(Router);
-
-  constructor() {}
+  constructor(private router: Router) {}
 
   shouldRestore(): Observable<boolean> {
     return this.router.events.pipe(

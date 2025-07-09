@@ -17,7 +17,8 @@ const NB_SIDEBAR_COMPONENTS = [NbSidebarComponent, NbSidebarFooterComponent, NbS
 const NB_SIDEBAR_PROVIDERS = [NbSidebarService];
 
 @NgModule({
-  imports: [NbSharedModule, ...NB_SIDEBAR_COMPONENTS],
+  imports: [NbSharedModule],
+  declarations: [...NB_SIDEBAR_COMPONENTS],
   exports: [...NB_SIDEBAR_COMPONENTS],
 })
 export class NbSidebarModule {

@@ -12,7 +12,8 @@ import { NbCardModule } from '../card/card.module';
 import { NbBaseCalendarComponent } from './base-calendar.component';
 
 @NgModule({
-  imports: [NbCalendarKitModule, NbSharedModule, NbCardModule, NbBaseCalendarComponent],
+  imports: [NbCalendarKitModule, NbSharedModule, NbCardModule],
   exports: [NbBaseCalendarComponent],
+  declarations: [NbBaseCalendarComponent],
 })
 export class NbBaseCalendarModule {}

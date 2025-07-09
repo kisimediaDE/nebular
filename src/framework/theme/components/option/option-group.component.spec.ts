@@ -23,7 +23,7 @@ import {
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutModule, NbSelectModule],
+  standalone: false,
 })
 export class NbOptionGroupTestComponent {
   selectDisabled = false;
@@ -46,13 +46,8 @@ describe('NbOptionGroupComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        NbThemeModule.forRoot(),
-        NbLayoutModule,
-        NbSelectModule,
-        NbOptionGroupTestComponent,
-      ],
+      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule, NbSelectModule],
+      declarations: [NbOptionGroupTestComponent],
     });
 
     fixture = TestBed.createComponent(NbOptionGroupTestComponent);

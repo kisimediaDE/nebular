@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@nebular/theme';
+import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from '@kisimedia/nebular-theme';
 
 interface TreeNode<T> {
   data: T;
@@ -15,19 +15,16 @@ interface FSEntry {
 }
 
 @Component({
-    template: `
+  template: `
     <nb-card>
       <nb-card-body>
-
         <table [nbTreeGrid]="dataSource" [nbSort]="dataSource" equalColumnsWidth>
-
           <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="allColumns"></tr>
           <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: allColumns"></tr>
 
           <ng-container [nbTreeGridColumnDef]="customColumn">
-
             <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef nbSortHeader>
-              {{customColumn}}
+              {{ customColumn }}
               <span *nbSortHeaderIcon="let asc = isAscending; let desc = isDescending">
                 <nb-icon *ngIf="asc" icon="chevron-down-outline" aria-label="sorted ascending"></nb-icon>
                 <nb-icon *ngIf="desc" icon="chevron-up-outline" aria-label="sorted descending"></nb-icon>
@@ -35,35 +32,32 @@ interface FSEntry {
             </th>
 
             <td nbTreeGridCell *nbTreeGridCellDef="let row">
-              <button nbTreeGridRowToggle
-                      *ngIf="row.hasChildren()"
-                      [attr.aria-label]="row.expanded ? 'collapse' : 'expand'">
-                <nb-icon [icon]="row.expanded ? 'chevron-down-outline' : 'chevron-right-outline'"
-                         aria-hidden="true">
+              <button
+                nbTreeGridRowToggle
+                *ngIf="row.hasChildren()"
+                [attr.aria-label]="row.expanded ? 'collapse' : 'expand'"
+              >
+                <nb-icon [icon]="row.expanded ? 'chevron-down-outline' : 'chevron-right-outline'" aria-hidden="true">
                 </nb-icon>
               </button>
-              {{row.data.name}}
+              {{ row.data.name }}
             </td>
-
           </ng-container>
 
           <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
-            <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{column}}</th>
-            <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[column]}}</td>
+            <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>{{ column }}</th>
+            <td nbTreeGridCell *nbTreeGridCellDef="let row">{{ row.data[column] }}</td>
           </ng-container>
-
         </table>
-
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./tree-grid-shared.scss', './tree-grid-custom-icons.component.scss'],
-    standalone: false
+  styleUrls: ['./tree-grid-shared.scss', './tree-grid-custom-icons.component.scss'],
 })
 export class TreeGridCustomIconsComponent {
   customColumn = 'name';
-  defaultColumns = [ 'size', 'kind', 'items' ];
-  allColumns = [ this.customColumn, ...this.defaultColumns ];
+  defaultColumns = ['size', 'kind', 'items'];
+  allColumns = [this.customColumn, ...this.defaultColumns];
 
   dataSource: NbTreeGridDataSource<FSEntry>;
 
@@ -93,9 +87,7 @@ export class TreeGridCustomIconsComponent {
       children: [
         {
           data: { name: 'Report 1', kind: 'dir', size: '100 KB', items: 1 },
-          children: [
-            { data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } },
-          ],
+          children: [{ data: { name: 'report-1.doc', kind: 'doc', size: '100 KB' } }],
         },
         {
           data: { name: 'Report 2', kind: 'dir', size: '300 KB', items: 2 },

@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ComponentRef, Injectable, inject } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -21,10 +21,7 @@ import { NB_DOCUMENT } from '../../theme.options';
 export class NbToastRef {
   toastInstance: NbToastComponent;
 
-  constructor(
-    private toastContainer: NbToastContainer,
-    private toast: NbToast,
-  ) {}
+  constructor(private toastContainer: NbToastContainer, private toast: NbToast) {}
 
   close() {
     this.toastContainer.destroy(this.toast);
@@ -160,14 +157,15 @@ interface NbToastrOverlayWithContainer {
 
 @Injectable()
 export class NbToastrContainerRegistry {
-  protected overlay = inject(NbOverlayService);
-  protected positionBuilder = inject(NbPositionBuilderService);
-  protected positionHelper = inject(NbPositionHelper);
-  protected document = inject(NB_DOCUMENT);
-
   protected overlays: Map<NbGlobalPosition, NbToastrOverlayWithContainer> = new Map();
 
-  constructor() {}
+  constructor(
+    protected overlay: NbOverlayService,
+    protected positionBuilder: NbPositionBuilderService,
+    protected positionHelper: NbPositionHelper,
+    protected cfr: ComponentFactoryResolver,
+    @Inject(NB_DOCUMENT) protected document: any,
+  ) {}
 
   get(position: NbGlobalPosition): NbToastContainer {
     const logicalPosition: NbGlobalLogicalPosition = this.positionHelper.toLogicalPosition(position);
@@ -192,7 +190,7 @@ export class NbToastrContainerRegistry {
     const positionStrategy = this.positionBuilder.global().position(position);
     const ref = this.overlay.create({ positionStrategy });
     this.addClassToOverlayHost(ref);
-    const containerRef = ref.attach(new NbComponentPortal(NbToastrContainerComponent));
+    const containerRef = ref.attach(new NbComponentPortal(NbToastrContainerComponent, null, null, this.cfr));
     return {
       overlayRef: ref,
       toastrContainer: new NbToastContainer(position, containerRef, this.positionHelper),
@@ -283,10 +281,10 @@ export class NbToastrContainerRegistry {
  * */
 @Injectable()
 export class NbToastrService {
-  protected globalConfig = inject<NbToastrConfig>(NB_TOASTR_CONFIG);
-  protected containerRegistry = inject(NbToastrContainerRegistry);
-
-  constructor() {}
+  constructor(
+    @Inject(NB_TOASTR_CONFIG) protected globalConfig: NbToastrConfig,
+    protected containerRegistry: NbToastrContainerRegistry,
+  ) {}
 
   /**
    * Shows toast with message, title and user config.

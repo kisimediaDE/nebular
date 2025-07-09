@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, of as observableOf, from } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -15,9 +15,7 @@ import UserCredential = firebase.auth.UserCredential;
 
 @Injectable()
 export abstract class NbFirebaseBaseStrategy extends NbAuthStrategy {
-  protected afAuth = inject(AngularFireAuth);
-
-  constructor() {
+  constructor(protected afAuth: AngularFireAuth) {
     super();
   }
 

@@ -8,7 +8,7 @@ import { NbChatModule, NbThemeModule } from '@kisimedia/nebular-theme';
     <nb-chat-message-text [sender]="sender" [date]="date" [dateFormat]="dateFormat" [message]="message">
     </nb-chat-message-text>
   `,
-  imports: [NbChatModule],
+  standalone: false,
 })
 export class NbChatMessageTextTestComponent {
   sender: string;
@@ -23,7 +23,8 @@ describe('Chat-message-text component: NbChatMessageTextTestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbChatModule, NbChatMessageTextTestComponent],
+      imports: [NbThemeModule.forRoot(), NbChatModule],
+      declarations: [NbChatMessageTextTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatMessageTextTestComponent);

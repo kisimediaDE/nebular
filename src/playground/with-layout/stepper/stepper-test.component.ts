@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'nb-stepper-test',
-    template: `
+  selector: 'nb-stepper-test',
+  template: `
     <nb-stepper>
       <nb-step>
         <ng-template nbStepLabel>First step</ng-template>
@@ -37,7 +37,5 @@ import { Component } from '@angular/core';
       </nb-step>
     </nb-stepper>
   `,
-    standalone: false
 })
-export class StepperTestComponent {
-}
+export class StepperTestComponent {}

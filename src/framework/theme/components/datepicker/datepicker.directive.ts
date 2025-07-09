@@ -9,11 +9,11 @@ import {
   Directive,
   ElementRef,
   forwardRef,
+  Inject,
   InjectionToken,
   Input,
   OnDestroy,
   Type,
-  inject,
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -275,14 +275,9 @@ export const NB_DATE_SERVICE_OPTIONS = new InjectionToken('Date service options'
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor, Validator {
-  protected document = inject(NB_DOCUMENT);
-  protected datepickerAdapters = inject(NB_DATE_ADAPTER);
-  protected hostRef = inject(ElementRef);
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-  protected changeDetector = inject(ChangeDetectorRef);
-
   /**
    * Provides datepicker component.
    * */
@@ -317,7 +312,13 @@ export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor
     [this.parseValidator, this.minValidator, this.maxValidator, this.filterValidator].map((fn) => fn.bind(this)),
   );
 
-  constructor() {
+  constructor(
+    @Inject(NB_DOCUMENT) protected document,
+    @Inject(NB_DATE_ADAPTER) protected datepickerAdapters: NbDatepickerAdapter<D>[],
+    protected hostRef: ElementRef,
+    protected dateService: NbDateService<D>,
+    protected changeDetector: ChangeDetectorRef,
+  ) {
     this.subscribeOnInputChange();
   }
 
@@ -430,13 +431,11 @@ export class NbDatepickerDirective<D> implements OnDestroy, ControlValueAccessor
    * Chooses datepicker adapter based on passed picker component.
    * */
   protected chooseDatepickerAdapter() {
-    const adapter = this.datepickerAdapters;
+    this.datepickerAdapter = this.datepickerAdapters.find(({ picker }) => this.picker instanceof picker);
 
-    if (!(this.picker instanceof adapter.picker)) {
-      throw new Error('Picker is not compatible with provided datepicker adapter');
+    if (this.noDatepickerAdapterProvided()) {
+      throw new Error('No datepickerAdapter provided for picker');
     }
-
-    this.datepickerAdapter = adapter;
   }
 
   /**

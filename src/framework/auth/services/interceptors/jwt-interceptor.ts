@@ -1,4 +1,4 @@
-import { Injectable, Injector, inject } from '@angular/core';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -8,10 +8,7 @@ import { NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '../../auth.options';
 
 @Injectable()
 export class NbAuthJWTInterceptor implements HttpInterceptor {
-  private injector = inject(Injector);
-  protected filter = inject(NB_AUTH_TOKEN_INTERCEPTOR_FILTER);
-
-  constructor() {}
+  constructor(private injector: Injector, @Inject(NB_AUTH_TOKEN_INTERCEPTOR_FILTER) protected filter) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // do not intercept request whose urls are filtered by the injected filter

@@ -16,7 +16,13 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['src/framework/**/*', 'docs/**/*', 'packages-smoke/**/*', 'tools/dev-schematics/*/files'],
+    ignores: [
+      'src/framework/**/*',
+      'docs/**/*',
+      'packages-smoke/**/*',
+      'tools/dev-schematics/*/files',
+      'tools/dev-schematics/dist/**/*',
+    ],
   },
   ...compat
     .extends(

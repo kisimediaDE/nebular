@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Injectable, inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of as observableOf } from 'rxjs';
@@ -90,10 +90,6 @@ import { NbAuthStrategyClass } from '../../auth.options';
  */
 @Injectable()
 export class NbOAuth2AuthStrategy extends NbAuthStrategy {
-  protected http = inject(HttpClient);
-  protected route = inject(ActivatedRoute);
-  protected window = inject(NB_WINDOW);
-
   static setup(options: NbOAuth2AuthStrategyOptions): [NbAuthStrategyClass, NbOAuth2AuthStrategyOptions] {
     return [NbOAuth2AuthStrategy, options];
   }
@@ -173,7 +169,7 @@ export class NbOAuth2AuthStrategy extends NbAuthStrategy {
 
   protected defaultOptions: NbOAuth2AuthStrategyOptions = auth2StrategyOptions;
 
-  constructor() {
+  constructor(protected http: HttpClient, protected route: ActivatedRoute, @Inject(NB_WINDOW) protected window: any) {
     super();
   }
 

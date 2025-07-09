@@ -4,13 +4,12 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, HostBinding, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, HostBinding, Output, EventEmitter } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
 import { NbComponentOrCustomStatus, NbComponentStatus } from '../component-status';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NgIf } from '@angular/common';
 
 /**
  * Alert component.
@@ -117,11 +116,9 @@ import { NgIf } from '@angular/common';
     </button>
     <ng-content></ng-content>
   `,
-  imports: [NgIf],
+  standalone: false,
 })
 export class NbAlertComponent {
-  protected statusService = inject(NbStatusService);
-
   /**
    * Alert size, available sizes:
    * `tiny`, `small`, `medium`, `large`, `giant`
@@ -169,7 +166,7 @@ export class NbAlertComponent {
    */
   @Output() close = new EventEmitter();
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 
   /**
    * Emits the removed chip event

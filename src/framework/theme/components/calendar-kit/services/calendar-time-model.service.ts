@@ -1,13 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NbDateService } from './date.service';
 
 @Injectable()
 export class NbCalendarTimeModelService<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   readonly MINUTES_AND_SECONDS = 60;
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   getHoursRange(step: number = this.MINUTES_AND_SECONDS): D[] {
     let date: D = this.getResetTime();

@@ -8,10 +8,16 @@ let restoreHelper: NbRestoreScrollTopHelper;
 let router: Router;
 let fixture: ComponentFixture<TestBootstrapComponent>;
 
-@Component({ template: '<router-outlet></router-outlet>' })
+@Component({
+  template: '<router-outlet></router-outlet>',
+  standalone: false,
+})
 class TestBootstrapComponent {}
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 class TestComponent {}
 
 describe('NbRestoreScrollTopHelper', () => {
@@ -40,10 +46,9 @@ describe('NbRestoreScrollTopHelper', () => {
             pathMatch: 'full',
           },
         ]),
-        TestComponent,
-        TestBootstrapComponent,
       ],
       providers: [NbRestoreScrollTopHelper],
+      declarations: [TestComponent, TestBootstrapComponent],
     }).createComponent(TestBootstrapComponent);
 
     fixture.detectChanges();

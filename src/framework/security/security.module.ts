@@ -7,7 +7,8 @@ import { NbAccessChecker } from './services/access-checker.service';
 import { NbIsGrantedDirective } from './directives/is-granted.directive';
 
 @NgModule({
-  imports: [CommonModule, NbIsGrantedDirective],
+  imports: [CommonModule],
+  declarations: [NbIsGrantedDirective],
   exports: [NbIsGrantedDirective],
 })
 export class NbSecurityModule {

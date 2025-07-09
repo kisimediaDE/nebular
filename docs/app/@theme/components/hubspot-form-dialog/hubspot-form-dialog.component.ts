@@ -5,12 +5,12 @@
  */
 
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { NB_WINDOW, NbDialogRef } from '@nebular/theme';
+import { NB_WINDOW, NbDialogRef } from '@kisimedia/nebular-theme';
 
 let formContainerUniqueId = 0;
 
 @Component({
-    template: `
+  template: `
     <nb-card>
       <nb-card-header>
         <span>{{ title }}</span>
@@ -23,11 +23,10 @@ let formContainerUniqueId = 0;
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./hubspot-form-dialog.component.scss'],
-    standalone: false
+  styleUrls: ['./hubspot-form-dialog.component.scss'],
+  standalone: false,
 })
 export class NgdHubspotFormDialogComponent implements OnInit, AfterViewInit {
-
   protected readonly defaultConfig = {
     submitButtonClass: 'hs-submit-btn btn',
     css: '',

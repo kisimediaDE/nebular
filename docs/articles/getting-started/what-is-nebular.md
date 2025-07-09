@@ -8,21 +8,21 @@ Nebular is a customizable Angular UI Library based on [Eva Design System](https:
 
 Nebular modules are distributed as separated `npm` packages:
 
-- Nebular Theme `@nebular/theme`
+- Nebular Theme `@kisimedia/nebular-theme`
   - Theme - 4 visual themes, a customizable theming engine with custom css properties support.
   - UI Components - high-quality Angular components no 3rd party dependencies.
   - Server-side rendering compatibility.
   - Right-to-left writing system support for all components.
-- Nebular Auth `@nebular/auth`
+- Nebular Auth `@kisimedia/nebular-auth`
   - Authentication components (login/register/reset password/restore password).
   - Multiple configurable authentication Strategies (backend connectors).
   - Helpers for token management (storing, passing with HTTP requests, etc).
-- Nebular Auth for Firebase `@nebular/firebase-auth`
+- Nebular Auth for Firebase `@kisimedia/nebular-firebase-auth`
   - module for authentication in firebase applications with nebular/auth
-- Nebular Security `@nebular/security`
+- Nebular Security `@kisimedia/nebular-security`
   - roles and permissions management.
-- Nebular Moment `@nebular/moment`
-- Nebular date-fns `@nebular/date-fns`
+- Nebular Moment `@kisimedia/nebular-moment`
+- Nebular date-fns `@kisimedia/nebular-date-fns`
   - modules allowing Nebular components to work with dates with help most popular date libraries.
 - Admin dashboard starter kit <a href="https://github.com/akveo/ngx-admin" target="_blank">ngx-admin</a> - Angular application based on Nebular modules with beautiful IOT and E-commerce components.
 - <a href="https://store.akveo.com/pages/all-collections?utm_campaign=akveo_store%20-%20all%20bundles%20-%20nebular%20landing&utm_source=nebular&utm_medium=referral&utm_content=nebular_intro">Backend Bundles</a> - backend starter kits connected to ngx-admin UI.

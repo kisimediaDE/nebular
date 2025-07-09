@@ -3,15 +3,12 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { NbAuthService } from '../services/auth.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { NbLayoutModule, NbCardModule, NbIconModule } from '@kisimedia/nebular-theme';
-import { NbAuthBlockComponent } from './auth-block/auth-block.component';
-import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'nb-auth',
@@ -36,12 +33,9 @@ import { RouterOutlet } from '@angular/router';
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutModule, NbCardModule, NbIconModule, NbAuthBlockComponent, RouterOutlet],
+  standalone: false,
 })
 export class NbAuthComponent implements OnDestroy {
-  protected auth = inject(NbAuthService);
-  protected location = inject(Location);
-
   private destroy$ = new Subject<void>();
 
   subscription: any;
@@ -50,9 +44,7 @@ export class NbAuthComponent implements OnDestroy {
   token: string = '';
 
   // showcase of how to use the onAuthenticationChange method
-  constructor() {
-    const auth = this.auth;
-
+  constructor(protected auth: NbAuthService, protected location: Location) {
     this.subscription = auth
       .onAuthenticationChange()
       .pipe(takeUntil(this.destroy$))

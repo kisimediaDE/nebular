@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { FocusTrap, FocusTrapFactory, InteractivityChecker } from '@angular/cdk/a11y';
 
 import { NB_DOCUMENT } from '../../../theme.options';
@@ -36,20 +36,12 @@ export class NbFocusTrap extends FocusTrap {
 
 @Injectable()
 export class NbFocusTrapFactoryService extends FocusTrapFactory {
-  protected checker: InteractivityChecker;
-  protected ngZone: NgZone;
-  private document;
-
-  constructor() {
-    const checker = inject(InteractivityChecker);
-    const ngZone = inject(NgZone);
-    const document = inject(NB_DOCUMENT);
-
+  constructor(
+    protected checker: InteractivityChecker,
+    protected ngZone: NgZone,
+    @Inject(NB_DOCUMENT) private document,
+  ) {
     super(checker, ngZone, document);
-
-    this.checker = checker;
-    this.ngZone = ngZone;
-    this.document = document;
   }
 
   create(element: HTMLElement, deferCaptureElements?: boolean): NbFocusTrap {

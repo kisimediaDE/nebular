@@ -116,7 +116,7 @@ describe('Component: NbToggle', () => {
 // Test component with reactive forms
 @Component({
   template: `<nb-toggle [formControl]="formControl"></nb-toggle>`,
-  imports: [ReactiveFormsModule, NbToggleModule],
+  standalone: false,
 })
 class ToggleWithFormControlComponent {
   formControl = new FormControl();
@@ -131,14 +131,9 @@ describe('Component: NbToggle with form control', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        NbThemeModule.forRoot(),
-        NbToggleModule,
-        ToggleWithFormControlComponent,
-      ],
+      imports: [ReactiveFormsModule, BrowserAnimationsModule, NbThemeModule.forRoot(), NbToggleModule],
       providers: [NbLayoutDirectionService],
+      declarations: [ToggleWithFormControlComponent],
     });
 
     fixture = TestBed.createComponent(ToggleWithFormControlComponent);

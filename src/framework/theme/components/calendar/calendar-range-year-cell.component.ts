@@ -12,7 +12,6 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
-  inject,
 } from '@angular/core';
 
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../calendar-kit/model';
@@ -28,13 +27,12 @@ import { NbBaseCalendarRangeCell } from './base-calendar-range-cell';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbCalendarRangeYearCellComponent<D>
   extends NbBaseCalendarRangeCell<D>
   implements NbCalendarCell<D, NbCalendarRange<D>>
 {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   @Input() date: D;
 
   @Input() min: D;
@@ -48,7 +46,7 @@ export class NbCalendarRangeYearCellComponent<D>
 
   @Output() select: EventEmitter<D> = new EventEmitter(true);
 
-  constructor() {
+  constructor(protected dateService: NbDateService<D>) {
     super();
   }
 

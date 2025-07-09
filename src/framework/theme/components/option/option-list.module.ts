@@ -8,7 +8,8 @@ import { NbCheckboxModule } from '../checkbox/checkbox.module';
 const NB_OPTION_LIST_COMPONENTS = [NbOptionListComponent, NbOptionComponent, NbOptionGroupComponent];
 
 @NgModule({
-  imports: [CommonModule, NbCheckboxModule, ...NB_OPTION_LIST_COMPONENTS],
+  declarations: [...NB_OPTION_LIST_COMPONENTS],
+  imports: [CommonModule, NbCheckboxModule],
   exports: [...NB_OPTION_LIST_COMPONENTS],
 })
 export class NbOptionModule {}

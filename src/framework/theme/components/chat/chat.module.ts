@@ -37,7 +37,8 @@ const NB_CHAT_COMPONENTS = [
 const NB_CHAT_DIRECTIVES = [NbChatCustomMessageDirective, NbChatTitleDirective];
 
 @NgModule({
-  imports: [NbSharedModule, NbIconModule, NbInputModule, NbButtonModule, ...NB_CHAT_COMPONENTS, ...NB_CHAT_DIRECTIVES],
+  imports: [NbSharedModule, NbIconModule, NbInputModule, NbButtonModule],
+  declarations: [...NB_CHAT_COMPONENTS, ...NB_CHAT_DIRECTIVES],
   exports: [...NB_CHAT_COMPONENTS, ...NB_CHAT_DIRECTIVES],
 })
 export class NbChatModule {

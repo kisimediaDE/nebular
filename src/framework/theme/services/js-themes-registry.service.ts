@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { NbJSThemeOptions } from './js-themes/theme.options';
 import { DEFAULT_THEME } from './js-themes/default.theme';
@@ -23,10 +23,10 @@ export const BUILT_IN_THEMES: NbJSThemeOptions[] = [DEFAULT_THEME, COSMIC_THEME,
 export class NbJSThemesRegistry {
   private themes: any = {};
 
-  constructor() {
-    const builtInThemes = inject(NB_BUILT_IN_JS_THEMES);
-    const newThemes = inject(NB_JS_THEMES) ?? [];
-
+  constructor(
+    @Inject(NB_BUILT_IN_JS_THEMES) builtInThemes: NbJSThemeOptions[],
+    @Inject(NB_JS_THEMES) newThemes: NbJSThemeOptions[] = [],
+  ) {
     const themes = this.combineByNames(newThemes, builtInThemes);
 
     themes.forEach((theme: any) => {

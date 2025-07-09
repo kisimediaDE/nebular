@@ -6,18 +6,18 @@ By default, Nebular includes only a small and limited pack called `nebular-essen
 
 ## Eva Icons
 
-In case you need to have more icons available, Nebular provides a `@nebular/eva-icons` pack with 480+ SVG icons.
+In case you need to have more icons available, Nebular provides a `@kisimedia/nebular-eva-icons` pack with 480+ SVG icons.
 
 Install the pack:
 
 ```sh
-npm i eva-icons @nebular/eva-icons
+npm i eva-icons @kisimedia/nebular-eva-icons
 ```
 
 This command will install Eva Icons pack. Then register `NbEvaIconsModule` into your app module:
 
 ```ts
-import { NbEvaIconsModule } from '@nebular/eva-icons';
+import { NbEvaIconsModule } from '@kisimedia/nebular-eva-icons';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ export class AppModule {}
 Import `NbIconModule` into your feature module where you need to show the icon:
 
 ```ts
-import { NbIconModule } from '@nebular/theme';
+import { NbIconModule } from '@kisimedia/nebular-theme';
 
 @NgModule({
   imports: [
@@ -56,7 +56,7 @@ First, import css pack files the preferred way (usually in your `angular.json` f
 Then simply register the pack using `NbIconLibraries` service in you `app.component`:
 
 ```ts
-  import { NbIconLibraries } from '@nebular/theme';
+  import { NbIconLibraries } from '@kisimedia/nebular-theme';
 
   constructor(private iconLibraries: NbIconLibraries) {
     this.iconLibraries.registerFontPack('font-awesome', { iconClassPrefix: 'fa' });
@@ -72,7 +72,7 @@ Then simply register the pack using `NbIconLibraries` service in you `app.compon
 Lastly, we can set this pack as the default and not specify it implicitly while using `<nb-icon>`:
 
 ```ts
-  import { NbIconLibraries } from '@nebular/theme';
+  import { NbIconLibraries } from '@kisimedia/nebular-theme';
 
   constructor(private iconLibraries: NbIconLibraries) {
     this.iconLibraries.registerFontPack('font-awesome', { iconClassPrefix: 'fa' });
@@ -101,7 +101,7 @@ this.iconLibraries.registerFontPack('material-icons', {
 If the icons are provided as SVG elements, you can register the pack as follows:
 
 ```ts
-  import { NbIconLibraries } from '@nebular/theme';
+  import { NbIconLibraries } from '@kisimedia/nebular-theme';
 
   constructor(private iconLibraries: NbIconLibraries) {
     this.iconLibraries.registerSvgPack('social-networks', {

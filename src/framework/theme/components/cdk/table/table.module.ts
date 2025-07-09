@@ -1,14 +1,24 @@
 import {
+  Attribute,
   ChangeDetectorRef,
   ElementRef,
+  Inject,
   IterableDiffers,
   NgModule,
   Component,
+  Optional,
   Provider,
-  inject,
-  HostAttributeToken,
+  SkipSelf,
 } from '@angular/core';
-import { CdkTable, CdkTableModule, RenderRow, RowContext, StickyPositioningListener } from '@angular/cdk/table';
+import {
+  _COALESCED_STYLE_SCHEDULER,
+  _CoalescedStyleScheduler,
+  CdkTable,
+  CdkTableModule,
+  RenderRow,
+  RowContext,
+  StickyPositioningListener,
+} from '@angular/cdk/table';
 import { _DisposeViewRepeaterStrategy, _VIEW_REPEATER_STRATEGY, _ViewRepeater } from '@angular/cdk/collections';
 
 import { NbBidiModule } from '../bidi/bidi.module';
@@ -48,36 +58,39 @@ export const NB_TABLE_TEMPLATE = `
 `;
 
 export const NB_VIEW_REPEATER_STRATEGY = _VIEW_REPEATER_STRATEGY;
+export const NB_COALESCED_STYLE_SCHEDULER = _COALESCED_STYLE_SCHEDULER;
 
 export const NB_TABLE_PROVIDERS: Provider[] = [
   { provide: NB_VIEW_REPEATER_STRATEGY, useClass: _DisposeViewRepeaterStrategy },
+  { provide: NB_COALESCED_STYLE_SCHEDULER, useClass: _CoalescedStyleScheduler },
 ];
 
 @Component({
   selector: 'nb-table-not-implemented',
   template: ``,
   providers: NB_TABLE_PROVIDERS,
+  standalone: false,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class NbTable<T> extends CdkTable<T> {
-  protected readonly _viewRepeater: _ViewRepeater<T, RenderRow<T>, RowContext<T>>;
-  protected readonly _stickyPositioningListener: StickyPositioningListener;
-
-  constructor() {
-    const differs = inject(IterableDiffers);
-    const changeDetectorRef = inject(ChangeDetectorRef);
-    const elementRef = inject(ElementRef);
-    const role = inject(new HostAttributeToken('role'), { optional: true })!;
-    const dir = inject(NbDirectionality);
-    const document = inject(NB_DOCUMENT);
-    const platform = inject(NbPlatform);
-    const _viewRepeater = inject<_ViewRepeater<T, RenderRow<T>, RowContext<T>>>(_VIEW_REPEATER_STRATEGY);
-    const _viewportRuler = inject(NbViewportRulerAdapter);
-    const _stickyPositioningListener = inject<StickyPositioningListener>(NB_STICKY_POSITIONING_LISTENER, {
-      optional: true,
-      skipSelf: true,
-    })!;
-
+  constructor(
+    differs: IterableDiffers,
+    changeDetectorRef: ChangeDetectorRef,
+    elementRef: ElementRef,
+    @Attribute('role') role: string,
+    dir: NbDirectionality,
+    @Inject(NB_DOCUMENT) document: any,
+    platform: NbPlatform,
+    @Inject(_VIEW_REPEATER_STRATEGY)
+    protected readonly _viewRepeater: _ViewRepeater<T, RenderRow<T>, RowContext<T>>,
+    @Inject(_COALESCED_STYLE_SCHEDULER)
+    protected readonly _coalescedStyleScheduler: _CoalescedStyleScheduler,
+    _viewportRuler: NbViewportRulerAdapter,
+    @Optional()
+    @SkipSelf()
+    @Inject(NB_STICKY_POSITIONING_LISTENER)
+    protected readonly _stickyPositioningListener: StickyPositioningListener,
+  ) {
     super(
       differs,
       changeDetectorRef,
@@ -87,12 +100,10 @@ export class NbTable<T> extends CdkTable<T> {
       document,
       platform,
       _viewRepeater,
+      _coalescedStyleScheduler,
       _viewportRuler,
       _stickyPositioningListener,
     );
-
-    this._viewRepeater = _viewRepeater;
-    this._stickyPositioningListener = _stickyPositioningListener;
   }
 }
 
@@ -127,7 +138,8 @@ const COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [NbBidiModule, ...COMPONENTS],
+  imports: [NbBidiModule],
+  declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
 })
 export class NbTableModule extends CdkTableModule {}

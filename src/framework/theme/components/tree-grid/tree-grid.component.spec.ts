@@ -74,7 +74,8 @@ export class TreeGridWithHeaderTestComponent extends BaseTreeGridTestComponent {
 
 function setupFixture(componentType: Type<any>, columns: string[], data?: TreeNode<any>[]): ComponentFixture<any> {
   TestBed.configureTestingModule({
-    imports: [NbThemeModule.forRoot(), NbTreeGridModule, componentType],
+    imports: [NbThemeModule.forRoot(), NbTreeGridModule],
+    declarations: [componentType],
   });
 
   const fixture = TestBed.createComponent(componentType);

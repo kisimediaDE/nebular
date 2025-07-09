@@ -6,10 +6,17 @@
 
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbDatepickerModule, NbInputModule, NbSelectModule, NbTimepickerModule } from '@nebular/theme';
+import {
+  NbButtonModule,
+  NbCardModule,
+  NbDatepickerModule,
+  NbInputModule,
+  NbSelectModule,
+  NbTimepickerModule,
+} from '@kisimedia/nebular-theme';
 import { DatepickerWithFormatRoutingModule } from './datepicker-with-format-routing.module';
 import { DateTimepickerDynamicInputsShowcaseComponent } from './date-timepicker-dynamic-inputs-showcase.component';
-import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { NbDateFnsDateModule } from '@kisimedia/nebular-date-fns';
 import { DatepickerDynamicInputsShowcaseComponent } from './datepicker-dynamic-inputs-showcase.component';
 import { RangepickerDynamicInputsShowcaseComponent } from './rangepicker-dynamic-inputs-showcase.component';
 

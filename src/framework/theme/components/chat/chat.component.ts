@@ -17,7 +17,6 @@ import {
   SimpleChanges,
   AfterContentInit,
   OnChanges,
-  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
@@ -28,7 +27,6 @@ import { NbChatFormComponent } from './chat-form.component';
 import { NbChatMessageComponent } from './chat-message.component';
 import { NbChatCustomMessageService } from './chat-custom-message.service';
 import { NbChatTitleDirective } from './chat-title.directive';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
 
 /**
  * Conversational UI collection - a set of components for chat-like UI construction.
@@ -266,11 +264,9 @@ import { NgIf, NgTemplateOutlet } from '@angular/common';
     </div>
   `,
   providers: [NbChatCustomMessageService],
-  imports: [NgIf, NgTemplateOutlet],
+  standalone: false,
 })
 export class NbChatComponent implements OnChanges, AfterContentInit, AfterViewInit {
-  protected statusService = inject(NbStatusService);
-
   @Input() title: string;
 
   /**
@@ -305,7 +301,7 @@ export class NbChatComponent implements OnChanges, AfterContentInit, AfterViewIn
   @ContentChild(NbChatFormComponent) chatForm: NbChatFormComponent;
   @ContentChild(NbChatTitleDirective) titleTemplate: NbChatTitleDirective;
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if ('status' in changes) {

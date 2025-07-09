@@ -24,11 +24,12 @@ export class NbViewportRulerMockAdapter extends NbViewportRulerAdapter {
 @Component({
   selector: 'nb-test-dialog',
   template: '<button class="test-focusable-button"></button>',
+  standalone: false,
 })
 class NbTestDialogComponent {}
 
 @NgModule({
-  imports: [NbTestDialogComponent],
+  declarations: [NbTestDialogComponent],
 })
 class NbTestDialogModule {}
 

@@ -38,12 +38,14 @@ import { ComponentLinkDirective } from './components-link.directive';
     ),
     NbThemeModule.forRoot(),
     NbEvaIconsModule,
+  ],
+  declarations: [
+    AppComponent,
     LayoutDirectionToggleComponent,
     LayoutThemeToggleComponent,
     ComponentsListComponent,
     ComponentLinkDirective,
   ],
-  declarations: [AppComponent],
   providers: [
     {
       provide: REMOVE_STYLES_ON_COMPONENT_DESTROY,

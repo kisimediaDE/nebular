@@ -12,7 +12,7 @@ import { NbThemeModule, NbIconModule, NbIconLibraries, NbIconComponent } from '@
 
 @Component({
   template: ` <nb-icon #iconEl [icon]="icon"></nb-icon> `,
-  imports: [NbIconModule],
+  standalone: false,
 })
 class IconTestComponent {
   @Input() icon;
@@ -26,8 +26,9 @@ describe('Component: NbIcon', () => {
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbIconModule, IconTestComponent],
+      imports: [NbThemeModule.forRoot(), NbIconModule],
       providers: [NbIconLibraries],
+      declarations: [IconTestComponent],
     });
 
     fixture = bed.createComponent(IconTestComponent);

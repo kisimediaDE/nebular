@@ -7,8 +7,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Type, HostBinding } from '@angular/core';
 
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
-import { NgFor } from '@angular/common';
-import { NbCalendarPickerRowComponent } from './calendar-picker-row.component';
 
 @Component({
   selector: 'nb-calendar-picker',
@@ -28,7 +26,7 @@ import { NbCalendarPickerRowComponent } from './calendar-picker-row.component';
     </nb-calendar-picker-row>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor, NbCalendarPickerRowComponent],
+  standalone: false,
 })
 export class NbCalendarPickerComponent<D, T> {
   @Input() data: D[][];

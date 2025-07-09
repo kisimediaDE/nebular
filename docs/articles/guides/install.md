@@ -36,14 +36,14 @@ ng new my-new-project
 Nebular supports init configuration with Angular Schematics. This means you can simply add it to your project, and Angular Schematics will do the rest:
 
 ```bash
-ng add @nebular/theme
+ng add @kisimedia/nebular-theme
 ```
 
 That's it. Nebular is ready now.
+
 <hr>
 
 ## Manually
-
 
 ### Installing dependencies
 
@@ -52,16 +52,18 @@ At this step, we assume you already have an Angular application created.
 ### Install Nebular modules
 
 ```bash
-npm install --save @nebular/theme @angular/cdk @angular/animations
+npm install --save @kisimedia/nebular-theme @angular/cdk @angular/animations
 ```
 
 Also, you may want to install Eva Icons pack, which is a recommended SVG icons library starting from Nebular 4.0:
-```bash
-npm install --save eva-icons @nebular/eva-icons
-```
-More details on [how to use Nebular Eva Icons are here](docs/components/icon/overview#nbiconcomponent). 
 
-Additionally, you can install Auth and Security `npm install --save @nebular/auth @nebular/security`
+```bash
+npm install --save eva-icons @kisimedia/nebular-eva-icons
+```
+
+More details on [how to use Nebular Eva Icons are here](docs/components/icon/overview#nbiconcomponent).
+
+Additionally, you can install Auth and Security `npm install --save @kisimedia/nebular-auth @kisimedia/nebular-security`
 
 ### Configure Nebular
 
@@ -69,7 +71,7 @@ At this stage you have everything in place, let's configure Nebular in the app m
 
 ```ts
 
-import { NbThemeModule } from '@nebular/theme';
+import { NbThemeModule } from '@kisimedia/nebular-theme';
 
 ...
 
@@ -83,17 +85,18 @@ import { NbThemeModule } from '@nebular/theme';
 export class AppModule {
 
 ```
+
 Same way you can enable Auth Module (more details under [Auth Module Concepts](docs/auth/introduction) & [Install](docs/auth/installation) articles).
 
 ### Install Styles
+
 Now, let's import Nebular styles
 
 Include default Nebular theme CSS file into your `angular.json` file:
 
 ```scss
-"styles": [
-  "node_modules/@nebular/theme/styles/prebuilt/default.css", // or dark.css
-],
+"styles":["node_modules/@kisimedia/nebular-theme/styles/prebuilt/default.css", // or dark.css
+], ;
 ```
 
 <div class="note note-info">
@@ -105,6 +108,7 @@ Include default Nebular theme CSS file into your `angular.json` file:
 </div>
 
 That's it. Now you can [create a Nebular page](docs/guides/create-nebular-page).
+
 <hr>
 
 ## Related Articles

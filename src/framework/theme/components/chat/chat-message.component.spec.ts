@@ -29,7 +29,7 @@ import {
       <nb-chat-form [dropFiles]="false"> </nb-chat-form>
     </nb-chat>
   `,
-  imports: [NbChatModule],
+  standalone: false,
 })
 export class NbChatMessageTestComponent {
   messages = [];
@@ -69,7 +69,8 @@ describe('Chat-message component: NbChatMessageTestComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, NbThemeModule.forRoot(), NbChatModule, NbChatMessageTestComponent],
+      imports: [BrowserAnimationsModule, NbThemeModule.forRoot(), NbChatModule],
+      declarations: [NbChatMessageTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatMessageTestComponent);

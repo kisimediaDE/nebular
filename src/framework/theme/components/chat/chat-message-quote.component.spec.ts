@@ -14,7 +14,7 @@ import { NbChatModule, NbThemeModule } from '@kisimedia/nebular-theme';
     >
     </nb-chat-message-quote>
   `,
-  imports: [NbChatModule],
+  standalone: false,
 })
 export class NbChatMessageQuoteTestComponent {
   sender: string;
@@ -30,7 +30,8 @@ describe('Chat-message-quote component: NbChatMessageQuoteTestComponent', () => 
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbChatModule, NbChatMessageQuoteTestComponent],
+      imports: [NbThemeModule.forRoot(), NbChatModule],
+      declarations: [NbChatMessageQuoteTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatMessageQuoteTestComponent);

@@ -1,8 +1,8 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, inject } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Input, OnDestroy } from '@angular/core';
 import { Subject, timer } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { NbCdkFooterRow, NbCdkHeaderRow, NbCdkRow } from '../cdk/table/type-mappings';
-import { NbFooterRowComponent, NbHeaderRowComponent, NbRowComponent, NbCellOutletDirective } from '../cdk/table/row';
+import { NbFooterRowComponent, NbHeaderRowComponent, NbRowComponent } from '../cdk/table/row';
 import { NbTreeGridComponent } from './tree-grid.component';
 import { NB_TREE_GRID } from './tree-grid-injection-tokens';
 
@@ -21,11 +21,9 @@ export const NB_ROW_DOUBLE_CLICK_DELAY: number = 200;
     role: 'row',
   },
   providers: [{ provide: NbCdkRow, useExisting: NbTreeGridRowComponent }],
-  imports: [NbCellOutletDirective],
+  standalone: false,
 })
 export class NbTreeGridRowComponent extends NbRowComponent implements OnDestroy {
-  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
   private readonly doubleClick$ = new Subject<void>();
   private readonly tree: NbTreeGridComponent<any>;
 
@@ -61,9 +59,7 @@ export class NbTreeGridRowComponent extends NbRowComponent implements OnDestroy 
     this.tree.toggleRow(this, { deep: true });
   }
 
-  constructor() {
-    const tree = inject(NB_TREE_GRID);
-
+  constructor(@Inject(NB_TREE_GRID) tree, public elementRef: ElementRef<HTMLElement>) {
     super();
     this.tree = tree as NbTreeGridComponent<any>;
   }
@@ -83,7 +79,7 @@ export class NbTreeGridRowComponent extends NbRowComponent implements OnDestroy 
     role: 'row',
   },
   providers: [{ provide: NbCdkHeaderRow, useExisting: NbTreeGridHeaderRowComponent }],
-  imports: [NbCellOutletDirective],
+  standalone: false,
 })
 export class NbTreeGridHeaderRowComponent extends NbHeaderRowComponent {}
 
@@ -97,6 +93,6 @@ export class NbTreeGridHeaderRowComponent extends NbHeaderRowComponent {}
     role: 'row',
   },
   providers: [{ provide: NbCdkFooterRow, useExisting: NbTreeGridFooterRowComponent }],
-  imports: [NbCellOutletDirective],
+  standalone: false,
 })
 export class NbTreeGridFooterRowComponent extends NbFooterRowComponent {}

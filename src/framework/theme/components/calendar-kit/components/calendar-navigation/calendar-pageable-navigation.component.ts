@@ -4,11 +4,9 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 import { NbLayoutDirectionService } from '../../../../services/direction.service';
-import { NbButtonComponent } from '../../../button/button.component';
-import { NbIconComponent } from '../../../icon/icon.component';
 
 @Component({
   selector: 'nb-calendar-pageable-navigation',
@@ -21,15 +19,13 @@ import { NbIconComponent } from '../../../icon/icon.component';
       <nb-icon [icon]="isLtr ? 'chevron-right-outline' : 'chevron-left-outline'" pack="nebular-essentials"></nb-icon>
     </button>
   `,
-  imports: [NbButtonComponent, NbIconComponent],
+  standalone: false,
 })
 export class NbCalendarPageableNavigationComponent<D> {
-  private directionService = inject(NbLayoutDirectionService);
-
   @Output() next = new EventEmitter<void>();
   @Output() prev = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(private directionService: NbLayoutDirectionService) {}
 
   get isLtr(): boolean {
     return this.directionService.isLtr();

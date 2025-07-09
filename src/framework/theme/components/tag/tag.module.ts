@@ -13,7 +13,8 @@ import { NbTagListComponent } from './tag-list.component';
 import { NbTagInputDirective } from './tag-input.directive';
 
 @NgModule({
-  imports: [CommonModule, NbIconModule, NbTagComponent, NbTagListComponent, NbTagInputDirective],
+  imports: [CommonModule, NbIconModule],
+  declarations: [NbTagComponent, NbTagListComponent, NbTagInputDirective],
   exports: [NbTagComponent, NbTagListComponent, NbTagInputDirective],
 })
 export class NbTagModule {}

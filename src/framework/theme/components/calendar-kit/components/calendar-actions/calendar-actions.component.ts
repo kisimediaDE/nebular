@@ -1,6 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { NbButtonComponent } from '../../../button/button.component';
 
 @Component({
   selector: 'nb-calendar-actions',
@@ -14,7 +12,7 @@ import { NbButtonComponent } from '../../../button/button.component';
   `,
   styleUrls: ['./calendar-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbButtonComponent],
+  standalone: false,
 })
 export class NbCalendarActionsComponent {
   @Input() set applyButtonText(value: string) {

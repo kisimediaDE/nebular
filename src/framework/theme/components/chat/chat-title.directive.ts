@@ -1,10 +1,11 @@
-import { Directive, Input, TemplateRef, inject } from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
 
-@Directive({ selector: `[nbChatTitle]` })
+@Directive({
+  selector: `[nbChatTitle]`,
+  standalone: false,
+})
 export class NbChatTitleDirective {
-  templateRef = inject<TemplateRef<any>>(TemplateRef);
-
   @Input() context: Object = {};
 
-  constructor() {}
+  constructor(public templateRef: TemplateRef<any>) {}
 }

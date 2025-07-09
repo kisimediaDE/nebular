@@ -4,19 +4,14 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, TemplateRef } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbChatMessageFile, NbChatMessageFileComponent } from './chat-message-file.component';
+import { NbChatMessageFile } from './chat-message-file.component';
 import { NbChatCustomMessageService } from './chat-custom-message.service';
 import { NbChatCustomMessageDirective } from './chat-custom-message.directive';
-import { NgIf, NgSwitch, NgSwitchCase, NgSwitchDefault, NgTemplateOutlet } from '@angular/common';
-import { NbChatAvatarComponent } from './chat-avatar.component';
-import { NbChatMessageQuoteComponent } from './chat-message-quote.component';
-import { NbChatMessageMapComponent } from './chat-message-map.component';
-import { NbChatMessageTextComponent } from './chat-message-text.component';
 
 /**
  * Chat message component.
@@ -133,23 +128,9 @@ import { NbChatMessageTextComponent } from './chat-message-text.component';
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgIf,
-    NbChatAvatarComponent,
-    NgSwitch,
-    NgSwitchCase,
-    NbChatMessageFileComponent,
-    NbChatMessageQuoteComponent,
-    NbChatMessageMapComponent,
-    NgSwitchDefault,
-    NbChatMessageTextComponent,
-    NgTemplateOutlet,
-  ],
+  standalone: false,
 })
 export class NbChatMessageComponent {
-  protected domSanitizer = inject(DomSanitizer);
-  protected customMessageService = inject(NbChatCustomMessageService);
-
   protected readonly builtInMessageTypes: string[] = ['text', 'file', 'map', 'quote'];
 
   avatarStyle: SafeStyle;
@@ -258,7 +239,7 @@ export class NbChatMessageComponent {
    */
   @Input() customMessageData: any;
 
-  constructor() {}
+  constructor(protected domSanitizer: DomSanitizer, protected customMessageService: NbChatCustomMessageService) {}
 
   getInitials(): string {
     if (this.sender) {

@@ -14,7 +14,8 @@ import { NbSuffixDirective } from './suffix.directive';
 const COMPONENTS = [NbFormFieldComponent, NbPrefixDirective, NbSuffixDirective];
 
 @NgModule({
-  imports: [CommonModule, ...COMPONENTS],
+  imports: [CommonModule],
+  declarations: [...COMPONENTS],
   exports: [...COMPONENTS],
 })
 export class NbFormFieldModule {}

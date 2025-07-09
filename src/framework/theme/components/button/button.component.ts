@@ -15,7 +15,6 @@ import {
   Input,
   Renderer2,
   NgZone,
-  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
@@ -531,14 +530,9 @@ import { NbButton } from './base-button';
   template: ` <ng-content></ng-content> `,
   providers: [{ provide: NbButton, useExisting: NbButtonComponent }],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbButtonComponent extends NbButton implements AfterViewInit {
-  protected renderer: Renderer2;
-  protected hostElement: ElementRef<HTMLElement>;
-  protected cd: ChangeDetectorRef;
-  protected zone: NgZone;
-  protected statusService: NbStatusService;
-
   /**
    * Sets `hero` appearance
    */
@@ -607,19 +601,13 @@ export class NbButtonComponent extends NbButton implements AfterViewInit {
     }
   }
 
-  constructor() {
-    const renderer = inject(Renderer2);
-    const hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-    const cd = inject(ChangeDetectorRef);
-    const zone = inject(NgZone);
-    const statusService = inject(NbStatusService);
-
-    super(); // ← so!
-
-    this.renderer = renderer;
-    this.hostElement = hostElement;
-    this.cd = cd;
-    this.zone = zone;
-    this.statusService = statusService;
+  constructor(
+    protected renderer: Renderer2,
+    protected hostElement: ElementRef<HTMLElement>,
+    protected cd: ChangeDetectorRef,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {
+    super(renderer, hostElement, cd, zone, statusService);
   }
 }

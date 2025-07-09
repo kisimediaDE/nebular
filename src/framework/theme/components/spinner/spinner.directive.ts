@@ -5,6 +5,8 @@
  */
 
 import {
+  ComponentFactoryResolver,
+  ComponentFactory,
   ComponentRef,
   Directive,
   ElementRef,
@@ -13,7 +15,6 @@ import {
   Renderer2,
   ViewContainerRef,
   HostBinding,
-  inject,
 } from '@angular/core';
 
 import { NbComponentSize } from '../component-size';
@@ -60,14 +61,14 @@ import { NbSpinnerComponent } from './spinner.component';
  * Or tabs:
  * @stacked-example(Spinner in tabs, spinner/spinner-tabs.component)
  */
-@Directive({ selector: '[nbSpinner]' })
+@Directive({
+  selector: '[nbSpinner]',
+  standalone: false,
+})
 export class NbSpinnerDirective implements OnInit {
-  private directiveView = inject(ViewContainerRef);
-  private renderer = inject(Renderer2);
-  private directiveElement = inject(ElementRef);
-
   private shouldShow = false;
   spinner: ComponentRef<NbSpinnerComponent>;
+  componentFactory: ComponentFactory<NbSpinnerComponent>;
 
   /**
    * Spinner message shown next to the icon
@@ -92,18 +93,28 @@ export class NbSpinnerDirective implements OnInit {
    */
   @Input('nbSpinner')
   set nbSpinner(val: boolean) {
-    if (val) {
-      this.show();
+    if (this.componentFactory) {
+      if (val) {
+        this.show();
+      } else {
+        this.hide();
+      }
     } else {
-      this.hide();
+      this.shouldShow = val;
     }
   }
 
   @HostBinding('class.nb-spinner-container') isSpinnerExist = false;
 
-  constructor() {}
+  constructor(
+    private directiveView: ViewContainerRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private renderer: Renderer2,
+    private directiveElement: ElementRef,
+  ) {}
 
   ngOnInit() {
+    this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(NbSpinnerComponent);
     if (this.shouldShow) {
       this.show();
     }
@@ -118,7 +129,7 @@ export class NbSpinnerDirective implements OnInit {
 
   show() {
     if (!this.isSpinnerExist) {
-      this.spinner = this.directiveView.createComponent(NbSpinnerComponent);
+      this.spinner = this.directiveView.createComponent<NbSpinnerComponent>(this.componentFactory);
       this.setInstanceInputs(this.spinner.instance);
       this.spinner.changeDetectorRef.detectChanges();
       this.renderer.appendChild(this.directiveElement.nativeElement, this.spinner.location.nativeElement);

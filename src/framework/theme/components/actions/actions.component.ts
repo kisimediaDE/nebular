@@ -9,10 +9,8 @@ import { Component, HostBinding, Input } from '@angular/core';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NbComponentSize } from '../component-size';
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NbBadgePosition, NbBadgeComponent } from '../badge/badge.component';
-import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { NbBadgePosition } from '../badge/badge.component';
+import { NbIconConfig } from '../icon/icon.component';
 
 /**
  * Action item, display a link with an icon, or any other content provided instead.
@@ -51,7 +49,7 @@ import { RouterLink } from '@angular/router';
       </nb-badge>
     </ng-template>
   `,
-  imports: [NgIf, RouterLink, NbIconComponent, NgTemplateOutlet, NbBadgeComponent],
+  standalone: false,
 })
 export class NbActionComponent {
   /**
@@ -209,6 +207,7 @@ export class NbActionComponent {
   selector: 'nb-actions',
   styleUrls: ['./actions.component.scss'],
   template: ` <ng-content select="nb-action"></ng-content> `,
+  standalone: false,
 })
 export class NbActionsComponent {
   /**

@@ -7,20 +7,18 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  Host,
   HostBinding,
   HostListener,
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  inject,
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { NbAccordionItemComponent } from './accordion-item.component';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 /**
  * Component intended to be used within `<nb-accordion-item>` component
@@ -54,12 +52,9 @@ import { NbIconComponent } from '../icon/icon.component';
     ]),
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbAccordionItemHeaderComponent implements OnInit, OnDestroy {
-  private accordionItem = inject(NbAccordionItemComponent, { host: true });
-  private cd = inject(ChangeDetectorRef);
-
   @HostBinding('class.accordion-item-header-collapsed')
   get isCollapsed(): boolean {
     return this.accordionItem.collapsed;
@@ -97,8 +92,7 @@ export class NbAccordionItemHeaderComponent implements OnInit, OnDestroy {
   }
 
   private destroy$ = new Subject<void>();
-
-  constructor() {}
+  constructor(@Host() private accordionItem: NbAccordionItemComponent, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.accordionItem.accordionItemInvalidate.pipe(takeUntil(this.destroy$)).subscribe(() => this.cd.markForCheck());

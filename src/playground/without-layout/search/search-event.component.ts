@@ -1,21 +1,16 @@
 import { Component } from '@angular/core';
-import { NbSearchService } from '@nebular/theme';
+import { NbSearchService } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-search-event',
-    templateUrl: './search-event.component.html',
-    standalone: false
+  selector: 'nb-search-event',
+  templateUrl: './search-event.component.html',
 })
 export class SearchEventComponent {
-
   value = '';
 
   constructor(private searchService: NbSearchService) {
-
-    this.searchService.onSearchSubmit()
-      .subscribe((data: any) => {
-        this.value = data.term;
-      })
-
+    this.searchService.onSearchSubmit().subscribe((data: any) => {
+      this.value = data.term;
+    });
   }
 }

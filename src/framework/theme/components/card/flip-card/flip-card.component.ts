@@ -1,6 +1,4 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { NgIf } from '@angular/common';
-import { NbIconComponent } from '../../icon/icon.component';
 
 /**
  *
@@ -76,7 +74,7 @@ import { NbIconComponent } from '../../icon/icon.component';
       </div>
     </div>
   `,
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbFlipCardComponent {
   /**

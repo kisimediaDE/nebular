@@ -7,9 +7,8 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'nb-radio-disabled',
-    templateUrl: './radio-disabled.component.html',
-    standalone: false
+  selector: 'nb-radio-disabled',
+  templateUrl: './radio-disabled.component.html',
 })
 export class RadioDisabledComponent {
   options = [

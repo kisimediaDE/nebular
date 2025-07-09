@@ -4,19 +4,10 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import {
-  Component,
-  Input,
-  HostBinding,
-  ChangeDetectionStrategy,
-  OnChanges,
-  SimpleChanges,
-  inject,
-} from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 
 import { NbDateService } from '../../services/date.service';
 import { NbCalendarSize, NbCalendarSizeValues } from '../../model';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'nb-calendar-week-numbers',
@@ -28,11 +19,9 @@ import { NgFor } from '@angular/common';
   `,
   styleUrls: ['./calendar-week-number.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor],
+  standalone: false,
 })
 export class NbCalendarWeekNumberComponent<D> implements OnChanges {
-  private dateService = inject<NbDateService<D>>(NbDateService);
-
   weekNumbers: number[];
 
   @Input()
@@ -52,7 +41,7 @@ export class NbCalendarWeekNumberComponent<D> implements OnChanges {
     return this.size === NbCalendarSize.LARGE;
   }
 
-  constructor() {}
+  constructor(private dateService: NbDateService<D>) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.weeks) {

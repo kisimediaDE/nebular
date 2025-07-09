@@ -20,7 +20,7 @@ import { NbStepComponent, NbStepperComponent, NbStepperModule, NbThemeModule } f
       </nb-step>
     </nb-stepper>
   `,
-  imports: [NbStepperModule],
+  standalone: false,
 })
 export class NbStepChangeTestComponent {
   @ViewChild(NbStepperComponent) stepper: NbStepperComponent;
@@ -35,7 +35,8 @@ describe('Stepper: Step Change', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbStepperModule, NbStepChangeTestComponent],
+      imports: [NbThemeModule.forRoot(), NbStepperModule],
+      declarations: [NbStepChangeTestComponent],
     });
 
     fixture = TestBed.createComponent(NbStepChangeTestComponent);

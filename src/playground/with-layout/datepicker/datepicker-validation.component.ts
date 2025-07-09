@@ -5,21 +5,19 @@
  */
 
 import { Component } from '@angular/core';
-import { NbDateService } from '@nebular/theme';
-
+import { NbDateService } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-datepicker-validation',
-    template: `
+  selector: 'nb-datepicker-validation',
+  template: `
     <nb-card size="large">
       <nb-card-body>
-        <input nbInput placeholder="Pick Date" [nbDatepicker]="picker">
+        <input nbInput placeholder="Pick Date" [nbDatepicker]="picker" />
         <nb-datepicker #picker [min]="min" [max]="max"></nb-datepicker>
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./datepicker-example.scss'],
-    standalone: false
+  styleUrls: ['./datepicker-example.scss'],
 })
 export class DatepickerValidationComponent {
   min: Date;

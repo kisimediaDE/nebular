@@ -12,23 +12,19 @@ import {
   HostBinding,
   SimpleChanges,
   OnChanges,
-  inject,
 } from '@angular/core';
 
 import { NbCalendarDay, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { NbDateService } from '../../services/date.service';
-import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'nb-calendar-days-names',
   styleUrls: ['./calendar-days-names.component.scss'],
   template: ` <div class="day" *ngFor="let day of days" [class.holiday]="day.isHoliday">{{ day.name }}</div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgFor],
+  standalone: false,
 })
 export class NbCalendarDaysNamesComponent<D> implements OnInit, OnChanges {
-  private dateService = inject<NbDateService<D>>(NbDateService);
-
   days: NbCalendarDay[];
 
   @Input() size: NbCalendarSize;
@@ -45,7 +41,7 @@ export class NbCalendarDaysNamesComponent<D> implements OnInit, OnChanges {
    * */
   @Input() firstDayOfWeek: number | undefined;
 
-  constructor() {}
+  constructor(private dateService: NbDateService<D>) {}
 
   ngOnInit() {
     const days: NbCalendarDay[] = this.createDaysNames();

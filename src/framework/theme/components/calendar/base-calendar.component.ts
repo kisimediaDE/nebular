@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Type, inject } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output, Type } from '@angular/core';
 
 import { NbCalendarYearModelService } from '../calendar-kit/services/calendar-year-model.service';
 import {
@@ -16,13 +16,6 @@ import {
 } from '../calendar-kit/model';
 import { NbDateService } from '../calendar-kit/services/date.service';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbCardComponent, NbCardHeaderComponent, NbCardBodyComponent } from '../card/card.component';
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
-import { NbCalendarViewModeComponent } from '../calendar-kit/components/calendar-navigation/calendar-view-mode.component';
-import { NbCalendarPageableNavigationComponent } from '../calendar-kit/components/calendar-navigation/calendar-pageable-navigation.component';
-import { NbCalendarDayPickerComponent } from '../calendar-kit/components/calendar-day-picker/calendar-day-picker.component';
-import { NbCalendarYearPickerComponent } from '../calendar-kit/components/calendar-year-picker/calendar-year-picker.component';
-import { NbCalendarMonthPickerComponent } from '../calendar-kit/components/calendar-month-picker/calendar-month-picker.component';
 
 /**
  * The basis for calendar and range calendar components.
@@ -32,24 +25,9 @@ import { NbCalendarMonthPickerComponent } from '../calendar-kit/components/calen
 @Component({
   selector: 'nb-base-calendar',
   templateUrl: './base-calendar.component.html',
-  imports: [
-    NbCardComponent,
-    NgIf,
-    NbCardHeaderComponent,
-    NbCalendarViewModeComponent,
-    NbCalendarPageableNavigationComponent,
-    NbCardBodyComponent,
-    NgSwitch,
-    NgSwitchCase,
-    NbCalendarDayPickerComponent,
-    NbCalendarYearPickerComponent,
-    NbCalendarMonthPickerComponent,
-  ],
+  standalone: false,
 })
 export class NbBaseCalendarComponent<D, T> implements OnInit {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-  protected yearModelService = inject<NbCalendarYearModelService<D>>(NbCalendarYearModelService);
-
   /**
    * Defines if we should render previous and next months
    * in the current month view.
@@ -144,7 +122,7 @@ export class NbBaseCalendarComponent<D, T> implements OnInit {
    * */
   @Output() dateChange: EventEmitter<T> = new EventEmitter();
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>, protected yearModelService: NbCalendarYearModelService<D>) {}
 
   ngOnInit() {
     if (!this.visibleDate) {

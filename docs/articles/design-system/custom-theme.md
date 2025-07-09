@@ -29,9 +29,9 @@ In our case `aquamarine` theme is a colored one, let's use `dark` as a parent.
 Now, let's register the new theme in `themes.scss`:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme((), aquamarine, dark); // <- theme name and a parent theme
 ```
@@ -61,9 +61,9 @@ Let's modify them and put our aquamarine colors, starting with white for `color-
 for `color-basic-1100`:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
   (
@@ -92,9 +92,9 @@ In a case we need to tweak the color more accurately, we can change how basic co
 For example, we can make the theme backgrounds and borders lighter, by using basic color lighter for one grade up:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
   (
@@ -131,9 +131,9 @@ $nb-themes: nb-register-theme(
 Since we changed backgrounds to a lighter ones, we might need to change elements shadow, making it lighter as well:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
   (
@@ -172,9 +172,9 @@ Texts color may also be affected by the backgrounds change. In our case, `disabl
 color as a background. Let's make it one shade lighter:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
   (

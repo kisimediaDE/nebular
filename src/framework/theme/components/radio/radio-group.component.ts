@@ -16,8 +16,8 @@ import {
   Output,
   QueryList,
   PLATFORM_ID,
+  Inject,
   ElementRef,
-  inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -80,12 +80,9 @@ import { NbRadioComponent } from './radio.component';
     },
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbRadioGroupComponent implements AfterContentInit, OnDestroy, ControlValueAccessor {
-  protected hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-  protected platformId = inject(PLATFORM_ID);
-  protected document = inject(NB_DOCUMENT);
-
   protected destroy$ = new Subject<void>();
   protected onChange = (value: any) => {};
   protected onTouched = () => {};
@@ -141,7 +138,11 @@ export class NbRadioGroupComponent implements AfterContentInit, OnDestroy, Contr
 
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  constructor(
+    protected hostElement: ElementRef<HTMLElement>,
+    @Inject(PLATFORM_ID) protected platformId,
+    @Inject(NB_DOCUMENT) protected document,
+  ) {}
 
   ngAfterContentInit() {
     // In case option 'name' isn't set on nb-radio component,

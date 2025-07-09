@@ -16,10 +16,10 @@ This mode comes in handy when you need to have multiple themes and be able to ch
 Assuming you already have the `themes.scss` file with the `default` theme enabled, let's add a second theme:
 
 ```scss
-@forward '@nebular/theme/styles/theming';
-@use '@nebular/theme/styles/theming' as *;
-@use '@nebular/theme/styles/themes/default';
-@use '@nebular/theme/styles/themes/dark';
+@forward '@kisimedia/nebular-theme/styles/theming';
+@use '@kisimedia/nebular-theme/styles/theming' as *;
+@use '@kisimedia/nebular-theme/styles/themes/default';
+@use '@kisimedia/nebular-theme/styles/themes/dark';
 
 $nb-themes: nb-register-theme(
   (

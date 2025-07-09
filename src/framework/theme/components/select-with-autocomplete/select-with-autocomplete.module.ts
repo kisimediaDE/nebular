@@ -24,8 +24,8 @@ const NB_SELECT_COMPONENTS = [NbSelectWithAutocompleteComponent];
     NbOptionModule,
     NbFormFieldModule,
     NbSelectModule,
-    ...NB_SELECT_COMPONENTS,
   ],
   exports: [...NB_SELECT_COMPONENTS, NbOptionModule, NbSelectModule],
+  declarations: [...NB_SELECT_COMPONENTS],
 })
 export class NbSelectWithAutocompleteModule {}

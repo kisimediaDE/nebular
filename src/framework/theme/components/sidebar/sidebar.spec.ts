@@ -1,4 +1,4 @@
-import { Component, DebugElement, Injectable, inject as inject_1 } from '@angular/core';
+import { Component, DebugElement, Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -29,6 +29,7 @@ import {
       <nb-menu [items]="menuItems"></nb-menu>
     </nb-sidebar>
   `,
+  standalone: false,
 })
 export class SidebarExpandTestComponent {
   menuItems: NbMenuItem[] = [
@@ -51,11 +52,9 @@ export class SidebarExpandTestComponent {
 
 @Injectable()
 export class MockThemeService {
-  private breakpointsService = inject_1(NbMediaBreakpointsService);
-
   private breakpoint$ = new Subject<NbMediaBreakpoint>();
 
-  constructor() {}
+  constructor(private breakpointsService: NbMediaBreakpointsService) {}
 
   setBreakpointTo(breakpointName: string): void {
     this.breakpoint$.next(this.breakpointsService.getByName(breakpointName));
@@ -78,9 +77,9 @@ describe('NbSidebarComponent', () => {
         NbThemeModule.forRoot(),
         NbSidebarModule.forRoot(),
         NbMenuModule.forRoot(),
-        SidebarExpandTestComponent,
       ],
       providers: [MockThemeService, { provide: NbThemeService, useExisting: MockThemeService }],
+      declarations: [SidebarExpandTestComponent],
     });
   });
 

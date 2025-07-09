@@ -23,7 +23,6 @@ import {
   Output,
   QueryList,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { merge, Subject } from 'rxjs';
 import { filter, finalize, map, startWith, switchMap, takeUntil } from 'rxjs/operators';
@@ -73,19 +72,9 @@ import { NbTagInputDirective } from './tag-input.directive';
   `,
   exportAs: 'nbTagList',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbTagListComponent implements OnInit, AfterContentInit, AfterViewInit, OnDestroy {
-  protected hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-  protected cd = inject(ChangeDetectorRef);
-  protected renderer = inject(Renderer2);
-  protected zone = inject(NgZone);
-  protected focusMonitor = inject(NbFocusMonitor);
-  protected activeDescendantKeyManagerFactory = inject<NbActiveDescendantKeyManagerFactoryService<NbTagComponent>>(
-    NbActiveDescendantKeyManagerFactoryService,
-  );
-  protected directionService = inject(NbLayoutDirectionService);
-  protected statusService = inject(NbStatusService);
-
   protected readonly destroy$: Subject<void> = new Subject<void>();
   protected readonly keyDown$: Subject<KeyboardEvent> = new Subject<KeyboardEvent>();
   protected readonly tagClick$: Subject<NbTagComponent> = new Subject<NbTagComponent>();
@@ -171,7 +160,16 @@ export class NbTagListComponent implements OnInit, AfterContentInit, AfterViewIn
     }
   }
 
-  constructor() {}
+  constructor(
+    protected hostElement: ElementRef<HTMLElement>,
+    protected cd: ChangeDetectorRef,
+    protected renderer: Renderer2,
+    protected zone: NgZone,
+    protected focusMonitor: NbFocusMonitor,
+    protected activeDescendantKeyManagerFactory: NbActiveDescendantKeyManagerFactoryService<NbTagComponent>,
+    protected directionService: NbLayoutDirectionService,
+    protected statusService: NbStatusService,
+  ) {}
 
   ngOnInit() {
     this.focusMonitor

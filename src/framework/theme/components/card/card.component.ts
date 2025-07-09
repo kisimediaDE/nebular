@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, HostBinding, inject } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
@@ -39,6 +39,7 @@ import { NbComponentOrCustomStatus, NbComponentStatus } from '../component-statu
 @Component({
   selector: 'nb-card-header',
   template: `<ng-content></ng-content>`,
+  standalone: false,
 })
 export class NbCardHeaderComponent {}
 
@@ -49,6 +50,7 @@ export class NbCardHeaderComponent {}
 @Component({
   selector: 'nb-card-body',
   template: `<ng-content></ng-content>`,
+  standalone: false,
 })
 export class NbCardBodyComponent {}
 
@@ -59,6 +61,7 @@ export class NbCardBodyComponent {}
 @Component({
   selector: 'nb-card-footer',
   template: `<ng-content></ng-content>`,
+  standalone: false,
 })
 export class NbCardFooterComponent {}
 
@@ -151,10 +154,9 @@ export class NbCardFooterComponent {}
     <ng-content></ng-content>
     <ng-content select="nb-card-footer"></ng-content>
   `,
+  standalone: false,
 })
 export class NbCardComponent {
-  protected statusService = inject(NbStatusService);
-
   /**
    * Card size, available sizes:
    * tiny, small, medium, large, giant
@@ -290,5 +292,5 @@ export class NbCardComponent {
     return [];
   }
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 }

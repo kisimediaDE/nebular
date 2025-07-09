@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostBinding, Input, inject } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentOrCustomStatus } from '../component-status';
@@ -99,10 +99,9 @@ export interface NbBadge {
   selector: 'nb-badge',
   styleUrls: ['./badge.component.scss'],
   template: `{{ dotMode ? '' : text }}`,
+  standalone: false,
 })
 export class NbBadgeComponent implements NbBadge {
-  protected statusService = inject(NbStatusService);
-
   /**
    * Text to display
    * @type string
@@ -225,5 +224,5 @@ export class NbBadgeComponent implements NbBadge {
     return this.position.includes('center');
   }
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 }

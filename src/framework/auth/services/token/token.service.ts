@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, of as observableOf } from 'rxjs';
 import { filter, share } from 'rxjs/operators';
 
@@ -10,11 +10,9 @@ import { NbAuthToken } from './token';
  */
 @Injectable()
 export class NbTokenService {
-  protected tokenStorage = inject(NbTokenStorage);
-
   protected token$: BehaviorSubject<NbAuthToken> = new BehaviorSubject(null);
 
-  constructor() {
+  constructor(protected tokenStorage: NbTokenStorage) {
     this.publishStoredToken();
   }
 

@@ -19,7 +19,6 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -30,9 +29,6 @@ import { NbSearchService } from './search.service';
 import { NbThemeService } from '../../services/theme.service';
 import { NbOverlayService } from '../cdk/overlay/overlay-service';
 import { NbOverlayRef, NbPortalDirective } from '../cdk/overlay/mapping';
-import { NbButtonComponent } from '../button/button.component';
-import { NbIconComponent } from '../icon/icon.component';
-import { FormsModule } from '@angular/forms';
 
 /**
  * search-field-component is used under the hood by nb-search component
@@ -73,7 +69,7 @@ import { FormsModule } from '@angular/forms';
       </div>
     </div>
   `,
-  imports: [NbButtonComponent, NbIconComponent, FormsModule],
+  standalone: false,
 })
 export class NbSearchFieldComponent implements OnChanges, AfterViewInit {
   static readonly TYPE_MODAL_ZOOMIN = 'modal-zoomin';
@@ -248,15 +244,9 @@ export type NbSearchType =
     >
     </nb-search-field>
   `,
-  imports: [NbButtonComponent, NbIconComponent, NbPortalDirective, NbSearchFieldComponent],
+  standalone: false,
 })
 export class NbSearchComponent implements OnInit, OnDestroy {
-  private searchService = inject(NbSearchService);
-  private themeService = inject(NbThemeService);
-  private router = inject(Router);
-  private overlayService = inject(NbOverlayService);
-  private changeDetector = inject(ChangeDetectorRef);
-
   private destroy$ = new Subject<void>();
   private overlayRef: NbOverlayRef;
   showSearchField = false;
@@ -292,7 +282,13 @@ export class NbSearchComponent implements OnInit, OnDestroy {
   @ViewChild(NbPortalDirective) searchFieldPortal: NbPortalDirective;
   @ViewChild('searchButton', { read: ElementRef }) searchButton: ElementRef<HTMLElement>;
 
-  constructor() {}
+  constructor(
+    private searchService: NbSearchService,
+    private themeService: NbThemeService,
+    private router: Router,
+    private overlayService: NbOverlayService,
+    private changeDetector: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.router.events

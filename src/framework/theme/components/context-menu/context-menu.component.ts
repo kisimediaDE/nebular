@@ -8,7 +8,6 @@ import { Component, Input } from '@angular/core';
 
 import { NbMenuItem } from '../../components/menu/menu.service';
 import { NbPositionedContainerComponent, NbRenderableContainer } from '../cdk/overlay/overlay-container';
-import { NbMenuComponent } from '../menu/menu.component';
 
 /**
  * Context menu component used as content within NbContextMenuDirective.
@@ -28,7 +27,7 @@ import { NbMenuComponent } from '../menu/menu.component';
 @Component({
   selector: 'nb-context-menu',
   template: ` <nb-menu class="context-menu" [items]="context.items" [tag]="context.tag"></nb-menu> `,
-  imports: [NbMenuComponent],
+  standalone: false,
 })
 export class NbContextMenuComponent extends NbPositionedContainerComponent implements NbRenderableContainer {
   @Input() items: NbMenuItem[] = [];

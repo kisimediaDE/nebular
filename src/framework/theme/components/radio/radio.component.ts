@@ -15,7 +15,6 @@ import {
   ViewChild,
   ElementRef,
   Renderer2,
-  inject,
 } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
@@ -236,12 +235,9 @@ import { NbComponentOrCustomStatus } from '../component-status';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./radio.component.scss'],
+  standalone: false,
 })
 export class NbRadioComponent {
-  protected cd = inject(ChangeDetectorRef);
-  protected renderer = inject(Renderer2);
-  protected statusService = inject(NbStatusService);
-
   @Input()
   get name(): string {
     return this._name;
@@ -298,7 +294,11 @@ export class NbRadioComponent {
 
   @ViewChild('input', { read: ElementRef }) input: ElementRef<HTMLInputElement>;
 
-  constructor() {}
+  constructor(
+    protected cd: ChangeDetectorRef,
+    protected renderer: Renderer2,
+    protected statusService: NbStatusService,
+  ) {}
 
   @HostBinding('class.status-primary')
   get isPrimary(): boolean {

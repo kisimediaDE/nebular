@@ -13,7 +13,7 @@ First, let's install the module as it's distributed as npm package. Make sure yo
 Nebular Theme is required to use built-in Auth Components. If you are not going to use those at all, you can use `Auth Module` without the `Nebular Theme` module.
 
 ```bash
-npm i @nebular/auth
+npm i @kisimedia/nebular-auth
 ```
 
 <hr>
@@ -41,7 +41,7 @@ export class AppModule {
 Import the module and `NbPasswordAuthStrategy` strategy:
 
 ```ts
-import { NbPasswordAuthStrategy, NbAuthModule } from '@nebular/auth';
+import { NbPasswordAuthStrategy, NbAuthModule } from '@kisimedia/nebular-auth';
 ```
 
 <hr>
@@ -86,7 +86,7 @@ import {
   NbLogoutComponent,
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
-} from '@nebular/auth';
+} from '@kisimedia/nebular-auth';
 
 export const routes: Routes = [
   // ...
@@ -132,12 +132,12 @@ Last but not least - install the component styles into your styles.scss ([more d
 
 ```scss
 // ...
-@use '@nebular/auth/styles/globals' as *;
+@use '@kisimedia/nebular-auth/styles/globals' as *;
 
 @include nb-install() {
   @include nb-theme-global();
   @include nb-auth-global(); // append the install mixin inside of the nb-install
-} ;
+}
 ```
 
 At this point, if you navigate to http://localhost:4200/#/auth/login the login form is shown.

@@ -1,20 +1,23 @@
-import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { NbAccessChecker } from '../services/access-checker.service';
 
-@Directive({ selector: '[nbIsGranted]' })
+@Directive({
+  selector: '[nbIsGranted]',
+  standalone: false,
+})
 export class NbIsGrantedDirective implements OnDestroy {
-  private templateRef = inject<TemplateRef<any>>(TemplateRef);
-  private viewContainer = inject(ViewContainerRef);
-  private accessChecker = inject(NbAccessChecker);
-
   private destroy$ = new Subject<void>();
 
   private hasView = false;
 
-  constructor() {}
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private viewContainer: ViewContainerRef,
+    private accessChecker: NbAccessChecker,
+  ) {}
 
   @Input() set nbIsGranted([permission, resource]: [string, string]) {
     this.accessChecker

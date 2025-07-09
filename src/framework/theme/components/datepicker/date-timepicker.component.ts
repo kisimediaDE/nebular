@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, Type, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ComponentFactoryResolver,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Optional,
+  Output,
+  Type,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
@@ -20,13 +31,12 @@ import { NB_DATE_SERVICE_OPTIONS } from './datepicker.directive';
   selector: 'nb-date-timepicker',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbDateTimePickerComponent<D>
   extends NbBasePickerComponent<D, D, NbCalendarWithTimeComponent<D>>
   implements OnInit
 {
-  protected calendarWithTimeModelService = inject<NbCalendarTimeModelService<D>>(NbCalendarTimeModelService);
-
   protected pickerClass: Type<NbCalendarWithTimeComponent<D>> = NbCalendarWithTimeComponent;
 
   get value(): any {
@@ -117,15 +127,17 @@ export class NbDateTimePickerComponent<D>
     return this.valueChange as EventEmitter<D>;
   }
 
-  constructor() {
-    const document = inject(NB_DOCUMENT);
-    const positionBuilder = inject(NbPositionBuilderService);
-    const triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
-    const overlay = inject(NbOverlayService);
-    const dateService = inject<NbDateService<D>>(NbDateService);
-    const dateServiceOptions = inject(NB_DATE_SERVICE_OPTIONS, { optional: true })!;
-
-    super();
+  constructor(
+    @Inject(NB_DOCUMENT) document,
+    positionBuilder: NbPositionBuilderService,
+    triggerStrategyBuilder: NbTriggerStrategyBuilderService,
+    overlay: NbOverlayService,
+    cfr: ComponentFactoryResolver,
+    dateService: NbDateService<D>,
+    @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) dateServiceOptions,
+    protected calendarWithTimeModelService: NbCalendarTimeModelService<D>,
+  ) {
+    super(document, positionBuilder, triggerStrategyBuilder, overlay, cfr, dateService, dateServiceOptions);
   }
 
   ngOnInit() {

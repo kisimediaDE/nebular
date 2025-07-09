@@ -14,13 +14,11 @@ import {
   Output,
   Type,
   SimpleChanges,
-  inject,
 } from '@angular/core';
 import { batch } from '../../helpers';
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { NbCalendarMonthCellComponent } from './calendar-month-cell.component';
 import { NbDateService } from '../../services/date.service';
-import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.component';
 
 export const MONTHS_IN_VIEW = 12;
 export const MONTHS_IN_COLUMN = 4;
@@ -42,11 +40,9 @@ export const MONTHS_IN_COLUMN = 4;
     </nb-calendar-picker>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NbCalendarPickerComponent],
+  standalone: false,
 })
 export class NbCalendarMonthPickerComponent<D, T> implements OnChanges {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   @Input() min: D;
 
   @Input() max: D;
@@ -68,7 +64,7 @@ export class NbCalendarMonthPickerComponent<D, T> implements OnChanges {
   @Output() monthChange: EventEmitter<D> = new EventEmitter();
   months: D[][];
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   @Input('cellComponent')
   set _cellComponent(cellComponent: Type<NbCalendarCell<D, T>>) {

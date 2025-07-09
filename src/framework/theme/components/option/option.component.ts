@@ -12,13 +12,14 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  Inject,
   Input,
   OnDestroy,
+  Optional,
   Output,
   AfterViewInit,
   NgZone,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -30,8 +31,6 @@ import { NbFocusableOption } from '../cdk/a11y/focus-key-manager';
 import { NbHighlightableOption } from '../cdk/a11y/descendant-key-manager';
 import { NB_SELECT_INJECTION_TOKEN } from '../select/select-injection-tokens';
 import { NbSelectComponent } from '../select/select.component';
-import { NgIf } from '@angular/common';
-import { NbCheckboxComponent } from '../checkbox/checkbox.component';
 
 /**
  * NbOptionComponent
@@ -86,14 +85,9 @@ import { NbCheckboxComponent } from '../checkbox/checkbox.component';
     <nb-checkbox *ngIf="withCheckbox" [checked]="selected" [disabled]="disabled" aria-hidden="true"> </nb-checkbox>
     <ng-content></ng-content>
   `,
-  imports: [NgIf, NbCheckboxComponent],
+  standalone: false,
 })
 export class NbOptionComponent<T = any> implements OnDestroy, AfterViewInit, NbFocusableOption, NbHighlightableOption {
-  protected elementRef = inject(ElementRef);
-  protected cd = inject(ChangeDetectorRef);
-  protected zone = inject(NgZone);
-  protected renderer = inject(Renderer2);
-
   protected disabledByGroup = false;
 
   /**
@@ -134,10 +128,14 @@ export class NbOptionComponent<T = any> implements OnDestroy, AfterViewInit, NbF
   @HostBinding('attr.id')
   id: string = `nb-option-${lastOptionId++}`;
 
-  constructor() {
-    const parent = inject(NB_SELECT_INJECTION_TOKEN, { optional: true })!;
-
-    this.parent = parent as NbSelectComponent;
+  constructor(
+    @Optional() @Inject(NB_SELECT_INJECTION_TOKEN) parent,
+    protected elementRef: ElementRef,
+    protected cd: ChangeDetectorRef,
+    protected zone: NgZone,
+    protected renderer: Renderer2,
+  ) {
+    this.parent = parent;
   }
 
   ngOnDestroy() {

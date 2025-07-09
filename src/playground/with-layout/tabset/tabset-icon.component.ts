@@ -5,18 +5,19 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbIconConfig } from '@nebular/theme';
+import { NbIconConfig } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-tabset-icon',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './tabset-icon.component.html',
-    styles: [`
-    :host nb-tab {
-      padding: 1.25rem;
-    }
-  `],
-    standalone: false
+  selector: 'nb-tabset-icon',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './tabset-icon.component.html',
+  styles: [
+    `
+      :host nb-tab {
+        padding: 1.25rem;
+      }
+    `,
+  ],
 })
 export class TabsetIconComponent {
   bellIconConfig: NbIconConfig = { icon: 'bell-outline', pack: 'eva' };

@@ -6,7 +6,7 @@ import { NbInfiniteListDirective } from './infinite-list.directive';
 const components = [NbListComponent, NbListItemComponent, NbListPageTrackerDirective, NbInfiniteListDirective];
 
 @NgModule({
-  imports: [...components],
+  declarations: components,
   exports: components,
 })
 export class NbListModule {}

@@ -1,9 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { NbOverlayRef, NbOverlayService, NbPositionBuilderService, NbTemplatePortal } from '@nebular/theme';
+import { NbOverlayRef, NbOverlayService, NbPositionBuilderService, NbTemplatePortal } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-overlay-showcase',
-    template: `
+  selector: 'nb-overlay-showcase',
+  template: `
     <ng-template #overlay>
       <nb-card>
         <nb-card-header>This is overlay</nb-card-header>
@@ -14,16 +14,16 @@ import { NbOverlayRef, NbOverlayService, NbPositionBuilderService, NbTemplatePor
     </ng-template>
     <button nbButton status="primary" (click)="createOverlay()">Create overlay</button>
   `,
-    standalone: false
 })
 export class OverlayShowcaseComponent implements OnInit {
   @ViewChild('overlay') overlayTemplate: TemplateRef<any>;
   protected ref: NbOverlayRef;
 
-  constructor(protected overlay: NbOverlayService,
-              protected positionBuilder: NbPositionBuilderService,
-              protected vcr: ViewContainerRef) {
-  }
+  constructor(
+    protected overlay: NbOverlayService,
+    protected positionBuilder: NbPositionBuilderService,
+    protected vcr: ViewContainerRef,
+  ) {}
 
   ngOnInit() {
     const positionStrategy = this.positionBuilder.global().centerHorizontally().centerVertically();

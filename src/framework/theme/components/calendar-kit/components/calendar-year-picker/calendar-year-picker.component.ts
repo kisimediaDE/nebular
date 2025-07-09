@@ -13,13 +13,11 @@ import {
   OnChanges,
   Output,
   Type,
-  inject,
 } from '@angular/core';
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { NbCalendarYearCellComponent } from './calendar-year-cell.component';
 import { NbDateService } from '../../services/date.service';
 import { NbCalendarYearModelService } from '../../services/calendar-year-model.service';
-import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.component';
 
 @Component({
   selector: 'nb-calendar-year-picker',
@@ -38,12 +36,9 @@ import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.co
     </nb-calendar-picker>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NbCalendarPickerComponent],
+  standalone: false,
 })
 export class NbCalendarYearPickerComponent<D> implements OnChanges {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-  protected yearModelService = inject<NbCalendarYearModelService<D>>(NbCalendarYearModelService);
-
   @Input() date: D;
 
   @Input() min: D;
@@ -74,7 +69,7 @@ export class NbCalendarYearPickerComponent<D> implements OnChanges {
 
   years: D[][];
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>, protected yearModelService: NbCalendarYearModelService<D>) {}
 
   ngOnChanges() {
     this.years = this.yearModelService.getViewYears(this.year);

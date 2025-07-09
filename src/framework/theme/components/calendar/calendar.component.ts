@@ -14,7 +14,6 @@ import {
   NbCalendarViewModeValues,
 } from '../calendar-kit/model';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbBaseCalendarComponent } from './base-calendar.component';
 
 /**
  * Calendar component provides a capability to choose a date.
@@ -215,7 +214,7 @@ import { NbBaseCalendarComponent } from './base-calendar.component';
       (dateChange)="dateChange.emit($event)"
     ></nb-base-calendar>
   `,
-  imports: [NbBaseCalendarComponent],
+  standalone: false,
 })
 export class NbCalendarComponent<D> {
   /**

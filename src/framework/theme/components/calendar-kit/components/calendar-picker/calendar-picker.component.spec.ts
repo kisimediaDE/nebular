@@ -28,8 +28,9 @@ describe('Component: NbCalendarPicker', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [NbCalendarPickerRowComponent, NbCalendarPickerComponent],
       providers: [DatePipe, { provide: NbDateService, useClass: NbNativeDateService }],
-      imports: [NbCalendarKitModule, NbCalendarPickerRowComponent, NbCalendarPickerComponent],
+      imports: [NbCalendarKitModule],
       schemas: [NO_ERRORS_SCHEMA],
     });
     fixture = TestBed.createComponent<NbCalendarPickerComponent<Date, Date>>(NbCalendarPickerComponent);

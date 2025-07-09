@@ -5,17 +5,15 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbTagComponent, NbTagInputAddEvent } from '@nebular/theme';
+import { NbTagComponent, NbTagInputAddEvent } from '@kisimedia/nebular-theme';
 
 import { trees } from './trees-list';
 
 @Component({
-    templateUrl: './tag-input.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  templateUrl: './tag-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagInputComponent {
-
   trees: Set<string> = new Set([trees[3]]);
 
   onTagRemove(tagToRemove: NbTagComponent): void {
@@ -24,7 +22,7 @@ export class TagInputComponent {
 
   onTagAdd({ value, input }: NbTagInputAddEvent): void {
     if (value) {
-      this.trees.add(value)
+      this.trees.add(value);
     }
     input.nativeElement.value = '';
   }

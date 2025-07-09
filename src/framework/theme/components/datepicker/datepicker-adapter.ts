@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, Type, inject } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 
 import { NbCalendarRange } from '../calendar/calendar-range.component';
 import { NbDatepickerComponent, NbRangepickerComponent } from './datepicker.component';
@@ -14,11 +14,9 @@ import { NbDateTimePickerComponent } from './date-timepicker.component';
 
 @Injectable()
 export class NbDateAdapterService<D> extends NbDatepickerAdapter<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   picker: Type<NbDatepickerComponent<D>> = NbDatepickerComponent;
 
-  constructor() {
+  constructor(protected dateService: NbDateService<D>) {
     super();
   }
 
@@ -37,11 +35,9 @@ export class NbDateAdapterService<D> extends NbDatepickerAdapter<D> {
 
 @Injectable()
 export class NbRangeAdapterService<D> extends NbDatepickerAdapter<NbCalendarRange<D>> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   picker: Type<NbRangepickerComponent<D>> = NbRangepickerComponent;
 
-  constructor() {
+  constructor(protected dateService: NbDateService<D>) {
     super();
   }
 
@@ -83,11 +79,9 @@ export class NbRangeAdapterService<D> extends NbDatepickerAdapter<NbCalendarRang
 
 @Injectable()
 export class NbDateTimeAdapterService<D> extends NbDatepickerAdapter<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   picker: Type<NbDateTimePickerComponent<D>> = NbDateTimePickerComponent;
 
-  constructor() {
+  constructor(protected dateService: NbDateService<D>) {
     super();
   }
 

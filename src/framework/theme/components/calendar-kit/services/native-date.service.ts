@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, LOCALE_ID, inject } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { FormatWidth, getLocaleTimeFormat } from '@angular/common';
 import {
   DatePipe,
@@ -25,9 +25,7 @@ import { NbDateService } from './date.service';
 export class NbNativeDateService extends NbDateService<Date> {
   protected datePipe: DatePipe;
 
-  constructor() {
-    const locale = inject(LOCALE_ID);
-
+  constructor(@Inject(LOCALE_ID) locale: string) {
     super();
     this.setLocale(locale);
   }

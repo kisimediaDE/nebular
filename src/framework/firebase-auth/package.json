@@ -1,17 +1,17 @@
 {
   "name": "@kisimedia/nebular-firebase-auth",
-  "version": "15.0.0-custom.4",
+  "version": "15.0.0",
   "description": "@kisimedia/nebular-firebase-auth",
-  "author": "Simon Kirchner (based on Akveo Nebular)",
+  "author": "akveo",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kisimediaDE/nebular.git"
+    "url": "git+https://github.com/akveo/nebular.git"
   },
   "bugs": {
-    "url": "https://github.com/kisimediaDE/nebular/issues"
+    "url": "https://github.com/akveo/nebular/issues"
   },
-  "homepage": "https://github.com/kisimediaDE/nebular#readme",
+  "homepage": "https://github.com/akveo/nebular#readme",
   "keywords": [
     "angular",
     "typescript",
@@ -25,14 +25,14 @@
     "firebase"
   ],
   "peerDependencies": {
-    "@angular/core": "^20.0.0",
-    "@kisimedia/nebular-auth": "15.0.0-custom.4",
-    "rxjs": "^7.8.2",
-    "firebase": "^11.9.1",
-    "@angular/fire": "^20.0.0"
+    "@angular/core": "^19.1.6",
+    "@kisimedia/nebular-auth": "15.0.0",
+    "rxjs": "^6.5.3 || ^7.4.0",
+    "firebase": "^11.3.1",
+    "@angular/fire": "^19.0.0"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.3.0"
   },
   "sideEffects": false
 }

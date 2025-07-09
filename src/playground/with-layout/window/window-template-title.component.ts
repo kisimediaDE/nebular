@@ -1,8 +1,8 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { NbWindowService } from '@nebular/theme';
+import { NbWindowService } from '@kisimedia/nebular-theme';
 
 @Component({
-    template: `
+  template: `
     <button (click)="openWindow()" nbButton>Open window</button>
 
     <ng-template #titleTemplate let-data>
@@ -13,7 +13,6 @@ import { NbWindowService } from '@nebular/theme';
       <p>Content</p>
     </ng-template>
   `,
-    standalone: false
 })
 export class WindowTemplateTitleComponent {
   @ViewChild('titleTemplate') titleTemplate: TemplateRef<any>;
@@ -22,12 +21,9 @@ export class WindowTemplateTitleComponent {
   constructor(private windowService: NbWindowService) {}
 
   openWindow() {
-    this.windowService.open(
-      this.contentTemplate,
-      {
-        titleTemplate: this.titleTemplate,
-        titleTemplateContext: { text: 'some text to pass into template' },
-      },
-    );
+    this.windowService.open(this.contentTemplate, {
+      titleTemplate: this.titleTemplate,
+      titleTemplateContext: { text: 'some text to pass into template' },
+    });
   }
 }

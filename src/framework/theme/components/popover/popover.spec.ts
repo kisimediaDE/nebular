@@ -18,12 +18,11 @@ import {
   NbPopoverModule,
   NbOverlayConfig,
 } from '@kisimedia/nebular-theme';
-import { NbLayoutComponent, NbLayoutColumnComponent } from '../layout/layout.component';
-import { NbPopoverDirective as NbPopoverDirective_1 } from './popover.directive';
 
 @Component({
   selector: 'nb-popover-component-content-test',
   template: 'test, {{ text }}',
+  standalone: false,
 })
 export class NbPopoverComponentContentTestComponent {
   text: string;
@@ -38,7 +37,7 @@ export class NbPopoverComponentContentTestComponent {
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbPopoverDirective_1],
+  standalone: false,
 })
 export class NbPopoverDefaultTestComponent {
   @ViewChild('button') button: ElementRef;
@@ -65,7 +64,7 @@ export class NbPopoverDefaultTestComponent {
 
     <ng-template let-data>Some Template {{ data.text }}</ng-template>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbPopoverDirective_1],
+  standalone: false,
 })
 export class NbPopoverBindingsTestComponent {
   @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
@@ -89,7 +88,7 @@ export class NbPopoverBindingsTestComponent {
 
     <ng-template>Some Template</ng-template>
   `,
-  imports: [NbLayoutComponent, NbLayoutColumnComponent, NbPopoverDirective_1],
+  standalone: false,
 })
 export class NbPopoverInstanceTestComponent {
   @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
@@ -193,8 +192,9 @@ const TEST_COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [NbLayoutModule, NbPopoverModule, ...TEST_COMPONENTS],
+  imports: [NbLayoutModule, NbPopoverModule],
   exports: [...TEST_COMPONENTS],
+  declarations: [...TEST_COMPONENTS],
 })
 class PopoverTestModule {}
 

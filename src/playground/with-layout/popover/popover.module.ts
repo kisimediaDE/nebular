@@ -13,7 +13,7 @@ import {
   NbListModule,
   NbPopoverModule,
   NbTabsetModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 import { DynamicToAddComponent, PopoverListComponent, PopoverTabsComponent } from './components/dynamic.components';
 import { PopoverRoutingModule } from './popover-routing.module';
 import { PopoverCustomComponentComponent } from './popover-custom-component.component';

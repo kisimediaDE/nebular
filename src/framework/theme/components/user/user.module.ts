@@ -14,7 +14,8 @@ import { NbBadgeModule } from '../badge/badge.module';
 const NB_USER_COMPONENTS = [NbUserComponent];
 
 @NgModule({
-  imports: [NbSharedModule, NbBadgeModule, ...NB_USER_COMPONENTS],
+  imports: [NbSharedModule, NbBadgeModule],
+  declarations: [...NB_USER_COMPONENTS],
   exports: [...NB_USER_COMPONENTS],
 })
 export class NbUserModule {}

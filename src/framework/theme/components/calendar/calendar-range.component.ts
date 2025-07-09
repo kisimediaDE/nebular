@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, EventEmitter, Input, Output, Type, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Type } from '@angular/core';
 
 import {
   NbCalendarCell,
@@ -18,7 +18,6 @@ import { NbCalendarRangeDayCellComponent } from './calendar-range-day-cell.compo
 import { NbCalendarRangeYearCellComponent } from './calendar-range-year-cell.component';
 import { NbCalendarRangeMonthCellComponent } from './calendar-range-month-cell.component';
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbBaseCalendarComponent } from './base-calendar.component';
 
 export interface NbCalendarRange<D> {
   start: D;
@@ -185,11 +184,9 @@ export interface NbCalendarRange<D> {
       [firstDayOfWeek]="firstDayOfWeek"
     ></nb-base-calendar>
   `,
-  imports: [NbBaseCalendarComponent],
+  standalone: false,
 })
 export class NbCalendarRangeComponent<D> {
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   /**
    * Defines if we should render previous and next months
    * in the current month view.
@@ -299,7 +296,7 @@ export class NbCalendarRangeComponent<D> {
    * */
   @Output() rangeChange: EventEmitter<NbCalendarRange<D>> = new EventEmitter();
 
-  constructor() {}
+  constructor(protected dateService: NbDateService<D>) {}
 
   onChange(date: D) {
     this.initDateIfNull();

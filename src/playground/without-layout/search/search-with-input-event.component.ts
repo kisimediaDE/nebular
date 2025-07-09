@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { NbSearchService } from '@nebular/theme';
+import { NbSearchService } from '@kisimedia/nebular-theme';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
-    selector: 'nb-search-with-input-event',
-    template: `
+  selector: 'nb-search-with-input-event',
+  template: `
     <nb-layout>
       <nb-layout-header fixed>
         <nb-search type="rotate-layout" tag="search-input-event"></nb-search>
@@ -21,7 +21,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
       </nb-layout-column>
     </nb-layout>
   `,
-    standalone: false
 })
 export class SearchWithInputEventComponent implements OnInit {
   value: string;

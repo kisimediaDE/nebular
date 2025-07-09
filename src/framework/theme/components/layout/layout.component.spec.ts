@@ -19,7 +19,7 @@ import { RouterTestingModule } from '@angular/router/testing';
       </nb-layout-column>
     </nb-layout>
   `,
-  imports: [NbLayoutModule],
+  standalone: false,
 })
 export class LayoutWithScrollModeComponent {
   contentHeight: string = '200vh';
@@ -28,12 +28,8 @@ export class LayoutWithScrollModeComponent {
 describe('NbLayoutComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule.withRoutes([]),
-        NbThemeModule.forRoot(),
-        NbLayoutModule,
-        LayoutWithScrollModeComponent,
-      ],
+      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbLayoutModule],
+      declarations: [LayoutWithScrollModeComponent],
     });
   });
 

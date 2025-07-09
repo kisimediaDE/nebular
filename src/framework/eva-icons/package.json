@@ -1,17 +1,17 @@
 {
   "name": "@kisimedia/nebular-eva-icons",
-  "version": "15.0.0-custom.4",
+  "version": "15.0.0",
   "description": "@kisimedia/nebular-eva-icons",
-  "author": "Simon Kirchner (based on Akveo Nebular)",
+  "author": "akveo",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kisimediaDE/nebular.git"
+    "url": "git+https://github.com/akveo/nebular.git"
   },
   "bugs": {
-    "url": "https://github.com/kisimediaDE/nebular/issues"
+    "url": "https://github.com/akveo/nebular/issues"
   },
-  "homepage": "https://github.com/kisimediaDE/nebular#readme",
+  "homepage": "https://github.com/akveo/nebular#readme",
   "keywords": [
     "angular",
     "typescript",
@@ -23,11 +23,11 @@
     "eva-icons"
   ],
   "peerDependencies": {
-    "@kisimedia/nebular-theme": "15.0.0-custom.4",
+    "@kisimedia/nebular-theme": "15.0.0",
     "eva-icons": "^1.1.3"
   },
   "dependencies": {
-    "tslib": "^2.4.0"
+    "tslib": "^2.3.0"
   },
   "sideEffects": false
 }

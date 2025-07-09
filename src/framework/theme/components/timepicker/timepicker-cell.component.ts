@@ -10,7 +10,6 @@ import {
   OnDestroy,
   Output,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { merge, Subject } from 'rxjs';
@@ -22,11 +21,9 @@ import { NbPlatform } from '../cdk/platform/platform-service';
   template: ` <div #valueContainer>{{ value }}</div> `,
   styleUrls: ['./timepicker-cell.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbTimePickerCellComponent implements AfterViewInit, OnDestroy {
-  protected ngZone = inject(NgZone);
-  protected platformService = inject(NbPlatform);
-
   protected selectedChange$ = new Subject<boolean>();
   protected unselected$ = this.selectedChange$.pipe(filter((selected) => !selected));
   protected destroy$ = new Subject<void>();
@@ -47,7 +44,7 @@ export class NbTimePickerCellComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('valueContainer') valueContainerElement: ElementRef;
 
-  constructor() {}
+  constructor(protected ngZone: NgZone, protected platformService: NbPlatform) {}
 
   @HostListener('click')
   onClick() {

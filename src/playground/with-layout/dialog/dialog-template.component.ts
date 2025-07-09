@@ -1,10 +1,9 @@
 import { Component, TemplateRef } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
-
+import { NbDialogService } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-dialog-template',
-    template: `
+  selector: 'nb-dialog-template',
+  template: `
     <ng-template #dialog let-data let-ref="dialogRef">
       <nb-card>
         <nb-card-header>Template Dialog</nb-card-header>
@@ -16,12 +15,10 @@ import { NbDialogService } from '@nebular/theme';
     </ng-template>
     <button nbButton (click)="open(dialog)">Open Dialog</button>
   `,
-    styleUrls: ['./dialog-common.scss'],
-    standalone: false
+  styleUrls: ['./dialog-common.scss'],
 })
 export class DialogTemplateComponent {
-  constructor(private dialogService: NbDialogService) {
-  }
+  constructor(private dialogService: NbDialogService) {}
 
   open(dialog: TemplateRef<any>) {
     this.dialogService.open(dialog, { context: 'this is some additional data passed to dialog' });

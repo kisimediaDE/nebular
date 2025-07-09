@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { Component, ComponentRef, ElementRef, Injectable, Input, Type } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, ElementRef, Injectable, Input, Type } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import {
   NbOverlayConfig,
@@ -19,15 +19,22 @@ import {
   NbLayoutDirectionService,
 } from '@kisimedia/nebular-theme';
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
   @Input() content: any;
   @Input() context: Object;
+  @Input() cfr: ComponentFactoryResolver;
 
   renderContent() {}
 }
 
-@Component({ template: '' })
+@Component({
+  template: '',
+  standalone: false,
+})
 export class NbDynamicOverlayMock2Component extends NbDynamicOverlayMockComponent {}
 
 @Injectable()
@@ -143,7 +150,7 @@ export class MockTriggerStrategyBuilder {
   show$ = new Subject<any>();
   hide$ = new Subject<any>();
 
-  private destroyed$ = new Subject<void>();
+  private destroyed$ = new Subject();
 
   trigger(trigger: NbTrigger): this {
     this._trigger = trigger;
@@ -213,7 +220,7 @@ describe('dynamic-overlay-handler', () => {
   beforeEach(() => {
     TestBed.resetTestingModule();
     const bed = TestBed.configureTestingModule({
-      imports: [NbDynamicOverlayMockComponent, NbDynamicOverlayMock2Component],
+      declarations: [NbDynamicOverlayMockComponent, NbDynamicOverlayMock2Component],
       providers: [
         NbLayoutDirectionService,
         NbDynamicOverlayHandler,
@@ -367,8 +374,8 @@ describe('dynamic-overlay-handler', () => {
     const showSpy = spyOn(dynamic, 'show').and.callThrough();
     const hideSpy = spyOn(dynamic, 'hide').and.callThrough();
 
-    triggerShow1$.next(true);
-    triggerHide1$.next(true);
+    triggerShow1$.next();
+    triggerHide1$.next();
 
     expect(showSpy).toHaveBeenCalledTimes(1);
     expect(hideSpy).toHaveBeenCalledTimes(1);
@@ -379,14 +386,14 @@ describe('dynamic-overlay-handler', () => {
     triggerStrategyBuilder.hide$ = triggerHide2$;
     dynamic = configure().trigger(NbTrigger.HOVER).rebuild();
 
-    triggerShow1$.next(true);
-    triggerHide1$.next(true);
+    triggerShow1$.next();
+    triggerHide1$.next();
 
     expect(showSpy).toHaveBeenCalledTimes(1);
     expect(hideSpy).toHaveBeenCalledTimes(1);
 
-    triggerShow2$.next(true);
-    triggerHide2$.next(true);
+    triggerShow2$.next();
+    triggerHide2$.next();
 
     expect(showSpy).toHaveBeenCalledTimes(2);
     expect(hideSpy).toHaveBeenCalledTimes(2);

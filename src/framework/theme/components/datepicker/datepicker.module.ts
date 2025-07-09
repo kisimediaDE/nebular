@@ -32,13 +32,6 @@ import { NbDateTimePickerComponent } from './date-timepicker.component';
     NbBaseCalendarModule,
     NbTimepickerModule,
     NbCalendarKitModule,
-    NbDatepickerDirective,
-    NbDatepickerContainerComponent,
-    NbCalendarWithTimeComponent,
-    NbDateTimePickerComponent,
-    NbDatepickerComponent,
-    NbRangepickerComponent,
-    NbBasePickerComponent,
   ],
   exports: [
     NbDatepickerDirective,
@@ -46,6 +39,15 @@ import { NbDateTimePickerComponent } from './date-timepicker.component';
     NbRangepickerComponent,
     NbDateTimePickerComponent,
     NbCalendarWithTimeComponent,
+  ],
+  declarations: [
+    NbDatepickerDirective,
+    NbDatepickerContainerComponent,
+    NbCalendarWithTimeComponent,
+    NbDateTimePickerComponent,
+    NbDatepickerComponent,
+    NbRangepickerComponent,
+    NbBasePickerComponent,
   ],
 })
 export class NbDatepickerModule {

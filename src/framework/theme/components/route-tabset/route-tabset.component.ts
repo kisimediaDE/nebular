@@ -5,12 +5,10 @@
  */
 
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { convertToBoolProperty, NbBooleanInput } from '../helpers';
-import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
-import { NgFor, NgIf } from '@angular/common';
-import { NbMergeConfigsPipe } from './merge-configs.pipe';
+import { NbIconConfig } from '../icon/icon.component';
 
 export interface NbRouteTab {
   route?: RouterLink['routerLink'] | undefined;
@@ -118,7 +116,7 @@ export interface NbRouteTab {
         <ng-template #enabled>
           <li
             routerLinkActive="active"
-            [routerLinkActiveOptions]="activeLinkOptions | nbMergeConfigs: tab.activeLinkOptions"
+            [routerLinkActiveOptions]="activeLinkOptions | nbMergeConfigs : tab.activeLinkOptions"
             class="route-tab"
           >
             <a
@@ -143,7 +141,7 @@ export interface NbRouteTab {
     </ul>
     <router-outlet></router-outlet>
   `,
-  imports: [NgFor, NgIf, NbIconComponent, RouterLinkActive, RouterLink, RouterOutlet, NbMergeConfigsPipe],
+  standalone: false,
 })
 export class NbRouteTabsetComponent {
   @HostBinding('class.full-width') fullWidthValue: boolean = false;

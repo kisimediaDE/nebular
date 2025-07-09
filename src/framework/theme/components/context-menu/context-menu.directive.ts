@@ -14,7 +14,6 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
-  inject,
 } from '@angular/core';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -122,12 +121,9 @@ export interface NbContextMenuContext {
 @Directive({
   selector: '[nbContextMenu]',
   providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
+  standalone: false,
 })
 export class NbContextMenuDirective implements NbDynamicOverlayController, OnChanges, AfterViewInit, OnDestroy, OnInit {
-  private hostRef = inject(ElementRef);
-  private menuService = inject(NbMenuService);
-  private dynamicOverlayHandler = inject(NbDynamicOverlayHandler);
-
   @HostBinding('class.context-menu-host')
   contextMenuHost = true;
 
@@ -213,7 +209,11 @@ export class NbContextMenuDirective implements NbDynamicOverlayController, OnCha
 
   private dynamicOverlay: NbDynamicOverlay;
 
-  constructor() {}
+  constructor(
+    private hostRef: ElementRef,
+    private menuService: NbMenuService,
+    private dynamicOverlayHandler: NbDynamicOverlayHandler,
+  ) {}
 
   ngOnInit() {
     this.dynamicOverlayHandler.host(this.hostRef).componentType(NbContextMenuComponent);

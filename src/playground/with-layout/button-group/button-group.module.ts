@@ -13,7 +13,7 @@ import {
   NbButtonGroupModule,
   NbRadioModule,
   NbCheckboxModule,
-} from '@nebular/theme';
+} from '@kisimedia/nebular-theme';
 
 import { ButtonGroupShowcaseComponent } from './button-group-showcase.component';
 import { ButtonGroupMultipleComponent } from './button-group-multiple.component';

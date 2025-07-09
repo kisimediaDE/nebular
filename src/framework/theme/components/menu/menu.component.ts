@@ -12,12 +12,12 @@ import {
   OnInit,
   OnDestroy,
   AfterViewInit,
+  Inject,
   DoCheck,
   PLATFORM_ID,
-  inject,
 } from '@angular/core';
-import { isPlatformBrowser, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Router, NavigationEnd, NavigationExtras, RouterLink } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
+import { Router, NavigationEnd, NavigationExtras } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil, filter, map } from 'rxjs/operators';
 import { NbMenuInternalService, NbMenuItem, NbMenuBag, NbMenuService, NbMenuBadgeConfig } from './menu.service';
@@ -25,9 +25,6 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
 import { NB_WINDOW } from '../../theme.options';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NbLayoutDirectionService } from '../../services/direction.service';
-import { NbIconComponent } from '../icon/icon.component';
-import { NbMenuModule } from './menu.module';
-import { NbBadgeComponent } from '../badge/badge.component';
 
 export enum NbToggleStates {
   Expanded = 'expanded',
@@ -44,12 +41,9 @@ export enum NbToggleStates {
       transition(`${NbToggleStates.Collapsed} <=> ${NbToggleStates.Expanded}`, animate(300)),
     ]),
   ],
-  imports: [NgIf, NbIconComponent, RouterLink, NgTemplateOutlet, NgFor, NbMenuModule, NbBadgeComponent],
+  standalone: false,
 })
 export class NbMenuItemComponent implements DoCheck, AfterViewInit, OnDestroy {
-  protected menuService = inject(NbMenuService);
-  protected directionService = inject(NbLayoutDirectionService);
-
   @Input() menuItem = <NbMenuItem>null;
   @Input() badge: NbMenuBadgeConfig;
 
@@ -61,7 +55,7 @@ export class NbMenuItemComponent implements DoCheck, AfterViewInit, OnDestroy {
   protected destroy$ = new Subject<void>();
   toggleState: NbToggleStates;
 
-  constructor() {}
+  constructor(protected menuService: NbMenuService, protected directionService: NbLayoutDirectionService) {}
 
   ngDoCheck() {
     this.toggleState = this.menuItem.expanded ? NbToggleStates.Expanded : NbToggleStates.Collapsed;
@@ -232,14 +226,9 @@ export class NbMenuItemComponent implements DoCheck, AfterViewInit, OnDestroy {
       </ng-container>
     </ul>
   `,
-  imports: [NgFor, NgIf, NbMenuItemComponent],
+  standalone: false,
 })
 export class NbMenuComponent implements OnInit, AfterViewInit, OnDestroy {
-  protected window = inject(NB_WINDOW);
-  protected platformId = inject(PLATFORM_ID);
-  protected menuInternalService = inject(NbMenuInternalService);
-  protected router = inject(Router);
-
   /**
    * Tags a menu with some ID, can be later used in the menu service
    * to determine which menu triggered the action, if multiple menus exist on the page.
@@ -271,7 +260,12 @@ export class NbMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
   protected destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor(
+    @Inject(NB_WINDOW) protected window,
+    @Inject(PLATFORM_ID) protected platformId,
+    protected menuInternalService: NbMenuInternalService,
+    protected router: Router,
+  ) {}
 
   ngOnInit() {
     this.menuInternalService.prepareItems(this.items);

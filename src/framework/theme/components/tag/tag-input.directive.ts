@@ -15,7 +15,6 @@ import {
   NgZone,
   Output,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
@@ -56,14 +55,9 @@ export interface NbTagInputAddEvent {
   selector: 'input[nbTagInput]',
   exportAs: 'nbTagInput',
   providers: [{ provide: NbFormFieldControl, useExisting: NbTagInputDirective }],
+  standalone: false,
 })
 export class NbTagInputDirective extends NbInputDirective implements AfterViewInit {
-  _hostElement: ElementRef<HTMLInputElement>;
-  protected focusMonitor: NbFocusMonitor;
-  protected renderer: Renderer2;
-  protected zone: NgZone;
-  protected statusService: NbStatusService;
-
   protected readonly keyDown$: Subject<KeyboardEvent> = new Subject<KeyboardEvent>();
 
   get _value(): string {
@@ -87,20 +81,14 @@ export class NbTagInputDirective extends NbInputDirective implements AfterViewIn
     this.keyDown$.next(event);
   }
 
-  constructor() {
-    const _hostElement = inject<ElementRef<HTMLInputElement>>(ElementRef);
-    const focusMonitor = inject(NbFocusMonitor);
-    const renderer = inject(Renderer2);
-    const zone = inject(NgZone);
-    const statusService = inject(NbStatusService);
-
-    super();
-
-    this._hostElement = _hostElement;
-    this.focusMonitor = focusMonitor;
-    this.renderer = renderer;
-    this.zone = zone;
-    this.statusService = statusService;
+  constructor(
+    public _hostElement: ElementRef<HTMLInputElement>,
+    protected focusMonitor: NbFocusMonitor,
+    protected renderer: Renderer2,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {
+    super(_hostElement, focusMonitor, renderer, zone, statusService);
   }
 
   ngAfterViewInit() {

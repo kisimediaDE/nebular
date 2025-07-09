@@ -22,7 +22,7 @@ describe('Component: NbCalendarMonthPicker', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NbCalendarMonthPickerComponent],
+      declarations: [NbCalendarMonthPickerComponent],
       providers: [{ provide: NbDateService, useClass: NbNativeDateService }, DatePipe],
       schemas: [NO_ERRORS_SCHEMA],
     });

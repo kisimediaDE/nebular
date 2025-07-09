@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { NB_MEDIA_BREAKPOINTS } from '../theme.options';
 
 /**
@@ -60,11 +60,9 @@ export const DEFAULT_MEDIA_BREAKPOINTS = [
  */
 @Injectable()
 export class NbMediaBreakpointsService {
-  private breakpoints = inject(NB_MEDIA_BREAKPOINTS);
-
   private breakpointsMap: { [breakpoint: string]: number };
 
-  constructor() {
+  constructor(@Inject(NB_MEDIA_BREAKPOINTS) private breakpoints) {
     this.breakpointsMap = this.breakpoints.reduce((res, b: NbMediaBreakpoint) => {
       res[b.name] = b.width;
       return res;

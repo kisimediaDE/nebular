@@ -7,21 +7,17 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'nb-timepicker-ng-model',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `
+  selector: 'nb-timepicker-ng-model',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
     <nb-card size="large">
       <nb-card-body>
-        <input nbInput
-               [ngModel]="date"
-               type="text"
-               [nbTimepicker]="timepicker"/>
+        <input nbInput [ngModel]="date" type="text" [nbTimepicker]="timepicker" />
         <nb-timepicker #timepicker></nb-timepicker>
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./timepicker-example.scss'],
-    standalone: false
+  styleUrls: ['./timepicker-example.scss'],
 })
 export class TimepickerNgModelComponent {
   date = new Date();

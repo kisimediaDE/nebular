@@ -10,7 +10,8 @@ import { NbCalendarComponent } from './calendar.component';
 import { NbBaseCalendarModule } from './base-calendar.module';
 
 @NgModule({
-  imports: [NbBaseCalendarModule, NbCalendarComponent],
+  imports: [NbBaseCalendarModule],
   exports: [NbCalendarComponent],
+  declarations: [NbCalendarComponent],
 })
 export class NbCalendarModule {}

@@ -11,7 +11,8 @@ import { NbInputDirective } from './input.directive';
 const NB_INPUT_COMPONENTS = [NbInputDirective];
 
 @NgModule({
-  imports: [NbSharedModule, ...NB_INPUT_COMPONENTS],
+  imports: [NbSharedModule],
+  declarations: NB_INPUT_COMPONENTS,
   exports: NB_INPUT_COMPONENTS,
 })
 export class NbInputModule {}

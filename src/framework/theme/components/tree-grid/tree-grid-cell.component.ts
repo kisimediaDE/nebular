@@ -9,10 +9,10 @@ import {
   Directive,
   ElementRef,
   HostBinding,
+  Inject,
   OnInit,
   OnDestroy,
   PLATFORM_ID,
-  inject,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
@@ -36,15 +36,9 @@ import { NbColumnsService } from './tree-grid-columns.service';
     role: 'gridcell',
   },
   providers: [{ provide: NbCdkCell, useExisting: NbTreeGridCellDirective }],
+  standalone: false,
 })
 export class NbTreeGridCellDirective extends NbCellDirective implements OnInit, OnDestroy {
-  private platformId = inject(PLATFORM_ID);
-  private window = inject(NB_WINDOW);
-  private sanitizer = inject(DomSanitizer);
-  private directionService = inject(NbLayoutDirectionService);
-  private columnService = inject(NbColumnsService);
-  private cd = inject(ChangeDetectorRef);
-
   private destroy$ = new Subject<void>();
   private readonly tree: NbTreeGridComponent<any>;
   private readonly columnDef: NbTreeGridColumnDefDirective;
@@ -79,12 +73,18 @@ export class NbTreeGridCellDirective extends NbCellDirective implements OnInit, 
     return null;
   }
 
-  constructor() {
-    const columnDef = inject(NbTreeGridColumnDefDirective);
-    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    const tree = inject(NB_TREE_GRID);
-
-    super();
+  constructor(
+    columnDef: NbTreeGridColumnDefDirective,
+    elementRef: ElementRef<HTMLElement>,
+    @Inject(NB_TREE_GRID) tree,
+    @Inject(PLATFORM_ID) private platformId,
+    @Inject(NB_WINDOW) private window,
+    private sanitizer: DomSanitizer,
+    private directionService: NbLayoutDirectionService,
+    private columnService: NbColumnsService,
+    private cd: ChangeDetectorRef,
+  ) {
+    super(columnDef, elementRef);
     this.tree = tree as NbTreeGridComponent<any>;
     this.columnDef = columnDef;
     this.elementRef = elementRef;
@@ -148,11 +148,9 @@ export class NbTreeGridCellDirective extends NbCellDirective implements OnInit, 
     role: 'columnheader',
   },
   providers: [{ provide: NbCdkHeaderCell, useExisting: NbTreeGridHeaderCellDirective }],
+  standalone: false,
 })
 export class NbTreeGridHeaderCellDirective extends NbHeaderCellDirective implements OnInit, OnDestroy {
-  private columnService = inject(NbColumnsService);
-  private cd = inject(ChangeDetectorRef);
-
   private destroy$ = new Subject<void>();
   private latestWidth: string;
   private readonly tree: NbTreeGridComponent<any>;
@@ -163,12 +161,14 @@ export class NbTreeGridHeaderCellDirective extends NbHeaderCellDirective impleme
     return this.latestWidth || null;
   }
 
-  constructor() {
-    const columnDef = inject(NbTreeGridColumnDefDirective);
-    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-    const tree = inject(NB_TREE_GRID);
-
-    super();
+  constructor(
+    columnDef: NbTreeGridColumnDefDirective,
+    elementRef: ElementRef<HTMLElement>,
+    @Inject(NB_TREE_GRID) tree,
+    private columnService: NbColumnsService,
+    private cd: ChangeDetectorRef,
+  ) {
+    super(columnDef, elementRef);
     this.tree = tree as NbTreeGridComponent<any>;
   }
 
@@ -195,11 +195,9 @@ export class NbTreeGridHeaderCellDirective extends NbHeaderCellDirective impleme
     role: 'gridcell',
   },
   providers: [{ provide: NbCdkFooterCell, useExisting: NbTreeGridFooterCellDirective }],
+  standalone: false,
 })
 export class NbTreeGridFooterCellDirective extends NbFooterCellDirective implements OnInit, OnDestroy {
-  private columnService = inject(NbColumnsService);
-  private cd = inject(ChangeDetectorRef);
-
   private destroy$ = new Subject<void>();
   private latestWidth: string;
   private readonly tree: NbTreeGridComponent<any>;
@@ -210,12 +208,14 @@ export class NbTreeGridFooterCellDirective extends NbFooterCellDirective impleme
     return this.latestWidth || null;
   }
 
-  constructor() {
-    const columnDef = inject(NbTreeGridColumnDefDirective);
-    const elementRef = inject(ElementRef);
-    const tree = inject(NB_TREE_GRID);
-
-    super();
+  constructor(
+    columnDef: NbTreeGridColumnDefDirective,
+    elementRef: ElementRef,
+    @Inject(NB_TREE_GRID) tree,
+    private columnService: NbColumnsService,
+    private cd: ChangeDetectorRef,
+  ) {
+    super(columnDef, elementRef);
     this.tree = tree as NbTreeGridComponent<any>;
   }
 

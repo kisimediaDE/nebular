@@ -6,18 +6,20 @@
 
 import {
   AfterViewInit,
+  Attribute,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
+  Inject,
   Input,
   IterableDiffers,
   OnDestroy,
   QueryList,
   EmbeddedViewRef,
   ViewContainerRef,
-  inject,
-  HostAttributeToken,
+  Optional,
+  SkipSelf,
 } from '@angular/core';
 import { CDK_TABLE } from '@angular/cdk/table';
 import { fromEvent, merge, Subject } from 'rxjs';
@@ -26,7 +28,13 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { NB_DOCUMENT, NB_WINDOW } from '../../theme.options';
 import { NbPlatform } from '../cdk/platform/platform-service';
 import { NbDirectionality } from '../cdk/bidi/bidi-service';
-import { NB_TABLE_TEMPLATE, NbTable, NB_TABLE_PROVIDERS, NB_VIEW_REPEATER_STRATEGY } from '../cdk/table/table.module';
+import {
+  NB_TABLE_TEMPLATE,
+  NbTable,
+  NB_TABLE_PROVIDERS,
+  NB_COALESCED_STYLE_SCHEDULER,
+  NB_VIEW_REPEATER_STRATEGY,
+} from '../cdk/table/table.module';
 import { NB_STICKY_POSITIONING_LISTENER, NbRowContext } from '../cdk/table/type-mappings';
 import { NbViewportRulerAdapter } from '../cdk/adapter/viewport-ruler-adapter';
 import { NbTreeGridDataSource, NbTreeGridDataSourceBuilder } from './data-source/tree-grid-data-source';
@@ -43,12 +51,6 @@ import {
   NbTreeGridRowDefDirective,
 } from './tree-grid-def.component';
 import { NbColumnsService } from './tree-grid-columns.service';
-import {
-  NbHeaderRowOutletDirective,
-  NbDataRowOutletDirective,
-  NbNoDataRowOutletDirective,
-  NbFooterRowOutletDirective,
-} from '../cdk/table/row';
 
 /**
  * Tree grid component that can be used to display nested rows of data.
@@ -146,35 +148,40 @@ import {
     NbColumnsService,
     ...NB_TABLE_PROVIDERS,
   ],
-  imports: [
-    NbHeaderRowOutletDirective,
-    NbDataRowOutletDirective,
-    NbNoDataRowOutletDirective,
-    NbFooterRowOutletDirective,
-  ],
+  standalone: false,
 })
 export class NbTreeGridComponent<T> extends NbTable<NbTreeGridPresentationNode<T>> implements AfterViewInit, OnDestroy {
-  private dataSourceBuilder = inject<NbTreeGridDataSourceBuilder<T>>(NbTreeGridDataSourceBuilder);
-  private window = inject(NB_WINDOW);
-  protected readonly _viewRepeater;
-  protected readonly _stickyPositioningListener;
-
-  constructor() {
-    const differs = inject(IterableDiffers);
-    const changeDetectorRef = inject(ChangeDetectorRef);
-    const elementRef = inject(ElementRef);
-    const role = inject(new HostAttributeToken('role'), { optional: true })!;
-    const dir = inject(NbDirectionality);
-    const document = inject(NB_DOCUMENT);
-    const platform = inject(NbPlatform);
-    const _viewRepeater = inject(NB_VIEW_REPEATER_STRATEGY);
-    const _viewportRuler = inject(NbViewportRulerAdapter);
-    const _stickyPositioningListener = inject(NB_STICKY_POSITIONING_LISTENER, { optional: true, skipSelf: true })!;
-
-    super();
-    this._viewRepeater = _viewRepeater;
-    this._stickyPositioningListener = _stickyPositioningListener;
-
+  constructor(
+    private dataSourceBuilder: NbTreeGridDataSourceBuilder<T>,
+    differs: IterableDiffers,
+    changeDetectorRef: ChangeDetectorRef,
+    elementRef: ElementRef,
+    @Attribute('role') role: string,
+    dir: NbDirectionality,
+    @Inject(NB_DOCUMENT) document,
+    platform: NbPlatform,
+    @Inject(NB_WINDOW) private window,
+    @Inject(NB_VIEW_REPEATER_STRATEGY) protected readonly _viewRepeater,
+    @Inject(NB_COALESCED_STYLE_SCHEDULER) protected readonly _coalescedStyleScheduler,
+    _viewportRuler: NbViewportRulerAdapter,
+    @Optional()
+    @SkipSelf()
+    @Inject(NB_STICKY_POSITIONING_LISTENER)
+    protected readonly _stickyPositioningListener,
+  ) {
+    super(
+      differs,
+      changeDetectorRef,
+      elementRef,
+      role,
+      dir,
+      document,
+      platform,
+      _viewRepeater,
+      _coalescedStyleScheduler,
+      _viewportRuler,
+      _stickyPositioningListener,
+    );
     this.platform = platform;
   }
 

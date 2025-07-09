@@ -5,18 +5,17 @@
  */
 
 import { Component } from '@angular/core';
-import { NbComponentShape, NbComponentSize, NbComponentStatus } from '@nebular/theme';
-import { NbSelectAppearance } from '@nebular/theme';
+import { NbComponentShape, NbComponentSize, NbComponentStatus } from '@kisimedia/nebular-theme';
+import { NbSelectAppearance } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-select-interactive',
-    templateUrl: './select-interactive.component.html',
-    styleUrls: ['./select-interactive.component.scss'],
-    standalone: false
+  selector: 'nb-select-interactive',
+  templateUrl: './select-interactive.component.html',
+  styleUrls: ['./select-interactive.component.scss'],
 })
 export class SelectInteractiveComponent {
   singleSelectValue = '1';
-  multipleSelectValue = [ '1' ];
+  multipleSelectValue = ['1'];
   disabledOptionValue = '3';
 
   selectedSize: NbComponentSize = 'medium';
@@ -24,10 +23,10 @@ export class SelectInteractiveComponent {
 
   fullWidth: boolean = true;
 
-  appearances: NbSelectAppearance[] = [ 'outline', 'filled', 'hero' ];
-  sizes: NbComponentSize[] = [ 'tiny', 'small', 'medium', 'large', 'giant' ];
-  shapes: NbComponentShape[] = [ 'rectangle', 'semi-round', 'round' ];
-  statuses: NbComponentStatus[] = [ 'basic', 'primary', 'success', 'info', 'warning', 'danger', 'control' ];
+  appearances: NbSelectAppearance[] = ['outline', 'filled', 'hero'];
+  sizes: NbComponentSize[] = ['tiny', 'small', 'medium', 'large', 'giant'];
+  shapes: NbComponentShape[] = ['rectangle', 'semi-round', 'round'];
+  statuses: NbComponentStatus[] = ['basic', 'primary', 'success', 'info', 'warning', 'danger', 'control'];
 
   selectDisabledOption(): void {
     this.singleSelectValue = this.disabledOptionValue;

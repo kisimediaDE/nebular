@@ -4,15 +4,14 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostBinding, Input, inject } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentOrCustomStatus } from '../component-status';
 import { NbRenderableContainer } from '../cdk/overlay/overlay-container';
 import { NbPosition } from '../cdk/overlay/overlay-position';
-import { NbIconConfig, NbIconComponent } from '../icon/icon.component';
-import { NgIf } from '@angular/common';
+import { NbIconConfig } from '../icon/icon.component';
 
 /**
  * Tooltip container.
@@ -74,11 +73,9 @@ import { NgIf } from '@angular/common';
       transition('* => void', [animate(100, style({ opacity: 0 }))]),
     ]),
   ],
-  imports: [NgIf, NbIconComponent],
+  standalone: false,
 })
 export class NbTooltipComponent implements NbRenderableContainer {
-  protected statusService = inject(NbStatusService);
-
   @Input()
   content: string;
 
@@ -109,7 +106,7 @@ export class NbTooltipComponent implements NbRenderableContainer {
     return '';
   }
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 
   /**
    * The method is empty since we don't need to do anything additionally

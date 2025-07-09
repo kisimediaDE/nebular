@@ -13,7 +13,8 @@ import { NbContextMenuComponent } from './context-menu.component';
 import { NbMenuModule } from '../menu/menu.module';
 
 @NgModule({
-  imports: [CommonModule, NbOverlayModule, NbMenuModule, NbContextMenuDirective, NbContextMenuComponent],
+  imports: [CommonModule, NbOverlayModule, NbMenuModule],
   exports: [NbContextMenuDirective],
+  declarations: [NbContextMenuDirective, NbContextMenuComponent],
 })
 export class NbContextMenuModule {}

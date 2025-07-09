@@ -1,8 +1,9 @@
-import { Directive, TemplateRef, inject } from '@angular/core';
+import { Directive, TemplateRef } from '@angular/core';
 
-@Directive({ selector: '[nbTabTitle]' })
+@Directive({
+  selector: '[nbTabTitle]',
+  standalone: false,
+})
 export class NbTabTitleDirective {
-  templateRef = inject<TemplateRef<any>>(TemplateRef);
-
-  constructor() {}
+  constructor(public templateRef: TemplateRef<any>) {}
 }

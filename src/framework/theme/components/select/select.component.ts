@@ -17,6 +17,7 @@ import {
   EventEmitter,
   forwardRef,
   HostBinding,
+  Inject,
   Input,
   OnDestroy,
   Output,
@@ -26,9 +27,8 @@ import {
   OnChanges,
   Renderer2,
   NgZone,
-  inject,
 } from '@angular/core';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { merge, Subject, BehaviorSubject, from } from 'rxjs';
 import { startWith, switchMap, takeUntil, filter, map, finalize, take } from 'rxjs/operators';
@@ -55,8 +55,6 @@ import { NB_SELECT_INJECTION_TOKEN } from './select-injection-tokens';
 import { NbFormFieldControl, NbFormFieldControlConfig } from '../form-field/form-field-control';
 import { NbFocusMonitor } from '../cdk/a11y/a11y.module';
 import { NbScrollStrategies } from '../cdk/adapter/block-scroll-strategy-adapter';
-import { NbIconComponent } from '../icon/icon.component';
-import { NbOptionListComponent } from '../option/option-list.component';
 
 export type NbSelectCompareFunction<T = any> = (v1: any, v2: any) => boolean;
 export type NbSelectAppearance = 'outline' | 'filled' | 'hero';
@@ -64,6 +62,7 @@ export type NbSelectAppearance = 'outline' | 'filled' | 'hero';
 @Component({
   selector: 'nb-select-label',
   template: '<ng-content></ng-content>',
+  standalone: false,
 })
 export class NbSelectLabelComponent {}
 
@@ -519,25 +518,11 @@ export function nbSelectFormFieldControlConfigFactory() {
     { provide: NbFormFieldControl, useExisting: NbSelectComponent },
     { provide: NbFormFieldControlConfig, useFactory: nbSelectFormFieldControlConfigFactory },
   ],
-  imports: [NgClass, NgIf, NbIconComponent, NbPortalDirective, NbOptionListComponent],
+  standalone: false,
 })
 export class NbSelectComponent
   implements OnChanges, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, NbFormFieldControl
 {
-  protected document = inject(NB_DOCUMENT);
-  protected overlay = inject(NbOverlayService);
-  protected hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  protected positionBuilder = inject(NbPositionBuilderService);
-  protected triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
-  protected cd = inject(ChangeDetectorRef);
-  protected focusKeyManagerFactoryService = inject<NbFocusKeyManagerFactoryService<NbOptionComponent>>(
-    NbFocusKeyManagerFactoryService,
-  );
-  protected focusMonitor = inject(NbFocusMonitor);
-  protected renderer = inject(Renderer2);
-  protected zone = inject(NgZone);
-  protected statusService = inject(NbStatusService);
-
   /**
    * Select size, available sizes:
    * `tiny`, `small`, `medium` (default), `large`, `giant`
@@ -814,7 +799,19 @@ export class NbSelectComponent
    **/
   fullWidth$ = new BehaviorSubject<boolean>(this.fullWidth);
 
-  constructor() {}
+  constructor(
+    @Inject(NB_DOCUMENT) protected document,
+    protected overlay: NbOverlayService,
+    protected hostRef: ElementRef<HTMLElement>,
+    protected positionBuilder: NbPositionBuilderService,
+    protected triggerStrategyBuilder: NbTriggerStrategyBuilderService,
+    protected cd: ChangeDetectorRef,
+    protected focusKeyManagerFactoryService: NbFocusKeyManagerFactoryService<NbOptionComponent>,
+    protected focusMonitor: NbFocusMonitor,
+    protected renderer: Renderer2,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+  ) {}
 
   /**
    * Determines is select hidden.

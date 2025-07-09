@@ -29,7 +29,7 @@ import { NbThemeModule, NbChatModule, NbChatComponent } from '@kisimedia/nebular
       <nb-chat-form [dropFiles]="false"> </nb-chat-form>
     </nb-chat>
   `,
-  imports: [NbChatModule],
+  standalone: false,
 })
 export class NbChatTitleTemplateTestComponent {
   messages = [
@@ -69,7 +69,8 @@ describe('NbChatTitleDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, NbThemeModule.forRoot(), NbChatModule, NbChatTitleTemplateTestComponent],
+      imports: [NoopAnimationsModule, NbThemeModule.forRoot(), NbChatModule],
+      declarations: [NbChatTitleTemplateTestComponent],
     });
 
     fixture = TestBed.createComponent(NbChatTitleTemplateTestComponent);

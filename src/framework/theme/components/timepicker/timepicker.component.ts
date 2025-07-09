@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  Inject,
   Input,
   LOCALE_ID,
   OnChanges,
@@ -11,7 +12,6 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  inject,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -27,11 +27,6 @@ import {
   NbSelectedTimePayload,
   NbTimePickerConfig,
 } from './model';
-import { NbCardComponent, NbCardHeaderComponent, NbCardFooterComponent } from '../card/card.component';
-import { NgIf, NgFor } from '@angular/common';
-import { NbListComponent, NbListItemComponent } from '../list/list.component';
-import { NbTimePickerCellComponent } from './timepicker-cell.component';
-import { NbCalendarActionsComponent } from '../calendar-kit/components/calendar-actions/calendar-actions.component';
 
 interface NbTimePartOption {
   value: number;
@@ -48,26 +43,9 @@ interface NbTimePartOption {
   styleUrls: ['./timepicker.component.scss'],
   exportAs: 'nbTimepicker',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NbPortalDirective,
-    NbCardComponent,
-    NbCardHeaderComponent,
-    NgIf,
-    NbListComponent,
-    NgFor,
-    NbListItemComponent,
-    NbTimePickerCellComponent,
-    NbCardFooterComponent,
-    NbCalendarActionsComponent,
-  ],
+  standalone: false,
 })
 export class NbTimePickerComponent<D> implements OnChanges {
-  protected config = inject<NbTimePickerConfig>(NB_TIME_PICKER_CONFIG);
-  protected platformService = inject(NbPlatform);
-  cd = inject(ChangeDetectorRef);
-  protected calendarTimeModelService = inject<NbCalendarTimeModelService<D>>(NbCalendarTimeModelService);
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-
   protected blur$: Subject<void> = new Subject<void>();
 
   fullTimeOptions: D[];
@@ -203,7 +181,14 @@ export class NbTimePickerComponent<D> implements OnChanges {
   @Output() onSelectTime: EventEmitter<NbSelectedTimePayload<D>> = new EventEmitter<NbSelectedTimePayload<D>>();
   @ViewChild(NbPortalDirective, { static: true }) portal: NbPortalDirective;
 
-  constructor() {
+  constructor(
+    @Inject(NB_TIME_PICKER_CONFIG) protected config: NbTimePickerConfig,
+    protected platformService: NbPlatform,
+    @Inject(LOCALE_ID) locale: string,
+    public cd: ChangeDetectorRef,
+    protected calendarTimeModelService: NbCalendarTimeModelService<D>,
+    protected dateService: NbDateService<D>,
+  ) {
     this.initFromConfig(this.config);
   }
 

@@ -4,34 +4,33 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, LOCALE_ID, inject } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID, Optional } from '@angular/core';
 
 import { NB_DATE_SERVICE_OPTIONS, NbNativeDateService } from '@kisimedia/nebular-theme';
 
-import { parse, format as formatDateFns, getWeek, ParseOptions, FormatOptions, GetWeekOptions } from 'date-fns';
+import { default as parse } from 'date-fns/parse';
+import { default as formatDate } from 'date-fns/format';
+import { default as getWeek } from 'date-fns/getWeek';
 
 export interface NbDateFnsOptions {
   format: string;
-  parseOptions: ParseOptions;
-  formatOptions: FormatOptions;
-  getWeekOptions: GetWeekOptions;
+  parseOptions: {};
+  formatOptions: {};
+  getWeekOptions: {};
 }
 
 @Injectable()
 export class NbDateFnsDateService extends NbNativeDateService {
   protected options: Partial<NbDateFnsOptions>;
 
-  constructor() {
-    const locale = inject(LOCALE_ID);
-    const options = inject(NB_DATE_SERVICE_OPTIONS, { optional: true })!;
-
-    super();
+  constructor(@Inject(LOCALE_ID) locale: string, @Optional() @Inject(NB_DATE_SERVICE_OPTIONS) options) {
+    super(locale);
     this.options = options || {};
   }
 
   format(date: Date, format: string): string {
     if (date) {
-      return formatDateFns(date, format || this.options.format, this.options.formatOptions);
+      return formatDate(date, format || this.options.format, this.options.formatOptions);
     }
 
     return '';
@@ -50,6 +49,6 @@ export class NbDateFnsDateService extends NbNativeDateService {
   }
 
   getDateFormat(): string {
-    return 'yyyy-MM-dd';
+    return 'YYYY-MM-dd';
   }
 }

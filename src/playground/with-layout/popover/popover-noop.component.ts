@@ -5,21 +5,21 @@
  */
 
 import { Component, ViewChild } from '@angular/core';
-import { NbPopoverDirective } from '@nebular/theme';
+import { NbPopoverDirective } from '@kisimedia/nebular-theme';
 
 @Component({
-    selector: 'nb-popover-noop',
-    templateUrl: './popover-noop.component.html',
-    styles: [`
-    button {
-      margin-right: 1rem;
-      margin-top: 1rem;
-    }
-  `],
-    standalone: false
+  selector: 'nb-popover-noop',
+  templateUrl: './popover-noop.component.html',
+  styles: [
+    `
+      button {
+        margin-right: 1rem;
+        margin-top: 1rem;
+      }
+    `,
+  ],
 })
 export class PopoverNoopComponent {
-
   @ViewChild(NbPopoverDirective) popover: NbPopoverDirective;
 
   open() {

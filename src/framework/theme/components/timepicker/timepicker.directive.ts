@@ -1,15 +1,15 @@
 import {
   AfterViewInit,
+  Attribute,
   ChangeDetectorRef,
   ComponentRef,
   Directive,
   ElementRef,
   forwardRef,
+  Inject,
   Input,
   isDevMode,
   Renderer2,
-  inject,
-  HostAttributeToken,
 } from '@angular/core';
 import { distinctUntilChanged, filter, map, pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { fromEvent, merge, Subject, Subscription } from 'rxjs';
@@ -177,19 +177,9 @@ import { NB_DOCUMENT } from '../../theme.options';
       multi: true,
     },
   ],
+  standalone: false,
 })
 export class NbTimePickerDirective<D> implements AfterViewInit, ControlValueAccessor {
-  protected document = inject(NB_DOCUMENT);
-  protected positionBuilder = inject(NbPositionBuilderService);
-  protected hostRef = inject(ElementRef);
-  protected triggerStrategyBuilder = inject(NbTriggerStrategyBuilderService);
-  protected overlay = inject(NbOverlayService);
-  protected cd = inject(ChangeDetectorRef);
-  protected calendarTimeModelService = inject<NbCalendarTimeModelService<D>>(NbCalendarTimeModelService);
-  protected dateService = inject<NbDateService<D>>(NbDateService);
-  protected renderer = inject(Renderer2);
-  protected placeholder = inject(new HostAttributeToken('placeholder'), { optional: true })!;
-
   /**
    * Provides timepicker component.
    * */
@@ -271,7 +261,18 @@ export class NbTimePickerDirective<D> implements AfterViewInit, ControlValueAcce
     return !this.isOpen;
   }
 
-  constructor() {}
+  constructor(
+    @Inject(NB_DOCUMENT) protected document,
+    protected positionBuilder: NbPositionBuilderService,
+    protected hostRef: ElementRef,
+    protected triggerStrategyBuilder: NbTriggerStrategyBuilderService,
+    protected overlay: NbOverlayService,
+    protected cd: ChangeDetectorRef,
+    protected calendarTimeModelService: NbCalendarTimeModelService<D>,
+    protected dateService: NbDateService<D>,
+    protected renderer: Renderer2,
+    @Attribute('placeholder') protected placeholder: string,
+  ) {}
 
   /**
    * Returns host input value.

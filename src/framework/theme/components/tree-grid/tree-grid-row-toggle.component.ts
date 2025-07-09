@@ -4,9 +4,8 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostListener, Input, inject } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { NbTreeGridCellDirective } from './tree-grid-cell.component';
-import { NbIconComponent } from '../icon/icon.component';
 
 /**
  * NbTreeGridRowToggleComponent
@@ -32,11 +31,9 @@ import { NbIconComponent } from '../icon/icon.component';
       }
     `,
   ],
-  imports: [NbIconComponent],
+  standalone: false,
 })
 export class NbTreeGridRowToggleComponent {
-  private cell = inject(NbTreeGridCellDirective);
-
   private expandedValue: boolean;
   @Input()
   set expanded(value: boolean) {
@@ -52,5 +49,5 @@ export class NbTreeGridRowToggleComponent {
     $event.stopPropagation();
   }
 
-  constructor() {}
+  constructor(private cell: NbTreeGridCellDirective) {}
 }

@@ -4,11 +4,8 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { NbChatMessageTextComponent } from './chat-message-text.component';
-import { NgIf, NgFor } from '@angular/common';
-import { NbIconComponent } from '../icon/icon.component';
 
 export interface NbChatMessageFileIconPreview {
   url: string;
@@ -47,12 +44,9 @@ export type NbChatMessageFile = NbChatMessageFileIconPreview | NbChatMessageFile
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NbChatMessageTextComponent, NgIf, NgFor, NbIconComponent],
+  standalone: false,
 })
 export class NbChatMessageFileComponent {
-  protected cd = inject(ChangeDetectorRef);
-  protected domSanitizer = inject(DomSanitizer);
-
   readyFiles: any[];
 
   /**
@@ -96,7 +90,7 @@ export class NbChatMessageFileComponent {
     this.cd.detectChanges();
   }
 
-  constructor() {}
+  constructor(protected cd: ChangeDetectorRef, protected domSanitizer: DomSanitizer) {}
 
   isImage(file: NbChatMessageFile): boolean {
     const type = (file as NbChatMessageFileImagePreview).type;

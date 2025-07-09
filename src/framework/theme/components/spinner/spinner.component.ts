@@ -4,12 +4,11 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, HostBinding, Input, inject } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 
 import { NbStatusService } from '../../services/status.service';
 import { NbComponentSize } from '../component-size';
 import { NbComponentOrCustomStatus } from '../component-status';
-import { NgIf } from '@angular/common';
 
 /**
  * Styled spinner component
@@ -55,11 +54,9 @@ import { NgIf } from '@angular/common';
     <span class="message" *ngIf="message">{{ message }}</span>
   `,
   styleUrls: ['./spinner.component.scss'],
-  imports: [NgIf],
+  standalone: false,
 })
 export class NbSpinnerComponent {
-  protected statusService = inject(NbStatusService);
-
   /**
    * Loading text that is shown near the icon
    * @type string
@@ -149,5 +146,5 @@ export class NbSpinnerComponent {
     return [];
   }
 
-  constructor() {}
+  constructor(protected statusService: NbStatusService) {}
 }

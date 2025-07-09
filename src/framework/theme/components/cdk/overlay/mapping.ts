@@ -1,14 +1,13 @@
+import { Directive, Injectable, ModuleWithProviders, NgModule, TemplateRef, ViewContainerRef } from '@angular/core';
 import {
-  Directive,
-  Injectable,
-  Injector,
-  ModuleWithProviders,
-  NgModule,
-  ProviderToken,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
-import { CdkPortal, CdkPortalOutlet, ComponentPortal, Portal, PortalModule, TemplatePortal } from '@angular/cdk/portal';
+  CdkPortal,
+  CdkPortalOutlet,
+  ComponentPortal,
+  Portal,
+  PortalInjector,
+  PortalModule,
+  TemplatePortal,
+} from '@angular/cdk/portal';
 import {
   ComponentType,
   ConnectedOverlayPositionChange,
@@ -26,10 +25,16 @@ import {
 } from '@angular/cdk/overlay';
 import { NbScrollStrategyOptions } from '../adapter/block-scroll-strategy-adapter';
 
-@Directive({ selector: '[nbPortal]' })
+@Directive({
+  selector: '[nbPortal]',
+  standalone: false,
+})
 export class NbPortalDirective extends CdkPortal {}
 
-@Directive({ selector: '[nbPortalOutlet]' })
+@Directive({
+  selector: '[nbPortalOutlet]',
+  standalone: false,
+})
 export class NbPortalOutletDirective extends CdkPortalOutlet {}
 
 export class NbComponentPortal<T = any> extends ComponentPortal<T> {}
@@ -53,20 +58,7 @@ export class NbOverlayContainer extends OverlayContainer {}
 
 export class NbFlexibleConnectedPositionStrategy extends FlexibleConnectedPositionStrategy {}
 
-export class NbPortalInjector implements Injector {
-  constructor(
-    private injector: Injector,
-    private customTokens: WeakMap<any, any>,
-  ) {}
-
-  get<T>(token: ProviderToken<T>, notFoundValue?: T): T {
-    const value = this.customTokens.get(token);
-    if (value !== undefined) {
-      return value;
-    }
-    return this.injector.get(token, notFoundValue as T);
-  }
-}
+export class NbPortalInjector extends PortalInjector {}
 
 export type NbPortal<T = any> = Portal<T>;
 export type NbOverlayRef = OverlayRef;
@@ -85,8 +77,9 @@ const CDK_MODULES = [OverlayModule, PortalModule];
  * Approach will help us move cdk in separate npm package and refactor nebular/theme code.
  * */
 @NgModule({
-  imports: [...CDK_MODULES, NbPortalDirective, NbPortalOutletDirective],
+  imports: [...CDK_MODULES],
   exports: [...CDK_MODULES, NbPortalDirective, NbPortalOutletDirective],
+  declarations: [NbPortalDirective, NbPortalOutletDirective],
 })
 export class NbCdkMappingModule {
   static forRoot(): ModuleWithProviders<NbCdkMappingModule> {

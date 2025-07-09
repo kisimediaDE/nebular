@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, LOCALE_ID, inject } from '@angular/core';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { TranslationWidth } from '@angular/common';
 
 import { NbDateService } from '@kisimedia/nebular-theme';
@@ -25,10 +25,7 @@ export class NbMomentDateService extends NbDateService<Moment> {
   };
 
   protected readonly TIME_ONLY_FORMAT_KEY: LongDateFormatKey = 'LT';
-
-  constructor() {
-    const locale = inject(LOCALE_ID);
-
+  constructor(@Inject(LOCALE_ID) locale: string) {
     super();
     this.setLocale(locale);
   }

@@ -24,11 +24,14 @@ export class MockViewportRulerAdapter extends NbViewportRulerAdapter {
   }
 }
 
-@Component({ template: `portal-component` })
+@Component({
+  template: `portal-component`,
+  standalone: false,
+})
 export class PortalComponent {}
 
 @NgModule({
-  imports: [PortalComponent],
+  declarations: [PortalComponent],
   exports: [PortalComponent],
 })
 export class PortalModule {}

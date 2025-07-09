@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -123,12 +123,12 @@ export class NbTreeGridDataSource<T>
 
 @Injectable()
 export class NbTreeGridDataSourceBuilder<T> {
-  private filterService = inject<NbTreeGridFilterService<T>>(NbTreeGridFilterService);
-  private sortService = inject<NbTreeGridSortService<T>>(NbTreeGridSortService);
-  private treeGridService = inject<NbTreeGridService<T>>(NbTreeGridService);
-  private treeGridDataService = inject<NbTreeGridDataService<T>>(NbTreeGridDataService);
-
-  constructor() {}
+  constructor(
+    private filterService: NbTreeGridFilterService<T>,
+    private sortService: NbTreeGridSortService<T>,
+    private treeGridService: NbTreeGridService<T>,
+    private treeGridDataService: NbTreeGridDataService<T>,
+  ) {}
 
   create<N>(data: N[], customGetters?: NbGetters<N, T>): NbTreeGridDataSource<T> {
     const dataSource = new NbTreeGridDataSource<T>(

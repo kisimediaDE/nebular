@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { Inject, Injectable, NgZone } from '@angular/core';
 import { BlockScrollStrategy, ScrollDispatcher, ScrollStrategyOptions } from '@angular/cdk/overlay';
 
 import { NbLayoutScrollService } from '../../../services/scroll.service';
@@ -11,12 +11,11 @@ import { NbViewportRulerAdapter } from './viewport-ruler-adapter';
  * */
 @Injectable()
 export class NbBlockScrollStrategyAdapter extends BlockScrollStrategy {
-  protected scrollService = inject(NbLayoutScrollService);
-
-  constructor() {
-    const document = inject(NB_DOCUMENT);
-    const viewportRuler = inject(NbViewportRulerAdapter);
-
+  constructor(
+    @Inject(NB_DOCUMENT) document: any,
+    viewportRuler: NbViewportRulerAdapter,
+    protected scrollService: NbLayoutScrollService,
+  ) {
     super(viewportRuler, document);
   }
 
@@ -33,27 +32,17 @@ export class NbBlockScrollStrategyAdapter extends BlockScrollStrategy {
 
 @Injectable()
 export class NbScrollStrategyOptions extends ScrollStrategyOptions {
-  protected scrollService = inject(NbLayoutScrollService);
-  protected scrollDispatcher: ScrollDispatcher;
-  protected viewportRuler: NbViewportRulerAdapter;
-  protected ngZone: NgZone;
-  protected document;
-
-  constructor() {
-    const scrollDispatcher = inject(ScrollDispatcher);
-    const viewportRuler = inject(NbViewportRulerAdapter);
-    const ngZone = inject(NgZone);
-    const document = inject(NB_DOCUMENT);
-
+  constructor(
+    protected scrollService: NbLayoutScrollService,
+    protected scrollDispatcher: ScrollDispatcher,
+    protected viewportRuler: NbViewportRulerAdapter,
+    protected ngZone: NgZone,
+    @Inject(NB_DOCUMENT) protected document,
+  ) {
     super(scrollDispatcher, viewportRuler, ngZone, document);
-
-    this.scrollDispatcher = scrollDispatcher;
-    this.viewportRuler = viewportRuler;
-    this.ngZone = ngZone;
-    this.document = document;
   }
 
-  block = () => new NbBlockScrollStrategyAdapter();
+  block = () => new NbBlockScrollStrategyAdapter(this.document, this.viewportRuler, this.scrollService);
 }
 
 export type NbScrollStrategies = keyof Pick<NbScrollStrategyOptions, 'noop' | 'close' | 'block' | 'reposition'>;

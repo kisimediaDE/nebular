@@ -13,7 +13,8 @@ import { NbButtonComponent } from './button.component';
 const NB_BUTTON_COMPONENTS = [NbButtonComponent];
 
 @NgModule({
-  imports: [NbSharedModule, ...NB_BUTTON_COMPONENTS],
+  imports: [NbSharedModule],
+  declarations: [...NB_BUTTON_COMPONENTS],
   exports: [...NB_BUTTON_COMPONENTS],
 })
 export class NbButtonModule {}

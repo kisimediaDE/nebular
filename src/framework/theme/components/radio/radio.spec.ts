@@ -37,7 +37,7 @@ import {
       <nb-radio value="3" disabled>3</nb-radio>
     </nb-radio-group>
   `,
-  imports: [NbRadioModule],
+  standalone: false,
 })
 export class NbRadioTestComponent {
   @Input() value;
@@ -52,7 +52,7 @@ export class NbRadioTestComponent {
       </ng-template>
     </nb-radio-group>
   `,
-  imports: [NbRadioModule, ReactiveFormsModule],
+  standalone: false,
 })
 export class NbRadioWithDynamicValuesTestComponent {
   radioValues: number[] = [];
@@ -71,7 +71,7 @@ export class NbRadioWithDynamicValuesTestComponent {
       <nb-radio checked value="2"></nb-radio>
     </nb-radio-group>
   `,
-  imports: [NbRadioModule, ReactiveFormsModule],
+  standalone: false,
 })
 export class NbTwoRadioGroupsComponent {
   @ViewChild('firstGroup', { read: NbRadioGroupComponent }) firstGroup: NbRadioGroupComponent;
@@ -86,7 +86,7 @@ export class NbTwoRadioGroupsComponent {
       <nb-radio value="2"></nb-radio>
     </nb-radio-group>
   `,
-  imports: [NbRadioModule, ReactiveFormsModule],
+  standalone: false,
 })
 export class NbFormsIntegrationComponent {
   @ViewChild(NbRadioGroupComponent) radioGroup: NbRadioGroupComponent;
@@ -99,7 +99,8 @@ describe('radio', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NbThemeModule.forRoot(), NbRadioModule, NbRadioTestComponent],
+      imports: [NbThemeModule.forRoot(), NbRadioModule],
+      declarations: [NbRadioTestComponent],
       providers: [{ provide: NB_DOCUMENT, useValue: document }],
     });
 
@@ -132,14 +133,8 @@ describe('NbRadioGroupComponent', () => {
 
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NbThemeModule.forRoot(),
-        NbRadioModule,
-        ReactiveFormsModule,
-        NbRadioWithDynamicValuesTestComponent,
-        NbTwoRadioGroupsComponent,
-        NbFormsIntegrationComponent,
-      ],
+      imports: [NbThemeModule.forRoot(), NbRadioModule, ReactiveFormsModule],
+      declarations: [NbRadioWithDynamicValuesTestComponent, NbTwoRadioGroupsComponent, NbFormsIntegrationComponent],
       providers: [{ provide: NB_DOCUMENT, useValue: document }],
     });
 

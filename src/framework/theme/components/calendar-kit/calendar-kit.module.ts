@@ -74,8 +74,9 @@ const COMPONENTS = [
  * @stacked-example(Full calendar, calendar-kit/calendar-kit-full-calendar.component)
  * */
 @NgModule({
-  imports: [NbSharedModule, NbButtonModule, NbIconModule, ...COMPONENTS],
+  imports: [NbSharedModule, NbButtonModule, NbIconModule],
   exports: [...COMPONENTS],
+  declarations: [...COMPONENTS],
   providers: [...SERVICES],
 })
 export class NbCalendarKitModule {}

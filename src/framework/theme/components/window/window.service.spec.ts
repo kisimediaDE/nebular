@@ -1,5 +1,5 @@
 import createSpy = jasmine.createSpy;
-import { Component, ElementRef, NgModule, ViewChild, TemplateRef, inject as inject_1 } from '@angular/core';
+import { Component, ElementRef, NgModule, ViewChild, TemplateRef } from '@angular/core';
 import { TestBed, fakeAsync, flush } from '@angular/core/testing';
 import {
   NbWindowService,
@@ -16,6 +16,7 @@ const WINDOW_CONTENT = 'window content';
 @Component({
   selector: 'nb-test-window',
   template: WINDOW_CONTENT,
+  standalone: false,
 })
 class NbTestWindowComponent {}
 
@@ -26,13 +27,12 @@ class NbTestWindowComponent {}
       <p>Static text: {{ data.text }}</p>
     </ng-template>
   `,
+  standalone: false,
 })
 class NbTestWindowWithTemplateComponent {
-  private ws = inject_1(NbWindowService);
-
   @ViewChild('contentTemplate') contentTemplate: TemplateRef<any>;
 
-  constructor() {}
+  constructor(private ws: NbWindowService) {}
 
   openWindow() {
     return this.ws.open(this.contentTemplate, {
@@ -46,11 +46,12 @@ class NbTestWindowWithTemplateComponent {
   selector: 'nb-test-window-with-component',
   template: `<p id="window-content">window content {{ componentInput }}</p>
     <p></p>`,
+  standalone: false,
 })
 export class TestWindowComponent {}
 
 @NgModule({
-  imports: [NbTestWindowComponent, NbTestWindowWithTemplateComponent, TestWindowComponent],
+  declarations: [NbTestWindowComponent, NbTestWindowWithTemplateComponent, TestWindowComponent],
 })
 class NbTestWindowModule {}
 

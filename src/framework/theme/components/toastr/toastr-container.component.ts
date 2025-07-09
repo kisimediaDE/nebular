@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren, inject } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -13,7 +13,6 @@ import { NbToastComponent } from './toast.component';
 import { NbToast } from './model';
 import { NbLayoutDirectionService } from '../../services/direction.service';
 import { NbGlobalPosition, NbPositionHelper } from '../cdk/overlay/position-helper';
-import { NgFor } from '@angular/common';
 
 const voidState = style({
   transform: 'translateX({{ direction }}110%)',
@@ -35,12 +34,9 @@ const defaultOptions = { params: { direction: '' } };
       transition(':leave', [animate(100, voidState)], defaultOptions),
     ]),
   ],
-  imports: [NgFor, NbToastComponent],
+  standalone: false,
 })
 export class NbToastrContainerComponent implements OnInit, OnDestroy {
-  protected layoutDirection = inject(NbLayoutDirectionService);
-  protected positionHelper = inject(NbPositionHelper);
-
   protected destroy$ = new Subject<void>();
 
   @Input()
@@ -57,7 +53,7 @@ export class NbToastrContainerComponent implements OnInit, OnDestroy {
 
   fadeIn;
 
-  constructor() {}
+  constructor(protected layoutDirection: NbLayoutDirectionService, protected positionHelper: NbPositionHelper) {}
 
   ngOnInit() {
     this.layoutDirection

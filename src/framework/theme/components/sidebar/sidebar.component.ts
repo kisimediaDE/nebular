@@ -15,7 +15,6 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  inject,
 } from '@angular/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil, filter, map, startWith } from 'rxjs/operators';
@@ -37,6 +36,7 @@ export type NbSidebarResponsiveState = 'mobile' | 'tablet' | 'pc';
 @Component({
   selector: 'nb-sidebar-header',
   template: ` <ng-content></ng-content> `,
+  standalone: false,
 })
 export class NbSidebarHeaderComponent {}
 
@@ -49,6 +49,7 @@ export class NbSidebarHeaderComponent {}
 @Component({
   selector: 'nb-sidebar-footer',
   template: ` <ng-content></ng-content> `,
+  standalone: false,
 })
 export class NbSidebarFooterComponent {}
 
@@ -137,13 +138,9 @@ export class NbSidebarFooterComponent {}
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbSidebarComponent implements OnInit, OnDestroy {
-  private sidebarService = inject(NbSidebarService);
-  private themeService = inject(NbThemeService);
-  private element = inject(ElementRef);
-  private cd = inject(ChangeDetectorRef);
-
   protected readonly responsiveValueChange$: Subject<boolean> = new Subject<boolean>();
   protected responsiveState: NbSidebarResponsiveState = 'pc';
 
@@ -309,7 +306,12 @@ export class NbSidebarComponent implements OnInit, OnDestroy {
    */
   @Output() readonly responsiveStateChange = new EventEmitter<NbSidebarResponsiveState>();
 
-  constructor() {}
+  constructor(
+    private sidebarService: NbSidebarService,
+    private themeService: NbThemeService,
+    private element: ElementRef,
+    private cd: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.sidebarService

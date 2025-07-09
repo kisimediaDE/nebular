@@ -55,7 +55,7 @@ let initialItemsCount: number = 100;
       }
     `,
   ],
-  imports: [NbListModule],
+  standalone: false,
 })
 class PagerTestComponent {
   @ViewChild(NbListComponent, { read: ElementRef }) listElementRef: ElementRef;
@@ -85,7 +85,8 @@ describe('Directive: NbListPageTrackerDirective', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      imports: [NbListModule, PagerTestComponent],
+      imports: [NbListModule],
+      declarations: [PagerTestComponent],
       providers: [{ provide: ComponentFixtureAutoDetect, useValue: true }],
     }).createComponent(PagerTestComponent);
 

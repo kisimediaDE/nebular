@@ -11,11 +11,12 @@ import {
   EventEmitter,
   HostBinding,
   HostListener,
+  Inject,
   Input,
   NgZone,
+  Optional,
   Output,
   Renderer2,
-  inject,
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -38,15 +39,9 @@ export interface NbButtonToggleChange {
   selector: 'button[nbButtonToggle]',
   providers: [{ provide: NbButton, useExisting: NbButtonToggleDirective }],
   exportAs: 'nbButtonToggle',
+  standalone: false,
 })
 export class NbButtonToggleDirective extends NbButton {
-  protected renderer: Renderer2;
-  protected hostElement: ElementRef<HTMLElement>;
-  protected cd: ChangeDetectorRef;
-  protected zone: NgZone;
-  protected statusService: NbStatusService;
-  protected buttonGroup? = inject(NB_BUTTON_GROUP, { optional: true });
-
   protected readonly _pressedChange$ = new Subject<NbButtonToggleChange>();
 
   get pressedChange$(): Observable<NbButtonToggleChange> {
@@ -135,20 +130,15 @@ export class NbButtonToggleDirective extends NbButton {
     }
   }
 
-  constructor() {
-    const renderer = inject(Renderer2);
-    const hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
-    const cd = inject(ChangeDetectorRef);
-    const zone = inject(NgZone);
-    const statusService = inject(NbStatusService);
-
-    super();
-
-    this.renderer = renderer;
-    this.hostElement = hostElement;
-    this.cd = cd;
-    this.zone = zone;
-    this.statusService = statusService;
+  constructor(
+    protected renderer: Renderer2,
+    protected hostElement: ElementRef<HTMLElement>,
+    protected cd: ChangeDetectorRef,
+    protected zone: NgZone,
+    protected statusService: NbStatusService,
+    @Optional() @Inject(NB_BUTTON_GROUP) protected buttonGroup?,
+  ) {
+    super(renderer, hostElement, cd, zone, statusService);
   }
 
   /**

@@ -26,7 +26,8 @@ const NB_CARD_COMPONENTS = [
 ];
 
 @NgModule({
-  imports: [NbSharedModule, NbIconModule, ...NB_CARD_COMPONENTS],
+  imports: [NbSharedModule, NbIconModule],
+  declarations: [...NB_CARD_COMPONENTS],
   exports: [...NB_CARD_COMPONENTS],
 })
 export class NbCardModule {}

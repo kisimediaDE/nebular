@@ -1,17 +1,19 @@
 import { Component, NgModule, OnInit, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NbComponentPortal, NbOverlayContainerComponent, NbOverlayModule } from '@kisimedia/nebular-theme';
-import { NbOverlayContainerComponent as NbOverlayContainerComponent_1 } from './overlay-container';
 
 @Component({
   template: ` <nb-overlay-container></nb-overlay-container> `,
-  imports: [NbOverlayContainerComponent_1],
+  standalone: false,
 })
 export class NbOverlayContainerTestComponent {
   @ViewChild(NbOverlayContainerComponent) overlayContainer: NbOverlayContainerComponent;
 }
 
-@Component({ template: `{{ contextProperty }}` })
+@Component({
+  template: `{{ contextProperty }}`,
+  standalone: false,
+})
 export class NbOverlayTestComponent implements OnInit {
   contextProperty;
 
@@ -28,7 +30,8 @@ export class NbOverlayTestComponent implements OnInit {
 // Has to define test module since there is no way to specify entry components
 // in 'TestBed.configureTestingModule'.
 @NgModule({
-  imports: [NbOverlayModule.forRoot(), NbOverlayContainerTestComponent, NbOverlayTestComponent],
+  imports: [NbOverlayModule.forRoot()],
+  declarations: [NbOverlayContainerTestComponent, NbOverlayTestComponent],
 })
 export class NbOverlayTestModule {}
 

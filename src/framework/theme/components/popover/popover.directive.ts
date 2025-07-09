@@ -14,7 +14,6 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  inject,
 } from '@angular/core';
 
 import { NbDynamicOverlay, NbDynamicOverlayController } from '../cdk/overlay/dynamic/dynamic-overlay';
@@ -115,11 +114,9 @@ import { Subject } from 'rxjs';
   selector: '[nbPopover]',
   exportAs: 'nbPopover',
   providers: [NbDynamicOverlayHandler, NbDynamicOverlay],
+  standalone: false,
 })
 export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges, AfterViewInit, OnDestroy, OnInit {
-  protected hostRef = inject(ElementRef);
-  protected dynamicOverlayHandler = inject(NbDynamicOverlayHandler);
-
   protected popoverComponent = NbPopoverComponent;
   protected dynamicOverlay: NbDynamicOverlay;
   protected destroy$ = new Subject<void>();
@@ -200,7 +197,7 @@ export class NbPopoverDirective implements NbDynamicOverlayController, OnChanges
     return !!(this.dynamicOverlay && this.dynamicOverlay.isAttached);
   }
 
-  constructor() {}
+  constructor(protected hostRef: ElementRef, protected dynamicOverlayHandler: NbDynamicOverlayHandler) {}
 
   ngOnInit() {
     this.dynamicOverlayHandler.host(this.hostRef).componentType(this.popoverComponent);

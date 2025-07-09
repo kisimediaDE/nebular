@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
-import { NbWindowRef } from '@nebular/theme';
+import { NbWindowRef } from '@kisimedia/nebular-theme';
 
 @Component({
-    template: `
+  template: `
     <form class="form">
       <label for="subject">Subject:</label>
-      <input nbInput id="subject" type="text">
+      <input nbInput id="subject" type="text" />
 
       <label class="text-label" for="text">Text:</label>
       <textarea nbInput id="text"></textarea>
     </form>
   `,
-    standalone: false
 })
 export class FormComponent {
   constructor(public windowRef: NbWindowRef) {}

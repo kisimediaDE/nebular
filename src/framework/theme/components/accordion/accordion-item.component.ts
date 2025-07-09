@@ -13,10 +13,10 @@ import {
   EventEmitter,
   SimpleChanges,
   HostBinding,
+  Host,
   OnInit,
   OnChanges,
   OnDestroy,
-  inject,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -35,11 +35,9 @@ import { convertToBoolProperty, NbBooleanInput } from '../helpers';
     <ng-content select="nb-accordion-item-body"></ng-content>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NbAccordionItemComponent implements OnInit, OnChanges, OnDestroy {
-  private accordion = inject(NbAccordionComponent, { host: true });
-  private cd = inject(ChangeDetectorRef);
-
   /**
    * Item is collapse (`true` by default)
    * @type {boolean}
@@ -97,7 +95,7 @@ export class NbAccordionItemComponent implements OnInit, OnChanges, OnDestroy {
   private disabledValue = false;
   private destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor(@Host() private accordion: NbAccordionComponent, private cd: ChangeDetectorRef) {}
 
   /**
    * Open/close the item

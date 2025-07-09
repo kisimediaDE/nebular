@@ -14,17 +14,12 @@ import {
   Output,
   SimpleChanges,
   Type,
-  inject,
 } from '@angular/core';
 
 import { NbCalendarMonthModelService } from '../../services/calendar-month-model.service';
 import { NbCalendarDayCellComponent } from './calendar-day-cell.component';
 import { NbCalendarCell, NbCalendarSize, NbCalendarSizeValues } from '../../model';
 import { convertToBoolProperty, NbBooleanInput } from '../../../helpers';
-import { NgIf } from '@angular/common';
-import { NbCalendarWeekNumberComponent } from '../calendar-week-number/calendar-week-number.component';
-import { NbCalendarDaysNamesComponent } from '../calendar-days-names/calendar-days-names.component';
-import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.component';
 
 /**
  * Provides capability pick days.
@@ -57,11 +52,9 @@ import { NbCalendarPickerComponent } from '../calendar-picker/calendar-picker.co
   `,
   styleUrls: ['./calendar-day-picker.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf, NbCalendarWeekNumberComponent, NbCalendarDaysNamesComponent, NbCalendarPickerComponent],
+  standalone: false,
 })
 export class NbCalendarDayPickerComponent<D, T> implements OnChanges {
-  private monthModel = inject<NbCalendarMonthModelService<D>>(NbCalendarMonthModelService);
-
   /**
    * Describes which month picker have to render.
    * */
@@ -153,7 +146,7 @@ export class NbCalendarDayPickerComponent<D, T> implements OnChanges {
    * */
   weeks: D[][];
 
-  constructor() {}
+  constructor(private monthModel: NbCalendarMonthModelService<D>) {}
 
   ngOnChanges({ visibleDate, boundingMonths, firstDayOfWeek }: SimpleChanges) {
     if (visibleDate || boundingMonths || firstDayOfWeek) {

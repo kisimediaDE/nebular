@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { NbLayoutDirectionService } from '../../../services/direction.service';
 
@@ -20,9 +20,7 @@ export type NbGlobalPosition = NbGlobalPhysicalPosition | NbGlobalLogicalPositio
 
 @Injectable()
 export class NbPositionHelper {
-  protected layoutDirection = inject(NbLayoutDirectionService);
-
-  constructor() {}
+  constructor(protected layoutDirection: NbLayoutDirectionService) {}
 
   toLogicalPosition(position: NbGlobalPosition): NbGlobalLogicalPosition {
     if (Object.values(NbGlobalLogicalPosition).includes(position as NbGlobalLogicalPosition)) {

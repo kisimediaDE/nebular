@@ -18,18 +18,10 @@ import { NbCalendarTimeModelService } from '../calendar-kit/services/calendar-ti
 import { NB_TIME_PICKER_CONFIG, NbTimePickerConfig } from './model';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NbOverlayModule,
-    NbListModule,
-    NbCardModule,
-    NbCalendarKitModule,
-    NbTimePickerComponent,
-    NbTimePickerCellComponent,
-    NbTimePickerDirective,
-  ],
+  imports: [CommonModule, NbOverlayModule, NbListModule, NbCardModule, NbCalendarKitModule],
   providers: [NbCalendarTimeModelService],
   exports: [NbTimePickerComponent, NbTimePickerCellComponent, NbTimePickerDirective],
+  declarations: [NbTimePickerComponent, NbTimePickerCellComponent, NbTimePickerDirective],
 })
 export class NbTimepickerModule {
   static forRoot(config: NbTimePickerConfig = {}): ModuleWithProviders<NbTimepickerModule> {

@@ -7,19 +7,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'nb-date-timepicker-showcase',
-    template: `
+  selector: 'nb-date-timepicker-showcase',
+  template: `
     <nb-card size="large">
       <nb-card-body>
-        <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker">
-        <nb-date-timepicker
-          withSeconds
-          #dateTimePicker></nb-date-timepicker>
+        <input nbInput placeholder="Pick Date" [nbDatepicker]="dateTimePicker" />
+        <nb-date-timepicker withSeconds #dateTimePicker></nb-date-timepicker>
       </nb-card-body>
     </nb-card>
   `,
-    styleUrls: ['./datepicker-example.scss'],
-    standalone: false
+  styleUrls: ['./datepicker-example.scss'],
 })
-export class DateTimepickerShowcaseComponent {
-}
+export class DateTimepickerShowcaseComponent {}

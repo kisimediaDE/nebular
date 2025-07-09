@@ -26,7 +26,7 @@ const ICON_NAME = 'chevron-left-outline';
       </nb-action>
     </nb-actions>
   `,
-  imports: [NbActionsModule],
+  standalone: false,
 })
 export class NbActionsTestComponent {
   projectContent: boolean = false;
@@ -195,7 +195,8 @@ describe('NbActionComponent content projection', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbActionsModule, NbActionsTestComponent],
+      imports: [RouterTestingModule.withRoutes([]), NbThemeModule.forRoot(), NbActionsModule],
+      declarations: [NbActionsTestComponent],
     });
     const iconLibs: NbIconLibraries = TestBed.inject(NbIconLibraries);
     iconLibs.setDefaultPack('nebular-essentials');

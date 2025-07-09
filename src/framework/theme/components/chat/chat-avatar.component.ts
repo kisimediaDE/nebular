@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 import { SafeStyle } from '@angular/platform-browser';
-import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'nb-chat-avatar',
@@ -10,7 +9,7 @@ import { NgIf } from '@angular/common';
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgIf],
+  standalone: false,
 })
 export class NbChatAvatarComponent {
   @Input() initials: string;

@@ -13,13 +13,13 @@ import { NbCalendarRangeMonthCellComponent } from './calendar-range-month-cell.c
 import { NbBaseCalendarModule } from './base-calendar.module';
 
 @NgModule({
-  imports: [
-    NbBaseCalendarModule,
+  imports: [NbBaseCalendarModule],
+  exports: [NbCalendarRangeComponent],
+  declarations: [
     NbCalendarRangeComponent,
     NbCalendarRangeDayCellComponent,
     NbCalendarRangeYearCellComponent,
     NbCalendarRangeMonthCellComponent,
   ],
-  exports: [NbCalendarRangeComponent],
 })
 export class NbCalendarRangeModule {}

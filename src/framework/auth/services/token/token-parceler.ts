@@ -1,4 +1,4 @@
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
 import { nbAuthCreateToken, NbAuthToken, NbAuthTokenClass } from './token';
 import { NB_AUTH_TOKENS } from '../../auth.options';
@@ -17,10 +17,10 @@ export const NB_AUTH_FALLBACK_TOKEN = new InjectionToken<NbAuthTokenClass>('Nebu
  */
 @Injectable()
 export class NbAuthTokenParceler {
-  private fallbackClass = inject<NbAuthTokenClass>(NB_AUTH_FALLBACK_TOKEN);
-  private tokenClasses = inject(NB_AUTH_TOKENS);
-
-  constructor() {}
+  constructor(
+    @Inject(NB_AUTH_FALLBACK_TOKEN) private fallbackClass: NbAuthTokenClass,
+    @Inject(NB_AUTH_TOKENS) private tokenClasses: NbAuthTokenClass[],
+  ) {}
 
   wrap(token: NbAuthToken): string {
     return JSON.stringify({

@@ -5,13 +5,13 @@
  */
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NbDialogService } from '@nebular/theme';
+import { NbDialogService } from '@kisimedia/nebular-theme';
 
 import { NgdHubspotFormDialogComponent } from '../hubspot-form-dialog/hubspot-form-dialog.component';
 
 @Component({
-    selector: 'ngd-for-business',
-    template: `
+  selector: 'ngd-for-business',
+  template: `
     <div class="left">
       <h2 [attr.id]="headingId" class="heading h1 text-control">Nebular for business</h2>
       <button (click)="openDialog()" class="submit" nbButton status="control">Submit your request</button>
@@ -28,10 +28,10 @@ import { NgdHubspotFormDialogComponent } from '../hubspot-form-dialog/hubspot-fo
       </ul>
     </div>
   `,
-    exportAs: 'ngdForBusiness',
-    styleUrls: ['./for-business.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  exportAs: 'ngdForBusiness',
+  styleUrls: ['./for-business.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class NgdForBusinessComponent {
   readonly headingId: string = 'ngd-for-business-heading';
@@ -43,8 +43,7 @@ export class NgdForBusinessComponent {
     'The review of your project.',
   ];
 
-  constructor(private dialogService: NbDialogService) {
-  }
+  constructor(private dialogService: NbDialogService) {}
 
   openDialog(): void {
     const context = {

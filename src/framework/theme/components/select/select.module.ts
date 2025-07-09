@@ -12,16 +12,8 @@ import { NbIconModule } from '../icon/icon.module';
 const NB_SELECT_COMPONENTS = [NbSelectComponent, NbSelectLabelComponent];
 
 @NgModule({
-  imports: [
-    NbSharedModule,
-    NbOverlayModule,
-    NbButtonModule,
-    NbInputModule,
-    NbCardModule,
-    NbIconModule,
-    NbOptionModule,
-    ...NB_SELECT_COMPONENTS,
-  ],
+  imports: [NbSharedModule, NbOverlayModule, NbButtonModule, NbInputModule, NbCardModule, NbIconModule, NbOptionModule],
   exports: [...NB_SELECT_COMPONENTS, NbOptionModule],
+  declarations: [...NB_SELECT_COMPONENTS],
 })
 export class NbSelectModule {}

@@ -3,7 +3,7 @@
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NbRoleProvider } from './role.provider';
 import { NbAclService } from './acl.service';
 import { Observable } from 'rxjs';
@@ -16,10 +16,7 @@ import { map } from 'rxjs/operators';
  */
 @Injectable()
 export class NbAccessChecker {
-  protected roleProvider = inject(NbRoleProvider);
-  protected acl = inject(NbAclService);
-
-  constructor() {}
+  constructor(protected roleProvider: NbRoleProvider, protected acl: NbAclService) {}
 
   /**
    * Checks whether access is granted or not

@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
-import { NbWindowService } from '@nebular/theme';
+import { NbWindowService } from '@kisimedia/nebular-theme';
 import { FormComponent } from './components/form.component';
 
 @Component({
-    template: `<button (click)="openWindow()" nbButton>Open window</button>`,
-    styleUrls: ['./window.scss'],
-    standalone: false
+  template: `<button (click)="openWindow()" nbButton>Open window</button>`,
+  styleUrls: ['./window.scss'],
 })
 export class WindowShowcaseComponent {
-
   constructor(private windowService: NbWindowService) {}
 
   openWindow() {

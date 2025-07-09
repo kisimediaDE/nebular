@@ -4,9 +4,8 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { NbChatOptions } from './chat.options';
-import { NbChatMessageFileComponent } from './chat-message-file.component';
 
 /**
  * Chat message component.
@@ -23,7 +22,7 @@ import { NbChatMessageFileComponent } from './chat-message-file.component';
     ></nb-chat-message-file>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NbChatMessageFileComponent],
+  standalone: false,
 })
 export class NbChatMessageMapComponent {
   /**
@@ -73,9 +72,7 @@ export class NbChatMessageMapComponent {
 
   mapKey: string;
 
-  constructor() {
-    const options = inject(NbChatOptions);
-
+  constructor(options: NbChatOptions) {
     this.mapKey = options.messageGoogleMapKey;
   }
 }

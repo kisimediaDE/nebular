@@ -87,6 +87,8 @@ export function nbNoOpInterceptorFilter(req: HttpRequest<any>): boolean {
     RouterModule,
     FormsModule,
     NbIconModule,
+  ],
+  declarations: [
     NbAuthComponent,
     NbAuthBlockComponent,
     NbLoginComponent,

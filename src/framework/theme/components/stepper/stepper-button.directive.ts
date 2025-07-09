@@ -1,13 +1,14 @@
 import { NbStepperComponent } from './stepper.component';
-import { Directive, HostBinding, HostListener, Input, inject } from '@angular/core';
+import { Directive, HostBinding, HostListener, Input } from '@angular/core';
 
-@Directive({ selector: 'button[nbStepperNext]' })
+@Directive({
+  selector: 'button[nbStepperNext]',
+  standalone: false,
+})
 export class NbStepperNextDirective {
-  protected stepper = inject(NbStepperComponent);
-
   @Input() @HostBinding('attr.type') type: string = 'submit';
 
-  constructor() {}
+  constructor(protected stepper: NbStepperComponent) {}
 
   @HostListener('click')
   onClick() {
@@ -15,13 +16,14 @@ export class NbStepperNextDirective {
   }
 }
 
-@Directive({ selector: 'button[nbStepperPrevious]' })
+@Directive({
+  selector: 'button[nbStepperPrevious]',
+  standalone: false,
+})
 export class NbStepperPreviousDirective {
-  protected stepper = inject(NbStepperComponent);
-
   @Input() @HostBinding('attr.type') type: string = 'button';
 
-  constructor() {}
+  constructor(protected stepper: NbStepperComponent) {}
 
   @HostListener('click')
   onClick() {
