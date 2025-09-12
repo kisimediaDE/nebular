@@ -31,7 +31,11 @@ import {
 export function findRoutesArray(tree: Tree, modulePath: Path): ts.ArrayLiteralExpression {
   const source = parseSourceFile(tree, modulePath);
 
-  const decoratorNode = getDecoratorMetadata(source, 'NgModule', '@angular/core')[0] as ts.ObjectLiteralExpression;
+  const decoratorNode = getDecoratorMetadata(
+    source as any,
+    'NgModule',
+    '@angular/core',
+  )[0] as unknown as ts.ObjectLiteralExpression;
   if (decoratorNode == null) {
     throw new SchematicsException(`Error in ${modulePath}. Can't find NgModule decorator.`);
   }
@@ -228,7 +232,7 @@ export function addRoute(
   addArrayElement(tree, source, routes, route);
 
   if (componentClass && fileImportPath) {
-    const importChange = insertImport(source, source.fileName, componentClass, fileImportPath);
+    const importChange = insertImport(source as any, source.fileName, componentClass, fileImportPath);
     applyInsertChange(tree, normalize(source.fileName), importChange);
   }
 }

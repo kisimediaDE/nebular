@@ -1,13 +1,15 @@
-import { Directive, Injectable, ModuleWithProviders, NgModule, TemplateRef, ViewContainerRef } from '@angular/core';
 import {
-  CdkPortal,
-  CdkPortalOutlet,
-  ComponentPortal,
-  Portal,
-  PortalInjector,
-  PortalModule,
-  TemplatePortal,
-} from '@angular/cdk/portal';
+  Directive,
+  Injectable,
+  InjectionToken,
+  Injector,
+  ModuleWithProviders,
+  NgModule,
+  TemplateRef,
+  Type,
+  ViewContainerRef,
+} from '@angular/core';
+import { CdkPortal, CdkPortalOutlet, ComponentPortal, Portal, PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import {
   ComponentType,
   ConnectedOverlayPositionChange,
@@ -26,14 +28,14 @@ import {
 import { NbScrollStrategyOptions } from '../adapter/block-scroll-strategy-adapter';
 
 @Directive({
-    selector: '[nbPortal]',
-    standalone: false
+  selector: '[nbPortal]',
+  standalone: false,
 })
 export class NbPortalDirective extends CdkPortal {}
 
 @Directive({
-    selector: '[nbPortalOutlet]',
-    standalone: false
+  selector: '[nbPortalOutlet]',
+  standalone: false,
 })
 export class NbPortalOutletDirective extends CdkPortalOutlet {}
 
@@ -58,7 +60,24 @@ export class NbOverlayContainer extends OverlayContainer {}
 
 export class NbFlexibleConnectedPositionStrategy extends FlexibleConnectedPositionStrategy {}
 
-export class NbPortalInjector extends PortalInjector {}
+export class NbPortalInjector implements Injector {
+  constructor(private parentInjector: Injector, private customTokens: WeakMap<any, any>) {}
+
+  get<T>(token: Type<T> | InjectionToken<T>, notFoundValue?: T, flags?: any): T {
+    // Versuche zuerst in benutzerdefinierten Tokens zu finden
+    if (this.customTokens.has(token)) {
+      return this.customTokens.get(token);
+    }
+    // Andernfalls im Parent Injector nachschlagen
+    if (this.parentInjector) {
+      return this.parentInjector.get(token, notFoundValue, flags);
+    }
+    if (notFoundValue !== undefined) {
+      return notFoundValue;
+    }
+    throw new Error(`No provider for ${token.toString()}`);
+  }
+}
 
 export type NbPortal<T = any> = Portal<T>;
 export type NbOverlayRef = OverlayRef;

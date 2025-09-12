@@ -91,7 +91,7 @@ function processService(tree: Tree, servicePath: Path): void {
     const serviceClassName = (service.name as ts.Identifier).getText();
     const importString = importPath(modulePath, servicePath);
     const source = parseSourceFile(tree, servicePath);
-    const changes = addSymbolToNgModuleMetadata(source, modulePath, 'providers', serviceClassName, importString);
+    const changes = addSymbolToNgModuleMetadata(source as any, modulePath, 'providers', serviceClassName, importString);
 
     applyInsertChange(tree, modulePath, ...changes);
   }
@@ -227,7 +227,11 @@ function addModuleRoute(
 
 function multilineDeclarationsArray(tree: Tree, modulePath: Path): void {
   const source = parseSourceFile(tree, modulePath);
-  const decoratorNode = getDecoratorMetadata(source, 'NgModule', '@angular/core')[0] as ts.ObjectLiteralExpression;
+  const decoratorNode = getDecoratorMetadata(
+    source as any,
+    'NgModule',
+    '@angular/core',
+  )[0] as unknown as ts.ObjectLiteralExpression;
 
   if (!decoratorNode) {
     throw new SchematicsException(`Can't find NgModule decorator in ${modulePath}`);
@@ -271,7 +275,7 @@ function processRoutingModule(tree: Tree, modulePath: Path) {
   const importString = importPath(featureModulePath, modulePath);
   for (const moduleDeclaration of moduleDeclarations) {
     const className = (moduleDeclaration.name as ts.Identifier).getText();
-    const changes = addImportToModule(featureModuleSource, featureModulePath, className, importString);
+    const changes = addImportToModule(featureModuleSource as any, featureModulePath, className, importString);
     applyInsertChange(tree, featureModulePath, ...changes);
   }
 }

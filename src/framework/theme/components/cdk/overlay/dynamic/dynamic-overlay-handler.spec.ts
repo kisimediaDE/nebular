@@ -20,8 +20,8 @@ import {
 } from '@nebular/theme';
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
   @Input() content: any;
@@ -32,8 +32,8 @@ export class NbDynamicOverlayMockComponent implements NbRenderableContainer {
 }
 
 @Component({
-    template: '',
-    standalone: false
+  template: '',
+  standalone: false,
 })
 export class NbDynamicOverlayMock2Component extends NbDynamicOverlayMockComponent {}
 
@@ -171,7 +171,7 @@ export class MockTriggerStrategyBuilder {
     return {
       show$: this.show$.asObservable().pipe(takeUntil(this.destroyed$)),
       hide$: this.hide$.asObservable().pipe(takeUntil(this.destroyed$)),
-      destroy: () => this.destroyed$.next(),
+      destroy: () => this.destroyed$.next(undefined),
     };
   }
 }
@@ -374,8 +374,8 @@ describe('dynamic-overlay-handler', () => {
     const showSpy = spyOn(dynamic, 'show').and.callThrough();
     const hideSpy = spyOn(dynamic, 'hide').and.callThrough();
 
-    triggerShow1$.next();
-    triggerHide1$.next();
+    triggerShow1$.next(undefined);
+    triggerHide1$.next(undefined);
 
     expect(showSpy).toHaveBeenCalledTimes(1);
     expect(hideSpy).toHaveBeenCalledTimes(1);
@@ -386,14 +386,14 @@ describe('dynamic-overlay-handler', () => {
     triggerStrategyBuilder.hide$ = triggerHide2$;
     dynamic = configure().trigger(NbTrigger.HOVER).rebuild();
 
-    triggerShow1$.next();
-    triggerHide1$.next();
+    triggerShow1$.next(undefined);
+    triggerHide1$.next(undefined);
 
     expect(showSpy).toHaveBeenCalledTimes(1);
     expect(hideSpy).toHaveBeenCalledTimes(1);
 
-    triggerShow2$.next();
-    triggerHide2$.next();
+    triggerShow2$.next(undefined);
+    triggerHide2$.next(undefined);
 
     expect(showSpy).toHaveBeenCalledTimes(2);
     expect(hideSpy).toHaveBeenCalledTimes(2);

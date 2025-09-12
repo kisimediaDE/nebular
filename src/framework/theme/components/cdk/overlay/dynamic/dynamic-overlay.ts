@@ -204,7 +204,7 @@ export class NbDynamicOverlay {
   protected renderContainer() {
     const containerContext = this.createContainerContext();
     if (!this.container) {
-      this.container = createContainer(this.ref, this.componentType, containerContext, this.componentFactoryResolver);
+      this.container = createContainer(this.ref, this.componentType, containerContext);
     }
     this.container.instance.renderContent();
   }
@@ -234,7 +234,9 @@ export class NbDynamicOverlay {
       filter((destroyedOverlay: NbOverlayRef) => destroyedOverlay === overlay),
     );
 
-    this.zone.onStable.pipe(take(1), takeUntil(merge(this.destroy$, overlayDestroy$))).subscribe(() => this.updatePosition());
+    this.zone.onStable
+      .pipe(take(1), takeUntil(merge(this.destroy$, overlayDestroy$)))
+      .subscribe(() => this.updatePosition());
   }
 
   protected updatePosition() {
