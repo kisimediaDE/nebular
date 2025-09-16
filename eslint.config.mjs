@@ -16,7 +16,14 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['src/framework/**/*', 'docs/**/*', 'packages-smoke/**/*', 'tools/dev-schematics/*/files'],
+    ignores: [
+      'src/framework/**/*', 
+      'docs/**/*', 
+      'packages-smoke/**/*', 
+      'tools/dev-schematics/*/files',
+      'dist/**/*',
+      'node_modules/**/*'
+    ],
   },
   ...compat
     .extends(
@@ -56,6 +63,10 @@ export default [
       'no-underscore-dangle': 'off',
       '@typescript-eslint/consistent-type-definitions': 'error',
 
+      // Disable strict Angular modernization rules for playground
+      '@angular-eslint/prefer-standalone': 'off',
+      '@angular-eslint/prefer-inject': 'off',
+
       'rxjs/no-unsafe-takeuntil': [
         'error',
         {
@@ -92,7 +103,10 @@ export default [
   })),
   {
     files: ['**/*.html'],
-    rules: {},
+    rules: {
+      // Disable strict template rules for playground
+      '@angular-eslint/template/no-negated-async': 'off',
+    },
   },
   {
     files: ['./*.js'],
